@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  app-staging:
+    build: 
+      context: .
+      dockerfile: Dockerfile.staging
+    container_name: better-webapp-next-js-staging
+    restart: always
+    ports:
+      - 3200:3000

@@ -2,11 +2,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build"
+    "build": "next build",
+    "prod:up": "docker-compose -f docker-compose.prod.yaml up -d --build",
+    "prod:down": "docker-compose -f docker-compose.prod.yaml down",
+    "staging:up": "docker-compose -f docker-compose.staging.yaml up -d --build",
+    "staging:down": "docker-compose -f docker-compose.staging.yaml down"
   },
   "dependencies": {
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.4"
   }
 }
