@@ -3,6 +3,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "dev:up": "docker-compose -f docker-compose.dev.yaml up -d --build",
+    "dev:down": "docker-compose -f docker-compose.dev.yaml down",
     "prod:up": "docker-compose -f docker-compose.prod.yaml up -d --build",
     "prod:down": "docker-compose -f docker-compose.prod.yaml down",
     "staging:up": "docker-compose -f docker-compose.staging.yaml up -d --build",
