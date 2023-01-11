@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "dev:up": "docker-compose -f docker-compose.dev.yaml up -d --build",
+    "dev:up": "docker-compose -f docker-compose.dev.yaml up --build",
     "dev:down": "docker-compose -f docker-compose.dev.yaml down",
     "prod:up": "docker-compose -f docker-compose.prod.yaml up -d --build",
     "prod:down": "docker-compose -f docker-compose.prod.yaml down",
@@ -13,7 +13,8 @@
   "dependencies": {
     "next": "latest",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

@@ -1,6 +1,5 @@
 import Head from 'next/head'
-
-import styles from '../styles/Home.module.css'
+import styles from 'styles/Home.module.css'
 
 export default function Home() {
   return (
@@ -10,7 +9,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p className="text-3xl font-bold underline text-red-300">
+      <p className="text-3xl font-bold underline text-red-300 flex flex-1 w-full w-1/2 self-center justify-center items-center content-center">
         Hello world!
       </p>
 
