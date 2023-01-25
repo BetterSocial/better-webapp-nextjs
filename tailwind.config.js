@@ -6,9 +6,23 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        'post': '1rem'
+      },
+      lineHeight: {
+        'post': '1.5rem'
+      },
+      letterSpacing: {
+        'post': '0.01rem'
+      },
       fontFamily: {
         'inter': ['Inter', 'sans-serif']
       },
+      colors: {
+        gray06: '#828282',
+        grayIcon: '#C4C4C4',
+        primaryBlue: '#2f80ed'
+      }
     },
   },
   plugins: [],
