@@ -5,9 +5,9 @@
     "build": "next build",
     "dev:up": "docker-compose -f docker-compose.dev.yaml up --build",
     "dev:down": "docker-compose -f docker-compose.dev.yaml down",
-    "prod:up": "docker-compose -f docker-compose.prod.yaml up -d --build",
+    "prod:up": "docker-compose --env-file .env.prod -f docker-compose.prod.yaml up -d --build",
     "prod:down": "docker-compose -f docker-compose.prod.yaml down",
-    "staging:up": "docker-compose -f docker-compose.staging.yaml up -d --build",
+    "staging:up": "docker-compose --env-file .env.staging -f docker-compose.staging.yaml up -d --build",
     "staging:down": "docker-compose -f docker-compose.staging.yaml down"
   },
   "dependencies": {

@@ -2,9 +2,15 @@ version: '3'
 
 services:
   app-prod:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.prod
+    env_file:
+        - .env.prod
+    environment:
+      - GETSTREAM_API_KEY=${GETSTREAM_API_KEY}
+      - GETSTREAM_API_SECRET=${GETSTREAM_API_SECRET}
+      - GETSTREAM_APP_ID=${GETSTREAM_APP_ID}
     container_name: better-webapp-next-js
     restart: always
     ports:
