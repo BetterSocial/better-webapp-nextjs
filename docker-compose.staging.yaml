@@ -2,10 +2,16 @@ version: '3'
 
 services:
   app-staging:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.staging
     container_name: better-webapp-next-js-staging
+    env_file:
+      - .env.local
+    environment:
+      - GETSTREAM_API_KEY=${GETSTREAM_API_KEY}
+      - GETSTREAM_API_SECRET=${GETSTREAM_API_SECRET}
+      - GETSTREAM_APP_ID=${GETSTREAM_APP_ID}
     restart: always
     ports:
       - 3200:3000
