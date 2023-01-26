@@ -33,7 +33,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function Post({ post }) {
-    // console.log(post)
     return <BaseContainer>
         <PostComponent post={post} />
     </BaseContainer>

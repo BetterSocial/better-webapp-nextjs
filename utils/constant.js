@@ -4,8 +4,13 @@ const GetstreamPost = {
     }
 }
 
+const String = {
+    anonymous: 'Anonymous'
+}
+
 const Constant = {
-    GetstreamPost
+    GetstreamPost,
+    String
 }
 
 export default Constant

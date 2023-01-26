@@ -1,3 +1,5 @@
+import Constant from 'utils/constant'
+
 const stream = require('getstream')
 
 /**
@@ -9,7 +11,7 @@ const GetstreamInstance = (client) => {
     return {
         ...client,
         getPostById: async (postId) => {
-            const feed = await client.getActivities({
+            const response = await client.getActivities({
                 ids: [postId],
                 withOwnReactions: true,
                 withOwnChildren: true,
@@ -19,7 +21,18 @@ const GetstreamInstance = (client) => {
                 withReactionCounts: true,
                 withRecentReactions: true,
             })
-            return feed?.results[0]
+
+            /**
+             * @type {GetstreamPost}
+             */
+            const feed = response.results[0]
+            if (feed?.anonimity) {
+                feed.actor.data = {
+                    username: Constant.String.anonymous
+                }
+            }
+
+            return feed
         }
     }
 }

@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.staging
     container_name: better-webapp-next-js-staging
     env_file:
-      - .env.local
+      - .env.staging
     environment:
       - GETSTREAM_API_KEY=${GETSTREAM_API_KEY}
       - GETSTREAM_API_SECRET=${GETSTREAM_API_SECRET}

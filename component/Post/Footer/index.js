@@ -1,7 +1,12 @@
 import IconCommentPostSvg from "assets/icon/svg/IconCommentPostSvg";
 import IconSharePostSvg from "assets/icon/svg/IconSharePostSvg";
 
-export default function Footer() {
+/**
+ * 
+ * @param {ContentProps} param0 
+ * @returns 
+ */
+export default function Footer({ post }) {
     return (
         <div className='flex items-center  w-full h-[52px]'>
             <IconSharePostSvg className="mx-4 cursor-pointer" />
