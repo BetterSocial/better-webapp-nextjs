@@ -23,7 +23,7 @@ const isPostExpired = (post) => {
     return now.isAfter(postDateMoment)
 }
 
-const dateAgo = (time) => {
+const dateAgo = (time, textAgo = 'ago') => {
     if (!time) return ''
     const now = moment();
     const utc = now;
@@ -39,12 +39,12 @@ const dateAgo = (time) => {
 
     if (minutes < 60) {
         if (minutes === 0) {
-            return '1m ago';
+            return `1m ${textAgo}`;
         }
-        return `${minutes}m ago`;
+        return `${minutes}m ${textAgo}`;
     }
     if (hours < 24) {
-        return `${hours}h ago`;
+        return `${hours}h ${textAgo}`;
     }
 
     if (days < 2) {
@@ -52,21 +52,57 @@ const dateAgo = (time) => {
     }
 
     if (days >= 2 && days <= 6) {
-        return `${days}d ago`;
+        return `${days}d ${textAgo}`;
     }
 
     if (days >= 7 && days <= 13) {
-        return '1w ago';
+        return '1w ${textAgo}';
     }
 
-    return `${weeks}w ago`;
+    return `${weeks}w ${textAgo}`;
 
 }
+
+const getPollTime = (pollExpiredAtString) => {
+    const currentMoment = moment();
+    const pollExpiredMoment = moment(pollExpiredAtString);
+    const diff = pollExpiredMoment.diff(currentMoment);
+
+    const diffInDays = pollExpiredMoment.diff(currentMoment, 'days');
+    const diffInHours = pollExpiredMoment.diff(currentMoment, 'hours');
+    const diffInMinutes = pollExpiredMoment.diff(currentMoment, 'minutes');
+
+    // Poll still continues
+    if (diff > 0) {
+        if (diffInDays > 0) {
+            return `${diffInDays}d left`;
+        }
+        if (diffInHours > 0) {
+            return `${diffInHours}h ${diffInMinutes % 60}m left`;
+        }
+        return `${diffInMinutes % 60}m left`;
+
+    }
+    // Poll ended
+
+    if (diffInDays < 0) {
+        return `Poll closed ${Math.abs(diffInDays)}d ago`;
+    }
+    if (diffInHours > 0) {
+        return `Poll closed ${Math.abs(diffInHours)}h ${Math.abs(
+            diffInMinutes % 60,
+        )}m ago`;
+    }
+    return `Poll closed ${Math.abs(diffInMinutes % 60)}m ago`;
+
+
+};
 
 const DateUtils = {
     formatPostDate,
     isPostExpired,
-    dateAgo
+    dateAgo,
+    getPollTime
 }
 
 export default DateUtils

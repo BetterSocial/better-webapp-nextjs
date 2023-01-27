@@ -38,11 +38,23 @@
  * @property {string} url
  */
 
+/** 
+ * @typedef {object} GetstreamPost.PollOptions
+ * @property {string} polling_option_id
+ * @property {string} polling_id
+ * @property {string} option
+ * @property {string} counter
+ * @property {string} createdAt
+ * @property {string} updatedAt
+ */
+
+
 /**
  * @typedef {object} GetstreamPost
  * @property {GetstreamPost.Actor} actor
  * @property {GetstreamPost.MyPolling} mypolling
  * @property {GetstreamPost.NewsLink} og
+ * @property {GetstreamPost.PollOptions[]} pollOptions
  * @property {boolean} anonimity
  * @property {boolean} isalreadypolling
  * @property {boolean} multiplechoice
