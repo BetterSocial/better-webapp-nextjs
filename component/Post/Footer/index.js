@@ -8,7 +8,7 @@ import IconSharePostSvg from "assets/icon/svg/IconSharePostSvg";
  */
 export default function Footer({ post }) {
     return (
-        <div className='flex items-center  w-full h-[52px]'>
+        <div className='flex items-center w-full py-4'>
             <IconSharePostSvg className="mx-4 cursor-pointer" />
             <div className="flex flex-row items-center">
                 <IconCommentPostSvg className="mx-4 mr-2" />

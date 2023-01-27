@@ -1,4 +1,5 @@
 import Constant from 'utils/constant'
+import PostUtil from 'utils/getstreamPost'
 
 const stream = require('getstream')
 
@@ -25,12 +26,8 @@ const GetstreamInstance = (client) => {
             /**
              * @type {GetstreamPost}
              */
-            const feed = response.results[0]
-            if (feed?.anonimity) {
-                feed.actor.data = {
-                    username: Constant.String.anonymous
-                }
-            }
+            let feed = response.results[0]
+            feed = PostUtil.modifyPost(feed)
 
             return feed
         }
