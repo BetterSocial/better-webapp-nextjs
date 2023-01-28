@@ -14,10 +14,16 @@ const usePostHook = (post) => {
         return post?.message?.indexOf(`#${item}`) === -1
     })
 
+    const postWithMostVote = post?.pollOptions?.reduce((acc, current) => {
+        if (acc?.voteCount >= current?.counter) return acc
+        return { id: current?.polling_option_id, voteCount: current?.vote }
+    }, { id: null, voteCount: 0 })
+
     return {
         post,
         messageTopics,
-        topicNotInMessage
+        topicNotInMessage,
+        postWithMostVote
     }
 }
 

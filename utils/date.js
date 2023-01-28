@@ -22,6 +22,17 @@ const isPostExpired = (post) => {
     const now = moment()
     return now.isAfter(postDateMoment)
 }
+/**
+ * 
+ * @param {GetstreamPost} post
+ * @returns {boolean}
+ */
+
+const isPollExpired = (post) => {
+    const postDateMoment = moment(post?.polls_expired_at)
+    const now = moment()
+    return now.isAfter(postDateMoment)
+}
 
 const dateAgo = (time, textAgo = 'ago') => {
     if (!time) return ''
@@ -101,6 +112,7 @@ const getPollTime = (pollExpiredAtString) => {
 const DateUtils = {
     formatPostDate,
     isPostExpired,
+    isPollExpired,
     dateAgo,
     getPollTime
 }

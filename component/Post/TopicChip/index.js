@@ -9,6 +9,6 @@ export default function TopicChip({ topic }) {
         bg-gray-100
         rounded-full text-xs 
         font-medium">
-        {topic}
+        #{topic}
     </div>
 }

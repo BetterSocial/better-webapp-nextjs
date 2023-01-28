@@ -17,8 +17,10 @@ export default function Content({ post }) {
         <PostNewsLink post={post} />
         <PostPoll post={post} />
         <PostImage post={post} />
-        {topicNotInMessage?.map((item, index) => {
-            return <TopicChip topic={item} key={index} />
-        })}
+        <div className="flex flex-row gap-1">
+            {topicNotInMessage?.map((item, index) => {
+                return <TopicChip topic={item} key={index} />
+            })}
+        </div>
     </div>
 }
