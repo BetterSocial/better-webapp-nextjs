@@ -3,7 +3,8 @@ import { Helmet } from "react-helmet"
 
 export default function AndroidBanner(props) {
     const bannerImage = <a className="w-48 mt-12" target="_blank"
-        href='https://play.google.com/store/apps/details?id=org.bettersocial&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+        href='https://play.google.com/store/apps/details?id=org.bettersocial&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
+        rel="noreferrer">
         <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' />
     </a>
 
