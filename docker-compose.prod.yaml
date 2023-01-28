@@ -11,6 +11,10 @@ services:
       - GETSTREAM_API_KEY=${GETSTREAM_API_KEY}
       - GETSTREAM_API_SECRET=${GETSTREAM_API_SECRET}
       - GETSTREAM_APP_ID=${GETSTREAM_APP_ID}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USERNAME=${DB_USERNAME}
     container_name: better-webapp-next-js
     restart: always
     ports:

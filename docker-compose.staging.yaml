@@ -12,6 +12,10 @@ services:
       - GETSTREAM_API_KEY=${GETSTREAM_API_KEY}
       - GETSTREAM_API_SECRET=${GETSTREAM_API_SECRET}
       - GETSTREAM_APP_ID=${GETSTREAM_APP_ID}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USERNAME=${DB_USERNAME}
     restart: always
     ports:
       - 3200:3000
