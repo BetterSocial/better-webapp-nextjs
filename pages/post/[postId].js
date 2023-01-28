@@ -10,6 +10,9 @@ export async function getServerSideProps(context) {
     const { postId } = context.query
     let post = await GetstreamSingleton.getInstance().getPostById(postId)
 
+    console.log('post')
+    console.log(post)
+
     if (!PostUtil.isPostPublic(post)) {
         return {
             redirect: {
@@ -17,7 +20,7 @@ export async function getServerSideProps(context) {
             }
         }
     }
-    
+
     if (DateUtils.isPostExpired(post)) {
         return {
             redirect: {
@@ -32,9 +35,16 @@ export async function getServerSideProps(context) {
     }
 }
 
+/**
+ * 
+ * @param {PostByIdPageProps} param0 
+ * @returns 
+ */
 export default function Post({ post }) {
-    // console.log(post)
     return <BaseContainer>
+        <Helmet>
+            <title>{`${post?.actor?.data?.username}: ${post?.message}`}</title>
+        </Helmet>
         <PostComponent post={post} />
     </BaseContainer>
 }

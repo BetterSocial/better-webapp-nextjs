@@ -1,3 +1,6 @@
+import Constant from 'utils/constant'
+import PostUtil from 'utils/getstreamPost'
+
 const stream = require('getstream')
 
 /**
@@ -9,7 +12,7 @@ const GetstreamInstance = (client) => {
     return {
         ...client,
         getPostById: async (postId) => {
-            const feed = await client.getActivities({
+            const response = await client.getActivities({
                 ids: [postId],
                 withOwnReactions: true,
                 withOwnChildren: true,
@@ -19,7 +22,14 @@ const GetstreamInstance = (client) => {
                 withReactionCounts: true,
                 withRecentReactions: true,
             })
-            return feed?.results[0]
+
+            /**
+             * @type {GetstreamPost}
+             */
+            let feed = response.results[0]
+            feed = PostUtil.modifyPost(feed)
+
+            return feed
         }
     }
 }

@@ -25,9 +25,36 @@
  */
 
 /**
+ * @typedef {object} GetstreamPost.NewsLink
+ * @property {string} date
+ * @property {string} description
+ * @property {string} domain
+ * @property {string} domainImage
+ * @property {string} domain_page_id
+ * @property {string} image
+ * @property {string} news_feed_id
+ * @property {string} news_link_id
+ * @property {string} title
+ * @property {string} url
+ */
+
+/** 
+ * @typedef {object} GetstreamPost.PollOptions
+ * @property {string} polling_option_id
+ * @property {string} polling_id
+ * @property {string} option
+ * @property {string} counter
+ * @property {string} createdAt
+ * @property {string} updatedAt
+ */
+
+
+/**
  * @typedef {object} GetstreamPost
  * @property {GetstreamPost.Actor} actor
  * @property {GetstreamPost.MyPolling} mypolling
+ * @property {GetstreamPost.NewsLink} og
+ * @property {GetstreamPost.PollOptions[]} pollOptions
  * @property {boolean} anonimity
  * @property {boolean} isalreadypolling
  * @property {boolean} multiplechoice
@@ -53,6 +80,8 @@
  * @property {string} target
  * @property {string} time
  * @property {string} verb
+ * @property {string} credderScore
+ * @property {string} credderLastChecked
  * 
  */
 
