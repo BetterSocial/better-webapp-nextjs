@@ -67,7 +67,7 @@ const dateAgo = (time, textAgo = 'ago') => {
     }
 
     if (days >= 7 && days <= 13) {
-        return '1w ${textAgo}';
+        return `1w ${textAgo}`;
     }
 
     return `${weeks}w ${textAgo}`;
