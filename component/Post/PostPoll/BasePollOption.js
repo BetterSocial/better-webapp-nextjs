@@ -10,7 +10,7 @@ export default function BasePollOption({ pollOption, isPollClosed = false, total
     return <div className='w-full h-12 flex flex-row bg-gray-100 justify-start items-center my-1 rounded-md relative'>
         {isPollClosed && <div className={`absolute w-[${percentage}%] h-full bg-primaryBlue rounded-md`} />}
         <div className='relative py-2 px-4 flex flex-row justify-center items-center'>
-            {isMaxVote && <IconPollWinnerBadge className="mr-2" />}
+            {isPollClosed && isMaxVote && <IconPollWinnerBadge className="mr-2" />}
             {!isPollClosed && <div className={`w-3 h-3 border border-black mr-2 flex justify-center items-center ${isMultipleChoice ? 'rounded-sm' : 'rounded-full'}`} />}
             <p>{pollOption?.option}</p>
         </div>
