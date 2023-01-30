@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-string-replace": "^1.1.0",
+    "react-toastify": "^9.1.1",
     "sequelize": "^6.28.0"
   },
   "devDependencies": {

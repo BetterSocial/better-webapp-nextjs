@@ -41,7 +41,7 @@ export async function getServerSideProps(context) {
  * @returns 
  */
 export default function Post({ post }) {
-    return <BaseContainer>
+    return <BaseContainer className="bg-black">
         <Helmet>
             <title>{`${post?.actor?.data?.username}: ${post?.message}`}</title>
         </Helmet>
