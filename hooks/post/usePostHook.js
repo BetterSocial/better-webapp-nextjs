@@ -22,11 +22,14 @@ const usePostHook = (post) => {
         return { id: current?.polling_option_id, voteCount: current?.vote }
     }, { id: null, voteCount: 0 })
 
+    const countCommentAllLevel = 0
+
     return {
         post,
         messageTopics,
         topicNotInMessage,
-        postWithMostVote
+        postWithMostVote,
+        countCommentAllLevel
     }
 }
 
