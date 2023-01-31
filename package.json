@@ -3,15 +3,21 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "dev:up": "docker-compose -f docker-compose.dev.yaml up --build",
+    "dev:up": "docker-compose --env-file .env.local -f docker-compose.dev.yaml up --build",
+    "dev:start": "docker-compose --env-file .env.local -f docker-compose.dev.yaml start",
+    "dev:stop": "docker-compose -f docker-compose.dev.yaml stop",
     "dev:down": "docker-compose -f docker-compose.dev.yaml down",
     "prod:up": "docker-compose --env-file .env.prod -f docker-compose.prod.yaml up -d --build",
+    "prod:start": "docker-compose --env-file .env.prod -f docker-compose.prod.yaml up -d",
     "prod:down": "docker-compose -f docker-compose.prod.yaml down",
     "staging:up": "docker-compose --env-file .env.staging -f docker-compose.staging.yaml up -d --build",
+    "staging:start": "docker-compose --env-file .env.staging -f docker-compose.staging.yaml up -d",
+    "staging:stop": "docker-compose -f docker-compose.staging.yaml stop",
     "staging:down": "docker-compose -f docker-compose.staging.yaml down",
     "lint": "next lint"
   },
   "dependencies": {
+    "firebase-dynamic-links": "^1.1.1",
     "getstream": "^8.1.0",
     "moment": "^2.29.4",
     "next": "latest",

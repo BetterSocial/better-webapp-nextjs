@@ -1,11 +1,15 @@
 import Constant from 'utils/constant'
+import DynamicLinkUtils from 'utils/dynamicLink'
+import UserAgentUtils from 'utils/userAgent'
 import { IResult } from 'ua-parser-js'
+import { userAgent } from 'next/server'
+
 /**
  * 
  * @param {IResult} userAgent 
  */
 const redirectPrivatePost = (userAgent) => {
-    if (userAgent?.os?.name !== Constant.OS.Android && userAgent?.os?.name !== Constant.OS.iOS) {
+    if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
                 destination: `https://bettersocial.org`,
@@ -13,7 +17,7 @@ const redirectPrivatePost = (userAgent) => {
         }
     }
 
-    if (userAgent?.os?.name === Constant.OS.Android) {
+    if (UserAgentUtils.isAndroid(userAgent)) {
         return {
             redirect: {
                 destination: Constant.Link.playstore,
@@ -21,7 +25,7 @@ const redirectPrivatePost = (userAgent) => {
         }
     }
 
-    if (userAgent?.os?.name === Constant.OS.iOS) {
+    if (UserAgentUtils.isIos(userAgent)) {
         return {
             redirect: {
                 destination: Constant.Link.appstore,
@@ -41,7 +45,7 @@ const redirectPrivatePost = (userAgent) => {
  * @param {IResult} userAgent 
  */
 const redirectExpiredPost = (userAgent) => {
-    if (userAgent?.os?.name !== Constant.OS.Android && userAgent?.os?.name !== Constant.OS.iOS) {
+    if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
                 destination: `https://bettersocial.org`,
@@ -49,7 +53,7 @@ const redirectExpiredPost = (userAgent) => {
         }
     }
 
-    if (userAgent?.os?.name === Constant.OS.Android) {
+    if (UserAgentUtils.isAndroid(userAgent)) {
         return {
             redirect: {
                 destination: Constant.Link.playstore,
@@ -57,7 +61,7 @@ const redirectExpiredPost = (userAgent) => {
         }
     }
 
-    if (userAgent?.os?.name === Constant.OS.iOS) {
+    if (UserAgentUtils.isIos(userAgent)) {
         return {
             redirect: {
                 destination: Constant.Link.appstore,
@@ -70,12 +74,32 @@ const redirectExpiredPost = (userAgent) => {
             destination: `/post/expired`,
         }
     }
+}
+
+/**
+ * 
+ * @param {IResult} userAgent
+ * @param {GetstreamPost} post
+ * @returns
+ */
+const redirectMobileDevice = async (userAgent, post) => {
+    if (UserAgentUtils.isMobile(userAgent)) {
+        let postLink = await DynamicLinkUtils.generatePostLink(post)
+        if (postLink) return {
+            redirect: {
+                destination: postLink,
+            }
+        }
+
+        return false
+    }
 
 }
 
 const RedirectUtils = {
     redirectExpiredPost,
-    redirectPrivatePost
+    redirectPrivatePost,
+    redirectMobileDevice
 }
 
 export default RedirectUtils
