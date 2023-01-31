@@ -23,9 +23,26 @@ const String = {
     anonymous: 'Anonymous'
 }
 
+const OS = {
+    Windows: 'Windows',
+    Mac: 'Mac OS',
+    Linux: 'Linux',
+    Android: 'Android',
+    iOS: 'iOS',
+    Unknown: 'Unknown'
+}
+
+const Link = {
+    playstore: 'https://play.google.com/store/apps/details?id=org.bettersocial&utm_campaign=sharedpost&utm_medium=Android',
+    appstore: 'https://apps.apple.com/us/app/better-social/id1615684520?utm_campaign=sharedpost&utm_medium=iOS'
+}
+
 const Constant = {
     GetstreamPost,
-    String
+    String,
+    OS, 
+    Link
 }
+
 
 export default Constant

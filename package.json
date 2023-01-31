@@ -18,11 +18,13 @@
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "react": "^18.2.0",
+    "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-string-replace": "^1.1.0",
     "react-toastify": "^9.1.1",
-    "sequelize": "^6.28.0"
+    "sequelize": "^6.28.0",
+    "ua-parser-js": "^1.0.33"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
