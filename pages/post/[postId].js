@@ -13,10 +13,13 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 export async function getServerSideProps(context) {
-    const { postId, isDynamicLink = false } = context.query
+    const { postId } = context.query
     let userAgent = parser(context?.req?.headers['user-agent'])
 
-    let post = await GetstreamSingleton.getInstance().getPostById(postId)
+    let isDynamicLink = postId?.length > 36
+    let originalPostId = !isDynamicLink ? postId : postId?.substring(0, 36)
+
+    let post = await GetstreamSingleton.getInstance().getPostById(originalPostId)
 
     if (!PostUtil.isPostPublic(post)) {
         let redirect = RedirectUtils.redirectPrivatePost(userAgent)

@@ -15,10 +15,15 @@ const generatePostLink = async (post) => {
 
     const firebaseDynamicLinks = new FirebaseDynamicLinks(FIREBASE_API_KEY)
     try {
-        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postId=${post?.id}&isDynamicLink=true`
+        /**
+         * @description Add 1 to postId to flag dynamic link
+         */
+        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postId=${post?.id}1`
         const { shortLink } = await firebaseDynamicLinks.createLink({
             longDynamicLink: `${FIREBASE_DYNAMIC_LINK_URL}?link=${betterWebAppUrl}&apn=${FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE}&afl=${betterWebAppUrl}&isi=${BETTER_APP_STORE_ID}&ibi=${FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE}&ifl=${betterWebAppUrl}`
         })
+
+        console.log(shortLink)
 
         return shortLink
     } catch (e) {
