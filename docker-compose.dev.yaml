@@ -12,4 +12,4 @@ services:
       - /app/node_modules
       - /app/.next
     ports:
-      - 80:3000
+      - 4000:3000
