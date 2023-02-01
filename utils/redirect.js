@@ -8,7 +8,7 @@ import { userAgent } from 'next/server'
  * 
  * @param {IResult} userAgent 
  */
-const redirectPrivatePost = (userAgent) => {
+const redirectPrivatePost = async (userAgent) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
@@ -17,18 +17,11 @@ const redirectPrivatePost = (userAgent) => {
         }
     }
 
-    if (UserAgentUtils.isAndroid(userAgent)) {
-        return {
+    if (UserAgentUtils.isMobile(userAgent)) {
+        let postLink = await DynamicLinkUtils.generatePrivateLink()
+        if (postLink) return {
             redirect: {
-                destination: Constant.Link.playstore,
-            }
-        }
-    }
-
-    if (UserAgentUtils.isIos(userAgent)) {
-        return {
-            redirect: {
-                destination: Constant.Link.appstore,
+                destination: postLink,
             }
         }
     }
@@ -44,7 +37,7 @@ const redirectPrivatePost = (userAgent) => {
  * 
  * @param {IResult} userAgent 
  */
-const redirectExpiredPost = (userAgent) => {
+const redirectExpiredPost = async (userAgent) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
@@ -53,18 +46,11 @@ const redirectExpiredPost = (userAgent) => {
         }
     }
 
-    if (UserAgentUtils.isAndroid(userAgent)) {
-        return {
+    if (UserAgentUtils.isMobile(userAgent)) {
+        let postLink = await DynamicLinkUtils.generateExpiredPostLink()
+        if (postLink) return {
             redirect: {
-                destination: Constant.Link.playstore,
-            }
-        }
-    }
-
-    if (UserAgentUtils.isIos(userAgent)) {
-        return {
-            redirect: {
-                destination: Constant.Link.appstore,
+                destination: postLink,
             }
         }
     }

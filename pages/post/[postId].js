@@ -22,12 +22,12 @@ export async function getServerSideProps(context) {
     let post = await GetstreamSingleton.getInstance().getPostById(originalPostId)
 
     if (!PostUtil.isPostPublic(post)) {
-        let redirect = RedirectUtils.redirectPrivatePost(userAgent)
+        let redirect = await RedirectUtils.redirectPrivatePost(userAgent)
         if (redirect) return redirect
     }
 
     if (DateUtils.isPostExpired(post)) {
-        let redirect = RedirectUtils.redirectExpiredPost(userAgent)
+        let redirect = await RedirectUtils.redirectExpiredPost(userAgent)
         if (redirect) return redirect
     }
 
