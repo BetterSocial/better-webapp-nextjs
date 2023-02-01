@@ -22,8 +22,6 @@ const generatePostLink = async (post) => {
             longDynamicLink: `${FIREBASE_DYNAMIC_LINK_URL}?link=${betterWebAppUrl}&apn=${FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE}&afl=${betterWebAppUrl}&isi=${BETTER_APP_STORE_ID}&ibi=${FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE}&ifl=${betterWebAppUrl}`
         })
 
-        console.log(shortLink)
-
         return shortLink
     } catch (e) {
         console.log(e)

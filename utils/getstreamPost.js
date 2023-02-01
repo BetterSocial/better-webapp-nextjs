@@ -85,8 +85,8 @@ const populateCredderScore = async (post) => {
         raw: true
     })
 
-    post.credderScore = domainPage?.credder_score
-    post.credderLastChecked = domainPage?.credder_last_checked
+    post.credderScore = domainPage?.credder_score || -1
+    post.credderLastChecked = domainPage?.credder_last_checked || ""
 
     return post
 }
