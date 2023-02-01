@@ -10,7 +10,7 @@ import { Header } from "component/Post/Header";
  */
 export default function PostComponent(props) {
     const { post } = props;
-    return <div className='flex flex-col items-center h-screen bg-white md:w-1/2 lg:w-1/3 xl:1/4'>
+    return <div className='flex flex-col items-center h-screen bg-white md:w-1/2 lg:w-1/3 xl:1/4 overflow-hidden'>
         <Header post={post} />
         <Underline />
         <Content post={post} />

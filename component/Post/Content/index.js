@@ -12,7 +12,7 @@ import usePostHook from "hooks/post/usePostHook";
  */
 export default function Content({ post }) {
     const { topicNotInMessage } = usePostHook(post)
-    return <div className="flex flex-col h-full w-full justify-center items-center px-4">
+    return <div className="flex flex-col flex-1 w-full justify-center items-center px-4">
         <Message post={post} />
         <PostNewsLink post={post} />
         <PostPoll post={post} />
