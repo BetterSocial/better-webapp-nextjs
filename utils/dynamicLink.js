@@ -7,6 +7,18 @@ const { FIREBASE_DYNAMIC_LINK_URL,
     BETTER_APP_STORE_ID } = process.env
 
 const firebaseDynamicLinks = new FirebaseDynamicLinks(FIREBASE_API_KEY)
+
+const generateLongDynamicLink = async (redirectDesktopLink, redirectAndroidLink = null, redirectIosLink = null) => {
+    if (redirectAndroidLink === null) redirectAndroidLink = redirectDesktopLink
+    if (redirectIosLink === null) redirectIosLink = redirectDesktopLink
+
+    const { shortLink } = await firebaseDynamicLinks.createLink({
+        longDynamicLink: `${FIREBASE_DYNAMIC_LINK_URL}?link=${redirectDesktopLink}&apn=${FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE}&afl=${redirectAndroidLink}&isi=${BETTER_APP_STORE_ID}&ibi=${FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE}&ifl=${redirectIosLink}`
+    })
+
+    return shortLink
+}
+
 /**
  * 
  * @param {GetstreamPost} post 
@@ -18,11 +30,23 @@ const generatePostLink = async (post) => {
          * @description Add 1 to postId to flag dynamic link
          */
         const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postId=${post?.id}1`
-        const { shortLink } = await firebaseDynamicLinks.createLink({
-            longDynamicLink: `${FIREBASE_DYNAMIC_LINK_URL}?link=${betterWebAppUrl}&apn=${FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE}&afl=${betterWebAppUrl}&isi=${BETTER_APP_STORE_ID}&ibi=${FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE}&ifl=${betterWebAppUrl}`
-        })
+        return await generateLongDynamicLink(betterWebAppUrl)
+    } catch (e) {
+        console.log(e)
+        return false
+    }
+}
 
-        return shortLink
+/**
+ * 
+ * @param {GetstreamPost} post 
+ * @returns {string}
+ */
+const generateMobilePrivateLink = async (post) => {
+    try {
+        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postPrivateId=${post?.id}`
+        const redirectDesktopLink = `bettersocial.org`
+        return await generateLongDynamicLink(redirectDesktopLink, betterWebAppUrl, betterWebAppUrl)
     } catch (e) {
         console.log(e)
         return false
@@ -79,7 +103,8 @@ const generateExpiredPostLink = async () => {
 const DynamicLinkUtils = {
     generatePostLink,
     generateExpiredPostLink,
-    generatePrivateLink
+    generatePrivateLink,
+    generateMobilePrivateLink
 }
 
 export default DynamicLinkUtils

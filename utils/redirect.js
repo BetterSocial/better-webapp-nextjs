@@ -8,7 +8,7 @@ import { userAgent } from 'next/server'
  * 
  * @param {IResult} userAgent 
  */
-const redirectPrivatePost = async (userAgent) => {
+const redirectPrivatePost = async (userAgent, post) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
@@ -18,7 +18,7 @@ const redirectPrivatePost = async (userAgent) => {
     }
 
     if (UserAgentUtils.isMobile(userAgent)) {
-        let postLink = await DynamicLinkUtils.generatePrivateLink()
+        let postLink = await DynamicLinkUtils.generateMobilePrivateLink(post)
         if (postLink) return {
             redirect: {
                 destination: postLink,
