@@ -5,12 +5,10 @@ import { BaseContainer } from "component/Page/BaseContainer";
 import { Helmet } from 'react-helmet';
 
 export function getServerSideProps(context) {
-  const { postId } = context?.query
-  if (postId) {
-    return {
-      redirect: {
-        destination: `/post/${postId}`,
-      }
+  const { postId, postPrivateId } = context?.query
+  if (postId) return {
+    redirect: {
+      destination: `/post/${postId}`,
     }
   }
 
