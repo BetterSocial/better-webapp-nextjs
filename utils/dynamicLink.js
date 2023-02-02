@@ -1,3 +1,4 @@
+import Constant from "utils/constant"
 import { FirebaseDynamicLinks } from "firebase-dynamic-links"
 const { FIREBASE_DYNAMIC_LINK_URL,
     FIREBASE_API_KEY,
@@ -44,9 +45,8 @@ const generatePostLink = async (post) => {
  */
 const generateMobilePrivateLink = async (post) => {
     try {
-        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postPrivateId=${post?.id}`
-        const redirectDesktopLink = `bettersocial.org`
-        return await generateLongDynamicLink(redirectDesktopLink, betterWebAppUrl, betterWebAppUrl)
+        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postPrivateId=${post?.id}1`
+        return await generateLongDynamicLink(betterWebAppUrl)
     } catch (e) {
         console.log(e)
         return false

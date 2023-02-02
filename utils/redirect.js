@@ -12,7 +12,7 @@ const redirectPrivatePost = async (userAgent, post) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
-                destination: `https://bettersocial.org`,
+                destination: Constant.Link.bettersocial,
             }
         }
     }
@@ -41,7 +41,7 @@ const redirectExpiredPost = async (userAgent) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
-                destination: `https://bettersocial.org`,
+                destination: Constant.Link.bettersocial,
             }
         }
     }
