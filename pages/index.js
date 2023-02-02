@@ -8,11 +8,23 @@ import { BaseContainer } from "component/Page/BaseContainer";
 import { Helmet } from 'react-helmet';
 
 export function getServerSideProps(context) {
-  const { postId, postPrivateId } = context?.query
+  const { postId, postPrivateId, postExpired } = context?.query
   const userAgent = parser(context?.req?.headers['user-agent'])
   if (postId) return {
     redirect: {
       destination: `/post/${postId}`,
+    }
+  }
+
+  if (postExpired && UserAgentUtils.isAndroid(userAgent)) return {
+    redirect: {
+      destination: Constant.Link.playstore
+    }
+  }
+
+  if (postExpired && UserAgentUtils.isIos(userAgent)) return {
+    redirect: {
+      destination: Constant.Link.appstore
     }
   }
 

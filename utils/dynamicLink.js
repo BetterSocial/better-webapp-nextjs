@@ -45,7 +45,7 @@ const generatePostLink = async (post) => {
  */
 const generateMobilePrivateLink = async (post) => {
     try {
-        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postPrivateId=${post?.id}1`
+        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postPrivateId=${post?.id}`
         return await generateLongDynamicLink(betterWebAppUrl)
     } catch (e) {
         console.log(e)
@@ -78,22 +78,29 @@ const generatePrivateLink = async () => {
 
 
 const generateExpiredPostLink = async () => {
+    // try {
+    //     const { shortLink } = await firebaseDynamicLinks.createLink({
+    //         dynamicLinkInfo: {
+    //             domainUriPrefix: `${FIREBASE_DYNAMIC_LINK_URL}`,
+    //             link: `${FIREBASE_DYNAMIC_LINK_URL}/postexpired`,
+    //             androidInfo: {
+    //                 androidPackageName: FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE,
+    //             },
+    //             iosInfo: {
+    //                 iosBundleId: FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE
+    //             }
+    //         }
+    //     })
+
+    //     return shortLink
+
+    // } catch (e) {
+    //     console.log(e)
+    //     return false
+    // }
     try {
-        const { shortLink } = await firebaseDynamicLinks.createLink({
-            dynamicLinkInfo: {
-                domainUriPrefix: `${FIREBASE_DYNAMIC_LINK_URL}`,
-                link: `${FIREBASE_DYNAMIC_LINK_URL}/postexpired`,
-                androidInfo: {
-                    androidPackageName: FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE,
-                },
-                iosInfo: {
-                    iosBundleId: FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE
-                }
-            }
-        })
-
-        return shortLink
-
+        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postExpired=true`
+        return await generateLongDynamicLink(betterWebAppUrl)
     } catch (e) {
         console.log(e)
         return false
