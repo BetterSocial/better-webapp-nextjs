@@ -84,10 +84,24 @@ const redirectMobileDevice = async (userAgent, post) => {
 
 }
 
+const redirectCommunityForMobileDevice = async (userAgent, communityName) => {
+    if (UserAgentUtils.isMobile(userAgent)) {
+        let postLink = await DynamicLinkUtils.generateCommunityLink(communityName)
+        if (postLink) return {
+            redirect: {
+                destination: postLink,
+            }
+        }
+
+        return false
+    }
+}
+
 const RedirectUtils = {
     redirectExpiredPost,
     redirectPrivatePost,
-    redirectMobileDevice
+    redirectMobileDevice,
+    redirectCommunityForMobileDevice
 }
 
 export default RedirectUtils

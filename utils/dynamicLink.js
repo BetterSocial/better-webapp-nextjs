@@ -107,10 +107,24 @@ const generateExpiredPostLink = async () => {
     }
 }
 
+const generateCommunityLink = async (communityName) => {
+    try {
+        /**
+         * @description Add + to topicId to flag dynamic link
+         */
+        const betterWebAppUrl = `${BETTER_WEB_APP_URL}?communityName=${communityName}+`
+        return await generateLongDynamicLink(betterWebAppUrl)
+    } catch (e) {
+        console.log(e)
+        return false
+    }
+}
+
 const DynamicLinkUtils = {
     generatePostLink,
     generateExpiredPostLink,
     generatePrivateLink,
+    generateCommunityLink,
     generateMobilePrivateLink
 }
 
