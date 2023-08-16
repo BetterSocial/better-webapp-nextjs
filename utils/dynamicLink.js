@@ -31,7 +31,7 @@ const generatePostLink = async (post) => {
          * @description Add 1 to postId to flag dynamic link
          */
         const betterWebAppUrl = `${BETTER_WEB_APP_URL}?postId=${post?.id}1`
-        return await generateLongDynamicLink(betterWebAppUrl)
+        return await generateLongDynamicLink(betterWebAppUrl, Constant.Link.playstore, Constant.Link.appstore)
     } catch (e) {
         console.log(e)
         return false
@@ -113,7 +113,7 @@ const generateCommunityLink = async (communityName) => {
          * @description Add + to topicId to flag dynamic link
          */
         const betterWebAppUrl = `${BETTER_WEB_APP_URL}?communityName=${communityName}+`
-        return await generateLongDynamicLink(betterWebAppUrl)
+        return await generateLongDynamicLink(betterWebAppUrl, Constant.Link.playstore, Constant.Link.appstore)
     } catch (e) {
         console.log(e)
         return false
