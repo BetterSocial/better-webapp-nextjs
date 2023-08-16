@@ -12,7 +12,6 @@ const redirectPrivatePost = async (userAgent, post) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
-                permanent: false,
                 destination: Constant.Link.bettersocial,
             }
         }
@@ -22,7 +21,6 @@ const redirectPrivatePost = async (userAgent, post) => {
         let postLink = await DynamicLinkUtils.generateMobilePrivateLink(post)
         if (postLink) return {
             redirect: {
-                permanent: false,
                 destination: postLink,
             }
         }
@@ -30,7 +28,6 @@ const redirectPrivatePost = async (userAgent, post) => {
 
     return {
         redirect: {
-            permanent: false,
             destination: `/post/private`,
         }
     }
@@ -44,7 +41,6 @@ const redirectExpiredPost = async (userAgent) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
-                permanent: false,
                 destination: Constant.Link.bettersocial,
             }
         }
@@ -56,7 +52,6 @@ const redirectExpiredPost = async (userAgent) => {
         console.log(postLink)
         if (postLink) return {
             redirect: {
-                permanent: false,
                 destination: postLink,
             }
         }
@@ -80,7 +75,6 @@ const redirectMobileDevice = async (userAgent, post) => {
         let postLink = await DynamicLinkUtils.generatePostLink(post)
         if (postLink) return {
             redirect: {
-                permanent: false,
                 destination: postLink,
             }
         }
@@ -95,7 +89,6 @@ const redirectCommunityForMobileDevice = async (userAgent, communityName) => {
         let postLink = await DynamicLinkUtils.generateCommunityLink(communityName)
         if (postLink) return {
             redirect: {
-                permanent: false,
                 destination: postLink,
             }
         }

@@ -1,6 +1,5 @@
 import BetterSocialIcon from 'component/Brand/BetterSocialIcon';
 import Constant from 'utils/constant';
-import Image from 'next/image';
 import React from 'react'
 import UserAgentUtils from 'utils/userAgent'
 import parser from 'ua-parser-js';
@@ -13,7 +12,7 @@ export function getServerSideProps(context) {
   console.log('communityName', communityName)
   if(communityName) return {
     redirect: {
-      destination: `/community/${communityName}`,
+      destination: `/community/${communityName}+`,
     }
   }
   
