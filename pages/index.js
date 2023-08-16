@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 export function getServerSideProps(context) {
   const { postId, postPrivateId, postExpired, communityName } = context?.query
   const userAgent = parser(context?.req?.headers['user-agent'])
+  console.log('communityName', communityName)
   if(communityName) return {
     redirect: {
       destination: `/community/${communityName}`,
