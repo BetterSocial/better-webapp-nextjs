@@ -8,8 +8,14 @@ import { BaseContainer } from "component/Page/BaseContainer";
 import { Helmet } from 'react-helmet';
 
 export function getServerSideProps(context) {
-  const { postId, postPrivateId, postExpired } = context?.query
+  const { postId, postPrivateId, postExpired, communityName } = context?.query
   const userAgent = parser(context?.req?.headers['user-agent'])
+  if(communityName) return {
+    redirect: {
+      destination: `/community/${communityName}`,
+    }
+  }
+  
   if (postId) return {
     redirect: {
       destination: `/post/${postId}`,
