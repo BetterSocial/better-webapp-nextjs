@@ -8,17 +8,17 @@ import { userAgent } from 'next/server'
  * 
  * @param {IResult} userAgent 
  */
-const redirectPrivatePost = async (userAgent) => {
+const redirectPrivatePost = async (userAgent, post) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
-                destination: `https://bettersocial.org`,
+                destination: Constant.Link.bettersocial,
             }
         }
     }
 
     if (UserAgentUtils.isMobile(userAgent)) {
-        let postLink = await DynamicLinkUtils.generatePrivateLink()
+        let postLink = await DynamicLinkUtils.generateMobilePrivateLink(post)
         if (postLink) return {
             redirect: {
                 destination: postLink,
@@ -41,13 +41,15 @@ const redirectExpiredPost = async (userAgent) => {
     if (!UserAgentUtils.isMobile(userAgent)) {
         return {
             redirect: {
-                destination: `https://bettersocial.org`,
+                destination: Constant.Link.bettersocial,
             }
         }
     }
 
     if (UserAgentUtils.isMobile(userAgent)) {
         let postLink = await DynamicLinkUtils.generateExpiredPostLink()
+        console.log('masuk post link')
+        console.log(postLink)
         if (postLink) return {
             redirect: {
                 destination: postLink,
@@ -82,10 +84,24 @@ const redirectMobileDevice = async (userAgent, post) => {
 
 }
 
+const redirectCommunityForMobileDevice = async (userAgent, communityName) => {
+    if (UserAgentUtils.isMobile(userAgent)) {
+        let postLink = await DynamicLinkUtils.generateCommunityLink(communityName)
+        if (postLink) return {
+            redirect: {
+                destination: postLink,
+            }
+        }
+
+        return false
+    }
+}
+
 const RedirectUtils = {
     redirectExpiredPost,
     redirectPrivatePost,
-    redirectMobileDevice
+    redirectMobileDevice,
+    redirectCommunityForMobileDevice
 }
 
 export default RedirectUtils

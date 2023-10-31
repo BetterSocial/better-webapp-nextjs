@@ -14,7 +14,9 @@ export default function PostNewsLink({ post }) {
 
     if (post?.post_type !== Constant.GetstreamPost.postType.link) return <></>
 
-    return <div className='flex flex-col items-center border-black border-solid border w-full rounded-md' onClick={betterFullFunctionalityToast}>
+    const description = post?.og?.description?.length > 100 ? `${post?.og?.description?.substring(0, 120)}...` : post?.og?.description
+
+    return <div className='flex flex-col items-center border-black border-solid border w-full rounded-md mb-4 bg-white' onClick={betterFullFunctionalityToast}>
         <div className='flex flex-row justify-start items-center w-full cursor-pointer'>
             <img src={post?.og?.domainImage} alt={post?.data?.title}
                 className="h-8 w-8 object-contain border rounded-full ml-6 my-2" />
@@ -24,11 +26,11 @@ export default function PostNewsLink({ post }) {
             <Dot />
             <CredderRatingNewsLinkHeader rating={post?.credderScore} />
         </div>
-        <p className='font-inter font-bold mx-6 mb-4 cursor-pointer'>{post?.og?.title}</p>
+        <p className='font-inter font-bold mx-6 mb-2 cursor-pointer line-clamp-2'>{post?.og?.title}</p>
         <img src={post?.og?.image} alt={post?.og?.title || ''}
-            className="w-full h-48 object-cover cursor-pointer" />
-        <p className='font-inter font-light mx-6 mb-2 mt-4 cursor-pointer'>
-            {`${post?.og?.description} `}
+            className="w-full max-h-[190px] object-cover cursor-pointer" />
+        <p className='font-inter font-light mx-6 mb-2 mt-2 cursor-pointer line-clamp-3'>
+            {`${description}`}
             <span className='font-inter font-medium text-blue-500 underline'>
                 <a href={post?.og?.url}
                     target="_blank" rel="noreferrer">Open Link
