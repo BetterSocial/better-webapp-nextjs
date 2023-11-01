@@ -22,6 +22,7 @@ module.exports = {
       colors: {
         gray06: '#828282',
         grayIcon: '#C4C4C4',
+        foundationBlue: '#0D5AA0',
         primaryBlue: '#2f80ed',
         humanId_blue: '#023B60'
       },

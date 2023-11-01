@@ -1,7 +1,7 @@
-import { BaseContainer } from "component/Page/BaseContainer";
+import { BaseContainer } from "../../component/Page/BaseContainer";
 import { Helmet } from "react-helmet";
 import React from "react";
-import LayoutContainer from "component/LayoutContainer";
+import LayoutContainer from "../../component/LayoutContainer";
 import Image from "next/image";
 
 
@@ -22,7 +22,7 @@ export default function Verification() {
                     </button>
                     <div className="flex flex-col m-3">
                         <text className="text-center font-inter font-semibold">What is humanID?</text>
-                        <text className="text-center font-normal text-gray06 text-base">Created by the <span>Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
+                        <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue">Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
                     </div>
                 </div>
             </div>
