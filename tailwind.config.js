@@ -23,7 +23,9 @@ module.exports = {
         gray06: '#828282',
         grayIcon: '#C4C4C4',
         primaryBlue: '#2f80ed',
-        humanId_blue: '#023B60'
+        humanId_blue: '#023B60',
+        cyan: '#00ADB5',
+        cyan10: '#00ADD5'
       },
       boxShadow: {
         '3xl': '-1.5px 3px 3px 0px rgba(0, 0, 0, 0.50);'

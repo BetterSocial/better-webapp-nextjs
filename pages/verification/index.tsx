@@ -1,7 +1,7 @@
-import { BaseContainer } from "component/Page/BaseContainer";
+import { BaseContainer } from "../../component/Page/BaseContainer";
 import { Helmet } from "react-helmet";
 import React from "react";
-import LayoutContainer from "component/LayoutContainer";
+import LayoutContainer from "../../component/LayoutContainer";
 import Image from "next/image";
 
 
