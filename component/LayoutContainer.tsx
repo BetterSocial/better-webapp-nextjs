@@ -5,7 +5,7 @@ type LayoutContainerProps = {
 }
 const LayoutContainer = ({children, ...props}: LayoutContainerProps) => {
   return (
-    <div className='flex flex-col items-center h-screen w-full bg-white md:w-1/2 lg:w-1/3 xl:1/4 overflow-hidden p-4'>
+    <div className='flex flex-col items-center h-screen w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M overflow-hidden p-4'>
       {children}
     </div>
   )

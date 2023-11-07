@@ -22,6 +22,7 @@ module.exports = {
       colors: {
         gray06: '#828282',
         grayIcon: '#C4C4C4',
+        foundationBlue: '#0D5AA0',
         primaryBlue: '#2f80ed',
         humanId_blue: '#023B60',
         cyan: '#00ADB5',
@@ -29,6 +30,12 @@ module.exports = {
       },
       boxShadow: {
         '3xl': '-1.5px 3px 3px 0px rgba(0, 0, 0, 0.50);'
+      },
+      maxWidth: {
+        'M': '375px'
+      },
+      flex: {
+        '1-0-0': '1 0 0%',
       }
     },
   },
