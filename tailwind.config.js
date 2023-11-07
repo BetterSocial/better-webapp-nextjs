@@ -20,6 +20,8 @@ module.exports = {
         'lato': ['Lato', 'sans-serif']
       },
       colors: {
+        gray02: '#E0E0E0',
+        gray05: '#F5F5F5',
         gray06: '#828282',
         grayIcon: '#C4C4C4',
         foundationBlue: '#0D5AA0',
