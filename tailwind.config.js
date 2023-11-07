@@ -28,6 +28,12 @@ module.exports = {
       },
       boxShadow: {
         '3xl': '-1.5px 3px 3px 0px rgba(0, 0, 0, 0.50);'
+      },
+      maxWidth: {
+        'M': '375px'
+      },
+      flex: {
+        '1-0-0': '1 0 0%',
       }
     },
   },
