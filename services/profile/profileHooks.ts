@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from "react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { getPublicProfile, ProfileResponse } from "./profileServices";
 
 const useGetProfile = (
@@ -10,11 +10,11 @@ const useGetProfile = (
     Array<string>
   >
 ) => {
-  return useQuery(
-    ["profile", username],
-    () => getPublicProfile(username),
-    options
-  );
+  return useQuery({
+    ...options,
+    queryKey: ["profile", username],
+    queryFn: () => getPublicProfile(username),
+  });
 };
 
 export { useGetProfile };
