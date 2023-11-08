@@ -5,6 +5,9 @@ module.exports = {
     domains: [
       'play.google.com',
       'res.cloudinary.com'],
+  },
+  publicRuntimeConfig: {
+    BASE_URL: process.env.BASE_URL || 'https://devme.bettersocial.org',
   }
   // webpackDevMiddleware: config => {
   //   config.watchOptions = {
