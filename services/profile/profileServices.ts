@@ -1,4 +1,5 @@
-import api from "shared/fetcher";
+import { AxiosResponse } from "axios";
+import api from "../../shared/fetcher";
 
 export interface ProfileResponse {
   user_id: string;
@@ -17,10 +18,10 @@ export interface ProfileResponse {
 }
 
 const getPublicProfile = async (username: string) => {
-  const { data } = await api.get<ProfileResponse>(
+  const { data } = await api.get<AxiosResponse<ProfileResponse>>(
     `/api/v1/profiles/get-profile-public/${username}`
   );
-  return data;
+  return data.data;
 };
 
 export { getPublicProfile };

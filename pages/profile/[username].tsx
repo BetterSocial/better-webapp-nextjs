@@ -1,14 +1,29 @@
 import { BaseContainer } from "../../component/Page/BaseContainer";
 import { Helmet } from "react-helmet";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LayoutContainer from "../../component/LayoutContainer";
 import Image from "next/image";
 import { Header } from "../../component/Header";
 import Toggle from 'react-toggle'
-import { useGetProfile } from "services/profile/profileHooks";
+import { useGetProfile } from "../../services/profile/profileHooks";
+import { useRouter } from "next/router";
+import { ITokenEnum } from "../../shared/enum";
+import { GetServerSidePropsContext } from "next";
 
-export default function Profile() {
-    const { data } = useGetProfile('Yusufputra');
+interface PageProps {
+    username?: string
+}
+
+export default function Profile(props: PageProps) {
+    const { data } = useGetProfile(props.username);
+    const [message, setMessage] = useState('')
+    const router = useRouter();
+    useEffect(() => {
+        if (data) {
+            localStorage.setItem(ITokenEnum.targetUser, data.user_id);
+        }
+    }, [data])
+
     return (
         <BaseContainer className="bg-black">
             <Helmet>
@@ -26,7 +41,7 @@ export default function Profile() {
                                 </div>
                                 <div className="flex flex-col">
                                     <text className="font-semibold text-base">{data?.username}</text>
-                                    <text className="font-medium text-sm text-gray06">{data?.follower_symbol}</text>
+                                    <text className="font-medium text-sm text-gray06">{data?.follower_symbol} Followers</text>
                                 </div>
                             </div>
                             <div className="flex flex-row gap-2 items-center">
@@ -42,7 +57,7 @@ export default function Profile() {
                         <div className="border-t border-gray02" />
                         {/* Card Content */}
                         <div>
-                            <text className="font-normal text-sm">{data?.bio}</text>
+                            <text className="font-normal text-sm">{data?.bio ?? ''}</text>
                         </div>
                     </div>
                 </div>
@@ -52,7 +67,7 @@ export default function Profile() {
                     {data?.allow_anon_dm && (
                         <>
                             <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
-                                <div contentEditable onInput={(e) => console.log(e.currentTarget.textContent)} className="bg-transparent min-h-[24px] w-[230px]" placeholder="Send a message..." />
+                                <div contentEditable onInput={(e) => setMessage(e.currentTarget.textContent)} className="bg-transparent min-h-[24px] w-[230px]" placeholder="Send a message..." />
                                 <Toggle
                                     checked={true}
                                     className="bg-white"
@@ -63,7 +78,10 @@ export default function Profile() {
                                     }}
                                 />
                             </div>
-                            <button className="rounded-full flex-shrink-0 bg-cyan h-8 w-8 flex items-center justify-center">
+                            <button className="rounded-full flex-shrink-0 bg-cyan h-8 w-8 flex items-center justify-center" onClick={() => {
+                                localStorage.setItem(ITokenEnum.tempMessage, message);
+                                router.push('/verification')
+                            }}>
                                 <Image className="rounded-full" src='/image/planePaper.svg' alt="icon send" width={17} height={14} />
                             </button>
                         </>
@@ -73,3 +91,13 @@ export default function Profile() {
         </BaseContainer>
     )
 }
+
+export const getServerSideProps = (context: GetServerSidePropsContext) => {
+    const {username} = context.query; // Retrieve the URL parameter from context.query
+
+    return {
+        props: {
+            username,
+        },
+    };
+};
