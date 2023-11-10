@@ -2,14 +2,14 @@
 
 import getConfig from "next/config";
 
-const { publicRuntimeConfig } = getConfig();
+const { serverRuntimeConfig } = getConfig();
 
 export default function getWebLogin(req, res) {
-  fetch(publicRuntimeConfig.HUMAN_ID_GET_WEB_LOGIN_URL, {
+  fetch(serverRuntimeConfig.HUMAN_ID_GET_WEB_LOGIN_URL, {
     method: "POST",
     headers: {
-      "client-id": publicRuntimeConfig.HUMAN_ID_CLIENT_ID,
-      "client-secret": publicRuntimeConfig.HUMAN_ID_CLIENT_SECRET,
+      "client-id": serverRuntimeConfig.HUMAN_ID_CLIENT_ID,
+      "client-secret": serverRuntimeConfig.HUMAN_ID_CLIENT_SECRET,
       "Content-Type": "application/json",
     },
   })

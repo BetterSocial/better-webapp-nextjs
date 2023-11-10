@@ -1,16 +1,17 @@
-import { BaseContainer } from "../../component/Page/BaseContainer";
+import { BaseContainer } from "@components/Page/BaseContainer";
 import { Helmet } from "react-helmet";
 import React, { useEffect, useState } from "react";
-import LayoutContainer from "../../component/LayoutContainer";
+import LayoutContainer from "@components/LayoutContainer";
 import Image from "next/image";
-import { Header } from "../../component/Header";
+import { Header } from "@components/Header";
 import Toggle from 'react-toggle'
-import { useGetProfile } from "../../services/profile/profileHooks";
 import { useRouter } from "next/router";
-import { ITokenEnum } from "../../shared/enum";
+import { ITokenEnum, MessageEnum } from "@shared/enum";
 import { GetServerSidePropsContext } from "next";
 import { RotatingTriangles } from 'react-loader-spinner'
 import { toast } from "react-toastify";
+import { useGetProfile } from "@services/profile/profileHooks";
+import { LoaderWrapper } from "@components/LoaderWrapper";
 
 interface PageProps {
     username?: string
@@ -22,7 +23,7 @@ export default function Profile(props: PageProps) {
     const router = useRouter();
     useEffect(() => {
         if (data) {
-            localStorage.setItem(ITokenEnum.targetUser, data.user_id);
+            localStorage.setItem(MessageEnum.targetUser, data.user_id);
         }
     }, [data])
 
@@ -35,46 +36,40 @@ export default function Profile(props: PageProps) {
                 <Header />
                 <div className="flex flex-1-0-0 w-full justify-center items-center">
                     {/* Card Header */}
-                    {isLoading ? <RotatingTriangles
-                        visible={true}
-                        height="80"
-                        width="80"
-                        ariaLabel="rotating-triangels-loading"
-                        wrapperStyle={{}}
-                        wrapperClass="rotating-triangels-wrapper"
-                    /> : <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
-                        <div className="flex flex-row gap-4 items-center w-full justify-between">
-                            <div className="flex flex-row gap-3 items-center">
-                                <div>
-                                    <Image className="rounded-full" src={data?.profile_pic_path} alt='profile pic' width={40} height={40} />
+                    <LoaderWrapper isLoading={isLoading}>
+                        <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
+                            <div className="flex flex-row gap-4 items-center w-full justify-between">
+                                <div className="flex flex-row gap-3 items-center">
+                                    <div>
+                                        <Image className="rounded-full" src={data?.profile_pic_path} alt='profile pic' width={40} height={40} />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <text className="font-semibold text-base">{data?.username}</text>
+                                        <text className="font-medium text-sm text-gray06">{data?.follower_symbol} Followers</text>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <text className="font-semibold text-base">{data?.username}</text>
-                                    <text className="font-medium text-sm text-gray06">{data?.follower_symbol} Followers</text>
+                                <div className="flex flex-row gap-2 items-center">
+                                    <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center">
+                                        <Image src='/image/Icon_Follow.svg' alt='follow icon' width={15.81} height={20} />
+                                    </button>
+                                    <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center">
+                                        <Image src='/image/Icon_Share.svg' alt='share icon' width={20} height={20} />
+                                    </button>
                                 </div>
                             </div>
-                            <div className="flex flex-row gap-2 items-center">
-                                <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center">
-                                    <Image src='/image/Icon_Follow.svg' alt='follow icon' width={15.81} height={20} />
-                                </button>
-                                <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center">
-                                    <Image src='/image/Icon_Share.svg' alt='share icon' width={20} height={20} />
-                                </button>
+                            {/* Horizontal Devider */}
+                            <div className="border-t border-gray02" />
+                            {/* Card Content */}
+                            <div>
+                                <text className="font-normal text-sm">{data?.bio ?? ''}</text>
                             </div>
                         </div>
-                        {/* Horizontal Devider */}
-                        <div className="border-t border-gray02" />
-                        {/* Card Content */}
-                        <div>
-                            <text className="font-normal text-sm">{data?.bio ?? ''}</text>
-                        </div>
-                    </div>}
-
+                    </LoaderWrapper>
                 </div>
                 {/* Input Message */}
-                <div className={data?.allow_anon_dm ? "w-full p-2 bg-white fixed bottom-0 flex flex-row gap-[6px]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg"}>
+                {!isLoading && <div className={data?.allow_anon_dm ? "w-full p-2 bg-white fixed bottom-0 flex flex-row gap-[6px]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg"}>
                     <Image className="rounded-full h-fit pt-1" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
-                    {(data?.allow_anon_dm && !isLoading) ? (
+                    {data?.allow_anon_dm ? (
                         <>
                             <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
                                 <div contentEditable onInput={(e) => setMessage(e.currentTarget.textContent)} className="bg-transparent min-h-[24px] w-[230px]" placeholder="Send a message..." />
@@ -106,7 +101,7 @@ export default function Profile(props: PageProps) {
                                 />
                             </div>
                             <button className="rounded-full flex-shrink-0 bg-cyan h-8 w-8 flex items-center justify-center" onClick={() => {
-                                localStorage.setItem(ITokenEnum.tempMessage, message);
+                                localStorage.setItem(MessageEnum.tempMessage, message);
                                 router.push('/verification')
                             }}>
                                 <Image className="rounded-full" src='/image/planePaper.svg' alt="icon send" width={17} height={14} />
@@ -121,7 +116,7 @@ export default function Profile(props: PageProps) {
                             </div>
                         </>
                     )}
-                </div>
+                </div>}
             </LayoutContainer>
         </BaseContainer>
     )

@@ -1,11 +1,12 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
+
+import { AxiosResponse } from "axios";
+import { User } from "@services/initChatAnonymous/initChatAnonymousServices";
 import {
   CheckExchangeTokenPayload,
   CheckExchangeTokenResponse,
   checkExchangeToken,
-} from "./authServices";
-import { AxiosResponse } from "axios";
-import { User } from "../initChatAnonymous/initChatAnonymousServices";
+} from "@services/auth/authServices";
 
 const useCheckExchangeTokenMutation = (
   options?: UseMutationOptions<

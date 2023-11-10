@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
-import api from "../../shared/fetcher";
-import { User } from "../initChatAnonymous/initChatAnonymousServices";
+import api from "@shared/fetcher";
+import { User } from "@services/initChatAnonymous/initChatAnonymousServices";
 
 type CheckExchangeTokenResponse = {
   code: number;

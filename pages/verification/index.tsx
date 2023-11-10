@@ -1,15 +1,15 @@
-import { BaseContainer } from "../../component/Page/BaseContainer";
+import { BaseContainer } from "@components/Page/BaseContainer";
 import { Helmet } from "react-helmet";
 import React from "react";
-import LayoutContainer from "../../component/LayoutContainer";
+import LayoutContainer from "@components/LayoutContainer";
 import Image from "next/image";
-import api from "../../shared/fetcher";
-import { useCheckExchangeTokenMutation } from "../../services/auth/authHooks";
+import api from "@shared/fetcher";
+import { useCheckExchangeTokenMutation } from "@services/auth/authHooks";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import Cookies from "js-cookie";
-import { ITokenEnum } from "../../shared/enum";
-import { useInitChatAnonymousMutation } from "../../services/initChatAnonymous/initChatAnonymousHooks";
+import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
+import { useInitChatAnonymousMutation } from "@services/initChatAnonymous/initChatAnonymousHooks";
 import { toast } from 'react-toastify'
 
 interface PageProps {
@@ -30,14 +30,14 @@ export default function Verification(props: PageProps) {
             })
             const data = await res.json();
             if (data.data?.webLoginUrl) {
-                window.location.href = data.data?.webLoginUrl;
+                router.push(data.data?.webLoginUrl)
             }
         })
     }
 
     React.useEffect(() => {
-        const member = localStorage.getItem(ITokenEnum.userId);
-        const message = localStorage.getItem(ITokenEnum.tempMessage);
+        const member = localStorage.getItem(UserEnum.userId);
+        const message = localStorage.getItem(MessageEnum.tempMessage);
         if (!!props.exchangeToken && props.isSendMessage && !props.isFailedVerify) {
             toast('Verifying your data', {
                 autoClose: 3000,
@@ -49,8 +49,8 @@ export default function Verification(props: PageProps) {
                         Cookies.set(ITokenEnum.token, data?.token);
                         Cookies.set(ITokenEnum.refreshToken, data?.refresh_token);
                         Cookies.set(ITokenEnum.anonymousToken, data?.anonymousToken);
-                        Cookies.set(ITokenEnum.humanId, data?.data.human_id);
-                        Cookies.set(ITokenEnum.userId, data?.data.user_id);
+                        Cookies.set(UserEnum.humanId, data?.data.human_id);
+                        Cookies.set(UserEnum.userId, data?.data.user_id);
                         api.defaults.headers.common['Authorization'] = `Bearer ${data.anonymousToken}`;
                         initChatAnon.mutate({
                             anon_user_info_color_code: '#000000',
@@ -64,8 +64,8 @@ export default function Verification(props: PageProps) {
                                 if (data) {
                                     router.push('/message-sent');
                                 }
-                                localStorage.removeItem(ITokenEnum.tempMessage);
-                                localStorage.removeItem(ITokenEnum.targetUser);
+                                localStorage.removeItem(MessageEnum.tempMessage);
+                                localStorage.removeItem(MessageEnum.targetUser);
                             },
                             onError: (err) => {
                                 console.error(err)
@@ -86,7 +86,7 @@ export default function Verification(props: PageProps) {
                 }
             })
         }
-        if(props.isFailedVerify){
+        if (props.isFailedVerify) {
             toast('Failed to verify humanID', {
                 autoClose: 3000,
                 type: 'error',

@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import getConfig from "next/config";
-import { ITokenEnum } from "./enum";
+import { ITokenEnum } from "@shared/enum";
 
 const { publicRuntimeConfig } = getConfig();
 
