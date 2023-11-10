@@ -1,10 +1,103 @@
-import { BaseContainer } from "../../component/Page/BaseContainer";
+import { BaseContainer } from "@components/Page/BaseContainer";
 import { Helmet } from "react-helmet";
 import React from "react";
-import LayoutContainer from "../../component/LayoutContainer";
+import LayoutContainer from "@components/LayoutContainer";
 import Image from "next/image";
+import api from "@shared/fetcher";
+import { useCheckExchangeTokenMutation } from "@services/auth/authHooks";
+import { useRouter } from "next/router";
+import { GetServerSidePropsContext } from "next";
+import Cookies from "js-cookie";
+import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
+import { useInitChatAnonymousMutation } from "@services/initChatAnonymous/initChatAnonymousHooks";
+import { toast } from 'react-toastify'
+import getConfig from "next/config";
 
-export default function Verification() {
+interface PageProps {
+    exchangeToken?: string
+    isSendMessage?: boolean
+    isFailedVerify?: boolean
+}
+
+const { publicRuntimeConfig } = getConfig();
+
+export default function Verification(props: PageProps) {
+    const router = useRouter();
+    const exchangeToken = useCheckExchangeTokenMutation();
+    const initChatAnon = useInitChatAnonymousMutation();
+    const getLoginPage = () => {
+        fetch('/api/getWebLogin').then(async (res) => {
+            toast('Redirecting to humanID login page', {
+                autoClose: false,
+                type: 'info',
+            })
+            const data = await res.json();
+            if (data.data?.webLoginUrl) {
+                router.push(data.data?.webLoginUrl)
+            }
+        })
+    }
+
+    React.useEffect(() => {
+        const member = localStorage.getItem(UserEnum.userId);
+        const message = localStorage.getItem(MessageEnum.tempMessage);
+        if (!!props.exchangeToken && props.isSendMessage && !props.isFailedVerify) {
+            toast('Verifying your data', {
+                autoClose: 3000,
+                type: 'info',
+            })
+            exchangeToken.mutate({ exchangeToken: props.exchangeToken }, {
+                onSuccess: (data) => {
+                    if (data) {
+                        Cookies.set(ITokenEnum.token, data?.token);
+                        Cookies.set(ITokenEnum.refreshToken, data?.refresh_token);
+                        Cookies.set(ITokenEnum.anonymousToken, data?.anonymousToken);
+                        Cookies.set(UserEnum.humanId, data?.data.human_id);
+                        Cookies.set(UserEnum.userId, data?.data.user_id);
+                        api.defaults.headers.common['Authorization'] = `Bearer ${data.anonymousToken}`;
+                        initChatAnon.mutate({
+                            anon_user_info_color_code: '#000000',
+                            anon_user_info_color_name: 'Anonymous',
+                            anon_user_info_emoji_code: '😀',
+                            anon_user_info_emoji_name: 'Grinning Face',
+                            members: [member],
+                            message: message,
+                        }, {
+                            onSuccess: (data) => {
+                                if (data) {
+                                    router.push('/message-sent');
+                                }
+                                localStorage.removeItem(MessageEnum.tempMessage);
+                                localStorage.removeItem(MessageEnum.targetUser);
+                            },
+                            onError: (err) => {
+                                console.error(err)
+                                toast('Failed to send your message', {
+                                    autoClose: 3000,
+                                    type: 'error',
+                                })
+                            }
+                        })
+                    }
+                },
+                onError: (err) => {
+                    console.error(err)
+                    toast('Failed to verify your data', {
+                        autoClose: 3000,
+                        type: 'error',
+                    })
+                }
+            })
+        }
+        if (props.isFailedVerify) {
+            toast('Failed to verify humanID', {
+                autoClose: 3000,
+                type: 'error',
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <BaseContainer className="bg-black">
             <Helmet>
@@ -12,7 +105,7 @@ export default function Verification() {
             </Helmet>
             <LayoutContainer>
                 <div className="flex flex-1-0-0 w-full">
-                    <Image className="w-full" alt="verification image" src="/image/Verification_Illustration.svg" width={343} height={343}  layout="responsive"
+                    <Image className="w-full" alt="verification image" src="/image/Verification_Illustration.svg" width={343} height={343} layout="responsive"
                         style={{ objectFit: 'none', height: 'auto', width: '100%' }} />
                 </div>
                 <div className="pt-4 gap-y-2 flex flex-col">
@@ -25,10 +118,10 @@ export default function Verification() {
                             width: '100%',
                             height: '45px',
                             borderRadius: '8px'
-                        }} />
+                        }} onClick={() => getLoginPage()} />
                         <div className="flex flex-col m-3">
                             <text className="text-center font-inter font-semibold">What is humanID?</text>
-                            <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue">Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
+                            <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue" onClick={() => router.push(publicRuntimeConfig.HUMAN_INTERNET_URL)}>Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
                         </div>
                     </div>
                 </div>
@@ -36,3 +129,15 @@ export default function Verification() {
         </BaseContainer>
     );
 }
+
+export const getServerSideProps = (context: GetServerSidePropsContext) => {
+    const query = context.query; // Retrieve the URL parameter from context.query
+
+    return {
+        props: {
+            exchangeToken: query['sent_message?et'] || '',
+            isSendMessage: !!query['sent_message?et'] || false,
+            isFailedVerify: query['login_failed'] === '' || false,
+        },
+    };
+};
