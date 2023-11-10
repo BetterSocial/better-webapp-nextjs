@@ -10,9 +10,12 @@ import { GetServerSidePropsContext } from "next";
 import Cookies from "js-cookie";
 import { ITokenEnum } from "../../shared/enum";
 import { useInitChatAnonymousMutation } from "../../services/initChatAnonymous/initChatAnonymousHooks";
+import { toast } from 'react-toastify'
 
 interface PageProps {
     exchangeToken?: string
+    isSendMessage?: boolean
+    isFailedVerify?: boolean
 }
 
 export default function Verification(props: PageProps) {
@@ -21,6 +24,10 @@ export default function Verification(props: PageProps) {
     const initChatAnon = useInitChatAnonymousMutation();
     const getLoginPage = () => {
         fetch('/api/getWebLogin').then(async (res) => {
+            toast('Redirecting to humanID login page', {
+                autoClose: false,
+                type: 'info',
+            })
             const data = await res.json();
             if (data.data?.webLoginUrl) {
                 window.location.href = data.data?.webLoginUrl;
@@ -31,7 +38,11 @@ export default function Verification(props: PageProps) {
     React.useEffect(() => {
         const member = localStorage.getItem(ITokenEnum.userId);
         const message = localStorage.getItem(ITokenEnum.tempMessage);
-        if (!!props.exchangeToken) {
+        if (!!props.exchangeToken && props.isSendMessage && !props.isFailedVerify) {
+            toast('Verifying your data', {
+                autoClose: 3000,
+                type: 'info',
+            })
             exchangeToken.mutate({ exchangeToken: props.exchangeToken }, {
                 onSuccess: (data) => {
                     if (data) {
@@ -58,16 +69,30 @@ export default function Verification(props: PageProps) {
                             },
                             onError: (err) => {
                                 console.error(err)
+                                toast('Failed to send your message', {
+                                    autoClose: 3000,
+                                    type: 'error',
+                                })
                             }
                         })
                     }
                 },
                 onError: (err) => {
                     console.error(err)
+                    toast('Failed to verify your data', {
+                        autoClose: 3000,
+                        type: 'error',
+                    })
                 }
             })
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        if(props.isFailedVerify){
+            toast('Failed to verify humanID', {
+                autoClose: 3000,
+                type: 'error',
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -108,6 +133,8 @@ export const getServerSideProps = (context: GetServerSidePropsContext) => {
     return {
         props: {
             exchangeToken: query['sent_message?et'] || '',
+            isSendMessage: !!query['sent_message?et'] || false,
+            isFailedVerify: query['login_failed'] === '' || false,
         },
     };
 };

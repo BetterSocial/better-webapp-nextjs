@@ -9,13 +9,15 @@ import { useGetProfile } from "../../services/profile/profileHooks";
 import { useRouter } from "next/router";
 import { ITokenEnum } from "../../shared/enum";
 import { GetServerSidePropsContext } from "next";
+import { RotatingTriangles } from 'react-loader-spinner'
+import { toast } from "react-toastify";
 
 interface PageProps {
     username?: string
 }
 
 export default function Profile(props: PageProps) {
-    const { data } = useGetProfile(props.username);
+    const { data, isLoading } = useGetProfile(props.username);
     const [message, setMessage] = useState('')
     const router = useRouter();
     useEffect(() => {
@@ -31,9 +33,16 @@ export default function Profile(props: PageProps) {
             </Helmet>
             <LayoutContainer backgroundImage="/image/background-profile.svg">
                 <Header />
-                <div className="flex flex-1-0-0 items-center w-full">
-                    <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
-                        {/* Card Header */}
+                <div className="flex flex-1-0-0 w-full justify-center items-center">
+                    {/* Card Header */}
+                    {isLoading ? <RotatingTriangles
+                        visible={true}
+                        height="80"
+                        width="80"
+                        ariaLabel="rotating-triangels-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="rotating-triangels-wrapper"
+                    /> : <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
                         <div className="flex flex-row gap-4 items-center w-full justify-between">
                             <div className="flex flex-row gap-3 items-center">
                                 <div>
@@ -59,12 +68,13 @@ export default function Profile(props: PageProps) {
                         <div>
                             <text className="font-normal text-sm">{data?.bio ?? ''}</text>
                         </div>
-                    </div>
+                    </div>}
+
                 </div>
                 {/* Input Message */}
-                <div className="w-full p-2 bg-white fixed bottom-0 flex flex-row gap-[6px]">
+                <div className={data?.allow_anon_dm ? "w-full p-2 bg-white fixed bottom-0 flex flex-row gap-[6px]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg"}>
                     <Image className="rounded-full h-fit pt-1" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
-                    {data?.allow_anon_dm && (
+                    {(data?.allow_anon_dm && !isLoading) ? (
                         <>
                             <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
                                 <div contentEditable onInput={(e) => setMessage(e.currentTarget.textContent)} className="bg-transparent min-h-[24px] w-[230px]" placeholder="Send a message..." />
@@ -72,6 +82,23 @@ export default function Profile(props: PageProps) {
                                     checked={true}
                                     className="bg-white"
                                     defaultChecked={true}
+                                    onClick={() => toast('Download the BetterSocial app now to create a profile and send non-anonymous messages', {
+                                        position: "bottom-center",
+                                        autoClose: 3000,
+                                        hideProgressBar: true,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        theme: "dark",
+                                        closeButton: false,
+                                        style: {
+                                            borderRadius: '8px',
+                                            width: '270px',
+                                            margin: 'auto',
+                                            marginBottom: '60px',
+                                            textAlign: 'center',
+                                            backgroundColor: 'rgba(0, 0, 0, 0.25)'
+                                        },
+                                    })}
                                     icons={{
                                         checked: <text className="text-xs font-normal text-cyan">On</text>,
                                         unchecked: null,
@@ -85,6 +112,14 @@ export default function Profile(props: PageProps) {
                                 <Image className="rounded-full" src='/image/planePaper.svg' alt="icon send" width={17} height={14} />
                             </button>
                         </>
+                    ) : (
+                        <>
+                            <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
+                                <div className="min-h-[24px] w-[230px] text-sm">
+                                    This user does not want to receive an anonymous messages.
+                                </div>
+                            </div>
+                        </>
                     )}
                 </div>
             </LayoutContainer>
@@ -93,7 +128,7 @@ export default function Profile(props: PageProps) {
 }
 
 export const getServerSideProps = (context: GetServerSidePropsContext) => {
-    const {username} = context.query; // Retrieve the URL parameter from context.query
+    const { username } = context.query; // Retrieve the URL parameter from context.query
 
     return {
         props: {
