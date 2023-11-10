@@ -9,6 +9,10 @@ module.exports = {
     DOWNLOAD_BETTERSOCIAL_APP_URL:
       process.env.DOWNLOAD_BETTERSOCIAL_APP_URL ||
       "https://linkdev.bettersocial.org/download",
+    HUMAN_INTERNET_URL:
+      process.env.HUMAN_INTERNET_URL || "https://human-internet.org/",
+    DYNAMIC_LINK_DOMAIN:
+      process.env.DYNAMIC_LINK_DOMAIN || "https://devme.bettersocial.org",
   },
   serverRuntimeConfig: {
     HUMAN_ID_GET_WEB_LOGIN_URL: process.env.HUMAN_ID_GET_WEB_LOGIN_URL,

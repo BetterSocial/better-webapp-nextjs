@@ -11,12 +11,15 @@ import Cookies from "js-cookie";
 import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
 import { useInitChatAnonymousMutation } from "@services/initChatAnonymous/initChatAnonymousHooks";
 import { toast } from 'react-toastify'
+import getConfig from "next/config";
 
 interface PageProps {
     exchangeToken?: string
     isSendMessage?: boolean
     isFailedVerify?: boolean
 }
+
+const { publicRuntimeConfig } = getConfig();
 
 export default function Verification(props: PageProps) {
     const router = useRouter();
@@ -118,7 +121,7 @@ export default function Verification(props: PageProps) {
                         }} onClick={() => getLoginPage()} />
                         <div className="flex flex-col m-3">
                             <text className="text-center font-inter font-semibold">What is humanID?</text>
-                            <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue">Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
+                            <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue" onClick={() => router.push(publicRuntimeConfig.HUMAN_INTERNET_URL)}>Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
                         </div>
                     </div>
                 </div>

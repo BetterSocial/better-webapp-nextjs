@@ -12,10 +12,14 @@ import { RotatingTriangles } from 'react-loader-spinner'
 import { toast } from "react-toastify";
 import { useGetProfile } from "@services/profile/profileHooks";
 import { LoaderWrapper } from "@components/LoaderWrapper";
+import useToastHook from "@hooks/toast/useToastHook"
+import getConfig from "next/config";
 
 interface PageProps {
     username?: string
 }
+
+const {publicRuntimeConfig} = getConfig()
 
 export default function Profile(props: PageProps) {
     const { data, isLoading } = useGetProfile(props.username);
@@ -26,6 +30,31 @@ export default function Profile(props: PageProps) {
             localStorage.setItem(MessageEnum.targetUser, data.user_id);
         }
     }, [data])
+
+    const { copyToClipboardToast } = useToastHook()
+
+    const showDownloadToast = () => toast('Download the BetterSocial app now to create a profile and send non-anonymous messages', {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        theme: "dark",
+        closeButton: false,
+        style: {
+            borderRadius: '8px',
+            width: '270px',
+            margin: 'auto',
+            marginBottom: '60px',
+            textAlign: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.25)'
+        },
+    })
+
+    const onShareButtonClicked = () => {
+        navigator.clipboard.writeText(`${publicRuntimeConfig.DYNAMIC_LINK_DOMAIN}/u/${props.username}`)
+        copyToClipboardToast()
+    }
 
     return (
         <BaseContainer className="bg-black">
@@ -39,7 +68,7 @@ export default function Profile(props: PageProps) {
                     <LoaderWrapper isLoading={isLoading}>
                         <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
                             <div className="flex flex-row gap-4 items-center w-full justify-between">
-                                <div className="flex flex-row gap-3 items-center">
+                                <div className="flex flex-row gap-3 items-center" onClick={() => showDownloadToast()}>
                                     <div>
                                         <Image className="rounded-full" src={data?.profile_pic_path} alt='profile pic' width={40} height={40} />
                                     </div>
@@ -49,10 +78,10 @@ export default function Profile(props: PageProps) {
                                     </div>
                                 </div>
                                 <div className="flex flex-row gap-2 items-center">
-                                    <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center">
+                                    <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center" onClick={() => showDownloadToast()}>
                                         <Image src='/image/Icon_Follow.svg' alt='follow icon' width={15.81} height={20} />
                                     </button>
-                                    <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center">
+                                    <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center" onClick={() => onShareButtonClicked()}>
                                         <Image src='/image/Icon_Share.svg' alt='share icon' width={20} height={20} />
                                     </button>
                                 </div>
@@ -77,23 +106,7 @@ export default function Profile(props: PageProps) {
                                     checked={true}
                                     className="bg-white"
                                     defaultChecked={true}
-                                    onClick={() => toast('Download the BetterSocial app now to create a profile and send non-anonymous messages', {
-                                        position: "bottom-center",
-                                        autoClose: 3000,
-                                        hideProgressBar: true,
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        theme: "dark",
-                                        closeButton: false,
-                                        style: {
-                                            borderRadius: '8px',
-                                            width: '270px',
-                                            margin: 'auto',
-                                            marginBottom: '60px',
-                                            textAlign: 'center',
-                                            backgroundColor: 'rgba(0, 0, 0, 0.25)'
-                                        },
-                                    })}
+                                    onClick={() => showDownloadToast()}
                                     icons={{
                                         checked: <text className="text-xs font-normal text-cyan">On</text>,
                                         unchecked: null,
