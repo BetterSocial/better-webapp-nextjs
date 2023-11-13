@@ -2,8 +2,8 @@ import { BaseContainer } from "@components/Page/BaseContainer";
 import { Helmet } from "react-helmet";
 import React from "react";
 import LayoutContainer from "@components/LayoutContainer";
-import Image from "next/image";
 import api from "@shared/fetcher";
+import apiAnonymous from "@shared/fetcherAnonymous";
 import { useCheckExchangeTokenMutation } from "@services/auth/authHooks";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
@@ -12,6 +12,7 @@ import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
 import { useInitChatAnonymousMutation } from "@services/initChatAnonymous/initChatAnonymousHooks";
 import { toast } from 'react-toastify'
 import getConfig from "next/config";
+import { useGenerateAnonUserInfoMutation } from "@services/generateAnonUserInfo/generateAnonUserInfoHooks";
 
 interface PageProps {
     exchangeToken?: string
@@ -24,6 +25,7 @@ const { publicRuntimeConfig } = getConfig();
 export default function Verification(props: PageProps) {
     const router = useRouter();
     const exchangeToken = useCheckExchangeTokenMutation();
+    const generateAnonUser = useGenerateAnonUserInfoMutation();
     const initChatAnon = useInitChatAnonymousMutation();
     const getLoginPage = () => {
         fetch('/api/getWebLogin').then(async (res) => {
@@ -39,7 +41,7 @@ export default function Verification(props: PageProps) {
     }
 
     React.useEffect(() => {
-        const member = localStorage.getItem(UserEnum.userId);
+        const member = localStorage.getItem(MessageEnum.targetUser);
         const message = localStorage.getItem(MessageEnum.tempMessage);
         if (!!props.exchangeToken && props.isSendMessage && !props.isFailedVerify) {
             toast('Verifying your data', {
@@ -54,21 +56,32 @@ export default function Verification(props: PageProps) {
                         Cookies.set(ITokenEnum.anonymousToken, data?.anonymousToken);
                         Cookies.set(UserEnum.humanId, data?.data.human_id);
                         Cookies.set(UserEnum.userId, data?.data.user_id);
-                        api.defaults.headers.common['Authorization'] = `Bearer ${data.anonymousToken}`;
-                        initChatAnon.mutate({
-                            anon_user_info_color_code: '#000000',
-                            anon_user_info_color_name: 'Anonymous',
-                            anon_user_info_emoji_code: '😀',
-                            anon_user_info_emoji_name: 'Grinning Face',
-                            members: [member],
-                            message: message,
-                        }, {
+                        apiAnonymous.defaults.headers.common['Authorization'] = `Bearer ${data.anonymousToken}`;
+                        generateAnonUser.mutate({ userId: localStorage.getItem(MessageEnum.targetUser) }, {
                             onSuccess: (data) => {
-                                if (data) {
-                                    router.push('/message-sent');
-                                }
-                                localStorage.removeItem(MessageEnum.tempMessage);
-                                localStorage.removeItem(MessageEnum.targetUser);
+                                initChatAnon.mutate({
+                                    anon_user_info_color_code: data.anon_user_info_color_code,
+                                    anon_user_info_color_name: data.anon_user_info_color_name,
+                                    anon_user_info_emoji_code: data.anon_user_info_emoji_code,
+                                    anon_user_info_emoji_name: data.anon_user_info_emoji_name,
+                                    members: [member],
+                                    message: message,
+                                }, {
+                                    onSuccess: (data) => {
+                                        if (data) {
+                                            router.push('/message-sent');
+                                        }
+                                        localStorage.removeItem(MessageEnum.tempMessage);
+                                        localStorage.removeItem(MessageEnum.targetUser);
+                                    },
+                                    onError: (err) => {
+                                        console.error(err)
+                                        toast('Failed to send your message', {
+                                            autoClose: 3000,
+                                            type: 'error',
+                                        })
+                                    }
+                                })
                             },
                             onError: (err) => {
                                 console.error(err)
@@ -106,7 +119,7 @@ export default function Verification(props: PageProps) {
             <LayoutContainer>
                 <div className="h-full flex flex-col justify-between">
                     <div className="flex-1-0-0 relative overflow-hidden rounded-2xl">
-                        <img className="max-h-full w-full absolute object-cover" alt="verification image" src="/image/Verification_Illustration.svg"/>
+                        <img className="max-h-full w-full absolute object-cover" alt="verification image" src="/image/Verification_Illustration.svg" />
                     </div>
                     <div className="pt-4 gap-y-2 flex flex-col h-min">
                         <text className="font-inter font-medium text-2xl text-justify">To send this message, please verify that you’re not a bot.</text>
