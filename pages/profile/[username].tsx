@@ -101,7 +101,7 @@ export default function Profile(props: PageProps) {
                     {data?.allow_anon_dm ? (
                         <>
                             <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
-                                <div contentEditable onInput={(e) => setMessage(e.currentTarget.textContent)} className="bg-transparent min-h-[24px] w-[230px]" placeholder="Send a message..." />
+                                <div contentEditable onInput={(e) => setMessage(e.currentTarget.textContent)} className="bg-transparent min-h-[24px] w-full" placeholder="Send a message..." />
                                 <Toggle
                                     checked={true}
                                     className="bg-white"

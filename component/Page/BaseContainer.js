@@ -8,7 +8,7 @@ import React from "react";
  * @returns {React.ReactNode}
  */
 export function BaseContainer({ children, className = '' }) {
-    return <div className={`flex flex-col content-center sm:w-full items-center justify-center h-screen ${className}`}>
+    return <div className={`flex flex-col content-center sm:w-full items-center justify-center h-[calc(100dvh)] ${className}`}>
         {children}
     </div>
 }
