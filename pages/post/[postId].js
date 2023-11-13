@@ -34,9 +34,13 @@ export async function getServerSideProps(context) {
     }
 
     if (UserAgentUtils.isMobile(userAgent)) {
+        console.log('masuk mobile')
+        
         let redirect = await RedirectUtils.redirectMobileDevice(userAgent, post)
+        console.log(redirect)
         if (redirect && !isDynamicLink) return redirect
     }
+    console.log('gak masuk mana aman')
 
     return {
         props: {
