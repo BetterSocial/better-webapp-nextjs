@@ -125,10 +125,10 @@ export default function Verification(props: PageProps) {
                         <text className="font-inter font-medium text-2xl text-justify">To send this message, please verify that you’re not a bot.</text>
                         <div className="border border-gray06 rounded-lg rounded-t-xl flex flex-col">
                             <button className="shadow-3xl" style={{
+                                margin: '-1px',
                                 backgroundImage: `url('/image/humanID_bg_button.svg')`,
                                 backgroundSize: 'cover',
                                 backgroundRepeat: 'no-repeat',
-                                width: '100%',
                                 height: '45px',
                                 borderRadius: '8px'
                             }} onClick={() => getLoginPage()} />

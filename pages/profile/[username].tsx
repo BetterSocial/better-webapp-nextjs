@@ -117,7 +117,7 @@ export default function Profile(props: PageProps) {
                                 localStorage.setItem(MessageEnum.tempMessage, message);
                                 router.push('/verification')
                             }}>
-                                <Image className="rounded-full" src='/image/planePaper.svg' alt="icon send" width={17} height={14} />
+                                <Image src='/image/planePaper.svg' alt="icon send" width={17} height={14} />
                             </button>
                         </>
                     ) : (
