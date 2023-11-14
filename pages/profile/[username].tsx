@@ -59,7 +59,7 @@ export default function Profile(props: PageProps) {
     return (
         <BaseContainer className="bg-black">
             <Helmet>
-                <title>{`${data?.profile_pic_path || ''}'s profile`}</title>
+                <title>{`${data?.username || ''}'s profile`}</title>
             </Helmet>
             <LayoutContainer backgroundImage="/image/background-profile.svg">
                 <Header />
@@ -96,7 +96,7 @@ export default function Profile(props: PageProps) {
                     </LoaderWrapper>
                 </div>
                 {/* Input Message */}
-                {!isLoading && <div className={data?.allow_anon_dm ? "w-full p-2 bg-white fixed bottom-0 flex flex-row gap-[6px]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg"}>
+                {!isLoading && <div className={data?.allow_anon_dm ? "w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed bottom-0 flex flex-row gap-[6px]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg"}>
                     <Image className="rounded-full h-fit pt-1" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                     {data?.allow_anon_dm ? (
                         <>
