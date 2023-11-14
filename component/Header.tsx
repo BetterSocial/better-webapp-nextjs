@@ -6,10 +6,8 @@ import React from 'react'
 const { publicRuntimeConfig } = getConfig()
 
 const Header = () => {
-    const router = useRouter()
-
-    const toDownloadLink = () => router.push(publicRuntimeConfig.DOWNLOAD_BETTERSOCIAL_APP_URL)
-
+    const toDownloadLink = () => window.open(publicRuntimeConfig.DOWNLOAD_BETTERSOCIAL_APP_URL, '_blank')
+    
     return (
         <div className="flex w-full justify-between items-center min-h-[45px]">
             <Image onClick={() => toDownloadLink()} alt="logo bettersocial" src="/image/LogoBrand.svg" width={107} height={28} />
