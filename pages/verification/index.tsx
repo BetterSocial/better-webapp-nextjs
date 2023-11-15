@@ -119,16 +119,17 @@ export default function Verification(props: PageProps) {
             <LayoutContainer>
                 <div className="h-full flex flex-col justify-between">
                     <div className="flex-1-0-0 relative overflow-hidden rounded-2xl">
-                        <img className="max-h-full w-full absolute object-cover" alt="verification image" src="/image/Verification_Illustration.svg" />
+                        <img className="h-full w-full absolute object-cover" alt="verification image" src="/image/Verification_Illustration.svg" />
                     </div>
                     <div className="pt-4 gap-y-2 flex flex-col h-min">
                         <text className="font-inter font-medium text-2xl text-justify">To send this message, please verify that you’re not a bot.</text>
                         <div className="border border-gray06 rounded-lg rounded-t-xl flex flex-col">
-                            <button className="shadow-3xl" style={{
+                            <button className="shadow-3xl bg-humanId_blue" style={{
                                 margin: '-1px',
                                 backgroundImage: `url('/image/humanID_bg_button.svg')`,
-                                backgroundSize: 'cover',
+                                backgroundSize: 'contain',
                                 backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center',
                                 height: '45px',
                                 borderRadius: '8px'
                             }} onClick={() => getLoginPage()} />

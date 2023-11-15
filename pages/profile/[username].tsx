@@ -1,14 +1,13 @@
 import { BaseContainer } from "@components/Page/BaseContainer";
 import { Helmet } from "react-helmet";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LayoutContainer from "@components/LayoutContainer";
 import Image from "next/image";
 import { Header } from "@components/Header";
 import Toggle from 'react-toggle'
 import { useRouter } from "next/router";
-import { ITokenEnum, MessageEnum } from "@shared/enum";
+import {  MessageEnum } from "@shared/enum";
 import { GetServerSidePropsContext } from "next";
-import { RotatingTriangles } from 'react-loader-spinner'
 import { toast } from "react-toastify";
 import { useGetProfile } from "@services/profile/profileHooks";
 import { LoaderWrapper } from "@components/LoaderWrapper";
@@ -19,7 +18,7 @@ interface PageProps {
     username?: string
 }
 
-const {publicRuntimeConfig} = getConfig()
+const { publicRuntimeConfig } = getConfig()
 
 export default function Profile(props: PageProps) {
     const { data, isLoading } = useGetProfile(props.username);
@@ -30,6 +29,22 @@ export default function Profile(props: PageProps) {
             localStorage.setItem(MessageEnum.targetUser, data.user_id);
         }
     }, [data])
+
+    const textAreaRef = useRef<HTMLTextAreaElement>(null)
+
+    useEffect(() => {
+        adjustTextareaHeight();
+    }, [message]);
+
+    const adjustTextareaHeight = () => {
+        if (textAreaRef.current) {
+            const lineHeight = parseFloat(getComputedStyle(textAreaRef.current).lineHeight);
+            textAreaRef.current.style.height = `${lineHeight}px`;
+            const lines = Math.floor(textAreaRef.current.scrollHeight / lineHeight);
+            const numLines = lines <= 3 ? lines : 3;
+            textAreaRef.current.style.height = `${numLines * lineHeight}px`;
+        }
+    };
 
     const { copyToClipboardToast } = useToastHook()
 
@@ -101,7 +116,11 @@ export default function Profile(props: PageProps) {
                     {data?.allow_anon_dm ? (
                         <>
                             <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
-                                <div contentEditable onInput={(e) => setMessage(e.currentTarget.textContent)} className="bg-transparent min-h-[24px] w-full" placeholder="Send a message..." />
+                                <textarea ref={textAreaRef} rows={1} onChange={(e) => {
+                                    setMessage(e.target.value)
+                                }} className="bg-transparent min-h-[24px] w-full"
+                                    style={{ resize: 'none' }}
+                                    placeholder="Send a message..." />
                                 <Toggle
                                     checked={true}
                                     className="bg-white"

@@ -17,7 +17,7 @@ export default function MessageSent() {
         <LayoutContainer>
             <div className="h-full flex flex-col justify-between">
                 <div className="flex-1-0-0 relative overflow-hidden rounded-2xl">
-                    <img className="max-h-full w-full absolute object-cover" alt="verification image" src="/image/DynamicSuccessIllustration.svg" />
+                    <img className="h-full w-full absolute object-cover" alt="verification image" src="/image/DynamicSuccessIllustration.svg" />
                 </div>
                 <div className="pt-4 gap-y-2 flex flex-col h-min">
                     <text className="font-inter font-medium text-2xl">Your anonymous message has been sent!</text>
