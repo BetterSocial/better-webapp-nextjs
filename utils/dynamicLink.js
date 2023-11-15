@@ -14,8 +14,26 @@ const generateLongDynamicLink = async (redirectDesktopLink, redirectAndroidLink 
     if (redirectIosLink === null) redirectIosLink = redirectDesktopLink
 
     const longDynamicLink = `${FIREBASE_DYNAMIC_LINK_URL}?&apn=${FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE}&afl=${redirectAndroidLink}&isi=${BETTER_APP_STORE_ID}&ibi=${FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE}&ifl=${redirectIosLink}&efr=1&ofl=${redirectDesktopLink}`
+
     const { shortLink } = await firebaseDynamicLinks.createLink({
-        longDynamicLink
+        dynamicLinkInfo: {
+            domainUriPrefix: `${FIREBASE_DYNAMIC_LINK_URL}`,
+            link: longDynamicLink,
+            androidInfo: {
+                androidPackageName: FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE,
+                androidFallbackLink: redirectAndroidLink
+            },
+            iosInfo: {
+                iosBundleId: FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE,
+                iosFallbackLink: redirectIosLink
+            },
+            navigationInfo: {
+                enableForcedRedirect: true,
+            }
+        },
+        suffix: {
+            option: 'SHORT'
+        }
     })
 
     return shortLink
