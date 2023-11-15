@@ -6,9 +6,8 @@ import Image from "next/image";
 import { Header } from "@components/Header";
 import Toggle from 'react-toggle'
 import { useRouter } from "next/router";
-import { ITokenEnum, MessageEnum } from "@shared/enum";
+import {  MessageEnum } from "@shared/enum";
 import { GetServerSidePropsContext } from "next";
-import { RotatingTriangles } from 'react-loader-spinner'
 import { toast } from "react-toastify";
 import { useGetProfile } from "@services/profile/profileHooks";
 import { LoaderWrapper } from "@components/LoaderWrapper";
