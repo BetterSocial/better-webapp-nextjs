@@ -15,8 +15,6 @@ const generateLongDynamicLink = async (redirectDesktopLink, redirectAndroidLink 
 
     const longDynamicLink = `${FIREBASE_DYNAMIC_LINK_URL}?&apn=${FIREBASE_DYNAMIC_LINK_ANDROID_APP_PACKAGE}&afl=${redirectAndroidLink}&isi=${BETTER_APP_STORE_ID}&ibi=${FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE}&ifl=${redirectIosLink}&efr=1&ofl=${redirectDesktopLink}&d=1`
 
-    console.log(longDynamicLink)
-
     const { shortLink } = await firebaseDynamicLinks.createLink({
         dynamicLinkInfo: {
             domainUriPrefix: `${FIREBASE_DYNAMIC_LINK_URL}`,

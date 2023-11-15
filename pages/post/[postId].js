@@ -22,25 +22,19 @@ export async function getServerSideProps(context) {
     let post = await GetstreamSingleton.getInstance().getPostById(originalPostId)
 
     if (!PostUtil.isPostPublic(post)) {
-        console.log('masuk private')
         let redirect = await RedirectUtils.redirectPrivatePost(userAgent, post)
         if (redirect) return redirect
     }
 
     if (DateUtils.isPostExpired(post)) {
-        console.log('masuk expired')
         let redirect = await RedirectUtils.redirectExpiredPost(userAgent)
         if (redirect) return redirect
     }
 
-    if (UserAgentUtils.isMobile(userAgent)) {
-        console.log('masuk mobile')
-        
+    if (UserAgentUtils.isMobile(userAgent)) {        
         let redirect = await RedirectUtils.redirectMobileDevice(userAgent, post)
-        console.log(redirect)
         if (redirect && !isDynamicLink) return redirect
     }
-    console.log('gak masuk mana aman')
 
     return {
         props: {
@@ -59,6 +53,7 @@ export default function Post({ post, isDynamicLink }) {
     const router = useRouter()
     useEffect(() => {
         if (isDynamicLink) router.push(`/post/${post.id}`, undefined, { shallow: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDynamicLink])
 
 
