@@ -26,6 +26,9 @@ const generateLongDynamicLink = async (redirectDesktopLink, redirectAndroidLink 
             iosInfo: {
                 iosBundleId: FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE,
                 iosFallbackLink: redirectIosLink
+            },
+            navigationInfo: {
+                enableForcedRedirect: true,
             }
         },
         suffix: {
