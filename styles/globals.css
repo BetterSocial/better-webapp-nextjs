@@ -181,6 +181,6 @@ a {
   box-shadow: 0px 0px 5px 5px #0099E0;
 }
 
-[contenteditable] {
+textarea:focus {
   outline: 0px solid transparent;
 }
