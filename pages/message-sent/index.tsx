@@ -19,7 +19,7 @@ export default function MessageSent() {
                 <div className="flex-1-0-0 relative overflow-hidden rounded-2xl">
                     <img className="h-full w-full absolute object-cover" alt="verification image" src="/image/DynamicSuccessIllustration.svg" />
                 </div>
-                <div className="pt-4 gap-y-2 flex flex-col h-min">
+                <div className="pt-4 gap-y-4 flex flex-col h-min">
                     <text className="font-inter font-medium text-2xl">Your anonymous message has been sent!</text>
                     <div className="rounded-lg rounded-t-xl flex flex-col">
                         <div className="flex flex-col text-base font-inter gap-4 mb-4">

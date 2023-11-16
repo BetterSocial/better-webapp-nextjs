@@ -29,7 +29,7 @@ export default function Verification(props: PageProps) {
     const initChatAnon = useInitChatAnonymousMutation();
     const getLoginPage = () => {
         fetch('/api/getWebLogin').then(async (res) => {
-            toast('Redirecting to humanID login page', {
+            toast('Sending you to humanID for verification', {
                 autoClose: false,
                 type: 'info',
             })
@@ -44,7 +44,7 @@ export default function Verification(props: PageProps) {
         const member = localStorage.getItem(MessageEnum.targetUser);
         const message = localStorage.getItem(MessageEnum.tempMessage);
         if (!!props.exchangeToken && props.isSendMessage && !props.isFailedVerify) {
-            toast('Verifying your data', {
+            toast('Receiving anonymous identifier from humanID', {
                 autoClose: 3000,
                 type: 'info',
             })
@@ -76,7 +76,7 @@ export default function Verification(props: PageProps) {
                                     },
                                     onError: (err) => {
                                         console.error(err)
-                                        toast('Failed to send your message', {
+                                        toast('We failed to send your message', {
                                             autoClose: 3000,
                                             type: 'error',
                                         })
@@ -85,7 +85,7 @@ export default function Verification(props: PageProps) {
                             },
                             onError: (err) => {
                                 console.error(err)
-                                toast('Failed to send your message', {
+                                toast('We failed to send your message', {
                                     autoClose: 3000,
                                     type: 'error',
                                 })
@@ -95,7 +95,7 @@ export default function Verification(props: PageProps) {
                 },
                 onError: (err) => {
                     console.error(err)
-                    toast('Failed to verify your data', {
+                    toast('humanID verification failed, please try again', {
                         autoClose: 3000,
                         type: 'error',
                     })
@@ -103,7 +103,7 @@ export default function Verification(props: PageProps) {
             })
         }
         if (props.isFailedVerify) {
-            toast('Failed to verify humanID', {
+            toast('humanID verification failed, please try again', {
                 autoClose: 3000,
                 type: 'error',
             })
@@ -121,7 +121,7 @@ export default function Verification(props: PageProps) {
                     <div className="flex-1-0-0 relative overflow-hidden rounded-2xl">
                         <img className="h-full w-full absolute object-cover" alt="verification image" src="/image/Verification_Illustration.svg" />
                     </div>
-                    <div className="pt-4 gap-y-2 flex flex-col h-min">
+                    <div className="pt-4 gap-y-4 flex flex-col h-min">
                         <text className="font-inter font-medium text-2xl text-justify">To send this message, please verify that you’re not a bot.</text>
                         <div className="border border-gray06 rounded-lg rounded-t-xl flex flex-col">
                             <button className="shadow-3xl bg-humanId_blue" style={{
