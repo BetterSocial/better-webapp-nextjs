@@ -78,7 +78,7 @@ export default function Profile(props: PageProps) {
             </Helmet>
             <LayoutContainer backgroundImage="/image/background-profile.svg">
                 <Header />
-                <div className="flex flex-1-0-0 w-full justify-center items-center">
+                <div className="flex flex-1-0-0 w-full justify-center items-center z-50">
                     {/* Card Header */}
                     <LoaderWrapper isLoading={isLoading}>
                         <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
@@ -111,11 +111,11 @@ export default function Profile(props: PageProps) {
                     </LoaderWrapper>
                 </div>
                 {/* Input Message */}
-                {!isLoading && <div className={data?.allow_anon_dm ? "w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed bottom-0 flex flex-row gap-[6px]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg"}>
-                    <Image className="rounded-full h-fit pt-1" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
+                {!isLoading && <div className={data?.allow_anon_dm ? "w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed bottom-0 flex flex-row gap-[6px] z-[9999]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg z-[9999]"}>
+                    <Image className="rounded-full" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                     {data?.allow_anon_dm ? (
                         <>
-                            <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
+                            <div className="flex flex-grow items-ce bg-gray05 rounded-xl py-1 px-2">
                                 <textarea ref={textAreaRef} rows={1} onChange={(e) => {
                                     setMessage(e.target.value)
                                 }} className="bg-transparent min-h-[24px] w-full"
@@ -127,7 +127,7 @@ export default function Profile(props: PageProps) {
                                     defaultChecked={true}
                                     onClick={() => showDownloadToast()}
                                     icons={{
-                                        checked: <text className="text-xs font-normal text-cyan">On</text>,
+                                        checked: <text className="text-xs font-normal text-cyan leading-[18px]">On</text>,
                                         unchecked: null,
                                     }}
                                 />
@@ -136,7 +136,7 @@ export default function Profile(props: PageProps) {
                                 localStorage.setItem(MessageEnum.tempMessage, message);
                                 router.push('/verification')
                             }}>
-                                <Image src='/image/planePaper.svg' alt="icon send" width={17} height={14} />
+                                <Image src='/image/sendMessageicon.svg' alt="icon send" width={32} height={32} />
                             </button>
                         </>
                     ) : (
