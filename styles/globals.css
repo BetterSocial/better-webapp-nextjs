@@ -182,3 +182,7 @@ a {
 textarea:focus {
   outline: 0px solid transparent;
 }
+
+:root {
+  --toastify-color-info: #4782D7 !important;
+}

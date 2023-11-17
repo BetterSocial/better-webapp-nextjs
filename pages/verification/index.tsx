@@ -1,6 +1,6 @@
 import { BaseContainer } from "@components/Page/BaseContainer";
 import { Helmet } from "react-helmet";
-import React from "react";
+import React, { useState } from "react";
 import LayoutContainer from "@components/LayoutContainer";
 import api from "@shared/fetcher";
 import apiAnonymous from "@shared/fetcherAnonymous";
@@ -13,6 +13,7 @@ import { useInitChatAnonymousMutation } from "@services/initChatAnonymous/initCh
 import { toast } from 'react-toastify'
 import getConfig from "next/config";
 import { useGenerateAnonUserInfoMutation } from "@services/generateAnonUserInfo/generateAnonUserInfoHooks";
+import { LoaderWrapper } from "@components/LoaderWrapper";
 
 interface PageProps {
     exchangeToken?: string
@@ -27,6 +28,7 @@ export default function Verification(props: PageProps) {
     const exchangeToken = useCheckExchangeTokenMutation();
     const generateAnonUser = useGenerateAnonUserInfoMutation();
     const initChatAnon = useInitChatAnonymousMutation();
+    const [isLoading, setIsLoading] = useState(props.exchangeToken ? true : false)
     const getLoginPage = () => {
         fetch('/api/getWebLogin').then(async (res) => {
             toast('Sending you to humanID for verification', {
@@ -47,6 +49,9 @@ export default function Verification(props: PageProps) {
             toast('Receiving anonymous identifier from humanID', {
                 autoClose: 3000,
                 type: 'info',
+                progressStyle: {
+                    background: '#4782D7'
+                },
             })
             exchangeToken.mutate({ exchangeToken: props.exchangeToken }, {
                 onSuccess: (data) => {
@@ -69,12 +74,14 @@ export default function Verification(props: PageProps) {
                                 }, {
                                     onSuccess: (data) => {
                                         if (data) {
+                                            setIsLoading(false);
                                             router.push('/message-sent');
                                         }
                                         localStorage.removeItem(MessageEnum.tempMessage);
                                         localStorage.removeItem(MessageEnum.targetUser);
                                     },
                                     onError: (err) => {
+                                        setIsLoading(false);
                                         console.error(err)
                                         toast('We failed to send your message', {
                                             autoClose: 3000,
@@ -84,6 +91,7 @@ export default function Verification(props: PageProps) {
                                 })
                             },
                             onError: (err) => {
+                                setIsLoading(false);
                                 console.error(err)
                                 toast('We failed to send your message', {
                                     autoClose: 3000,
@@ -94,6 +102,7 @@ export default function Verification(props: PageProps) {
                     }
                 },
                 onError: (err) => {
+                    setIsLoading(false);
                     console.error(err)
                     toast('humanID verification failed, please try again', {
                         autoClose: 3000,
@@ -118,27 +127,29 @@ export default function Verification(props: PageProps) {
             </Helmet>
             <LayoutContainer>
                 <div className="h-full flex flex-col justify-between">
-                    <div className="flex-1-0-0 relative overflow-hidden rounded-2xl">
-                        <img className="h-full w-full absolute object-cover" alt="verification image" src="/image/Verification_Illustration.svg" />
-                    </div>
-                    <div className="pt-4 gap-y-4 flex flex-col h-min">
-                        <text className="font-inter font-medium text-2xl text-justify">To send this message, please verify that you’re not a bot.</text>
-                        <div className="border border-gray06 rounded-lg rounded-t-xl flex flex-col">
-                            <button className="shadow-3xl bg-humanId_blue" style={{
-                                margin: '-1px',
-                                backgroundImage: `url('/image/humanID_bg_button.svg')`,
-                                backgroundSize: 'contain',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'center',
-                                height: '45px',
-                                borderRadius: '8px'
-                            }} onClick={() => getLoginPage()} />
-                            <div className="flex flex-col m-3">
-                                <text className="text-center font-inter font-semibold">What is humanID?</text>
-                                <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue" onClick={() => router.push(publicRuntimeConfig.HUMAN_INTERNET_URL)}>Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
+                    <LoaderWrapper isLoading={isLoading}>
+                        <div className="flex-1-0-0 relative overflow-hidden rounded-2xl">
+                            <img className="h-full w-full absolute object-cover" alt="verification image" src="/image/Verification_Illustration.svg" />
+                        </div>
+                        <div className="pt-4 gap-y-4 flex flex-col h-min">
+                            <text className="font-inter font-medium text-2xl text-justify">To send this message, please verify that you’re not a bot.</text>
+                            <div className="border border-gray06 rounded-lg rounded-t-xl flex flex-col">
+                                <button className="shadow-3xl bg-humanId_blue" style={{
+                                    margin: '-1px',
+                                    backgroundImage: `url('/image/humanID_bg_button.svg')`,
+                                    backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPosition: 'center',
+                                    height: '45px',
+                                    borderRadius: '8px'
+                                }} onClick={() => getLoginPage()} />
+                                <div className="flex flex-col m-3">
+                                    <text className="text-center font-inter font-semibold">What is humanID?</text>
+                                    <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue" onClick={() => router.push(publicRuntimeConfig.HUMAN_INTERNET_URL)}>Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </LoaderWrapper>
                 </div>
             </LayoutContainer>
         </BaseContainer>
