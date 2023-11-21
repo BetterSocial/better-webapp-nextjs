@@ -1,0 +1,29 @@
+<svg width="344" height="369" viewBox="0 0 344 369" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_15895_1795)">
+<rect x="0.5" y="0.621094" width="343" height="368" rx="16" fill="#2C67BC"/>
+<g clip-path="url(#clip1_15895_1795)">
+<rect x="0.5" y="12.6211" width="343" height="343" rx="8" fill="#566789" fill-opacity="0.1"/>
+<rect width="343" height="343" transform="translate(0.5 12.6211)" fill="#2C67BC"/>
+<circle opacity="0.1" cx="172.5" cy="184.121" r="140" fill="white"/>
+<circle opacity="0.15" cx="172.5" cy="184.121" r="87.5" fill="white"/>
+<g opacity="0.8">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M172.5 235.121C200.667 235.121 223.5 212.288 223.5 184.121C223.5 155.955 200.667 133.121 172.5 133.121C144.333 133.121 121.5 155.955 121.5 184.121C121.5 212.288 144.333 235.121 172.5 235.121ZM193.559 185.516C193.559 201.016 172.893 211.349 172.893 211.349C172.893 211.349 152.226 201.016 152.226 185.516V167.432L172.893 159.682L193.559 167.432V185.516Z" fill="white"/>
+</g>
+<circle opacity="0.08" cx="172.5" cy="184.121" r="52.5" fill="white"/>
+<circle opacity="0.2" cx="78.875" cy="195.871" r="6.125" fill="white"/>
+<circle opacity="0.1" cx="45.625" cy="141.621" r="3.5" fill="white"/>
+<circle opacity="0.2" cx="264.812" cy="225.184" r="3.9375" fill="white"/>
+<circle opacity="0.1" cx="267.438" cy="128.934" r="6.5625" fill="white"/>
+<circle opacity="0.2" cx="110.812" cy="83.4336" r="3.9375" fill="white"/>
+<circle opacity="0.1" cx="216.25" cy="98.7461" r="3.5" fill="white"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_15895_1795">
+<rect x="0.5" y="0.621094" width="343" height="368" rx="16" fill="white"/>
+</clipPath>
+<clipPath id="clip1_15895_1795">
+<rect x="0.5" y="12.6211" width="343" height="343" rx="8" fill="white"/>
+</clipPath>
+</defs>
+</svg>
