@@ -73,9 +73,7 @@ export default function Profile(props: PageProps) {
 
     useEffect(() => {
         const handleScroll = () => {
-            // if (window.scrollY > 0) {
                 window.scrollTo(0, 0);
-            // }
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -85,8 +83,6 @@ export default function Profile(props: PageProps) {
         };
     }, []);
 
-    // FILEPATH: /Users/fa-12977/go/src/gitlab.com/bettersocial/better-webapp-nextjs/pages/profile/[username].tsx
-    // BEGIN: be15d9bcejpp
     return (
         <BaseContainer className="bg-black">
             <Helmet>
