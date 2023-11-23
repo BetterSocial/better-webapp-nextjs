@@ -71,6 +71,22 @@ export default function Profile(props: PageProps) {
         copyToClipboardToast()
     }
 
+    useEffect(() => {
+        const handleScroll = () => {
+            // if (window.scrollY > 0) {
+                window.scrollTo(0, 0);
+            // }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    // FILEPATH: /Users/fa-12977/go/src/gitlab.com/bettersocial/better-webapp-nextjs/pages/profile/[username].tsx
+    // BEGIN: be15d9bcejpp
     return (
         <BaseContainer className="bg-black">
             <Helmet>
@@ -115,12 +131,12 @@ export default function Profile(props: PageProps) {
                     <Image className="rounded-full" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                     {data?.allow_anon_dm ? (
                         <>
-                            <div className="flex flex-grow items-ce bg-gray05 rounded-xl py-1 px-2">
+                            <div className="flex flex-grow items-ce bg-gray05 rounded-xl py-1 px-2 items-center">
                                 <textarea ref={textAreaRef} rows={1} onChange={(e) => {
                                     setMessage(e.target.value)
                                 }} className="bg-transparent min-h-[24px] w-full"
                                     style={{ resize: 'none' }}
-                                    placeholder="Send a message..." />
+                                    placeholder="Send me a message 😀" />
                                 <Toggle
                                     checked={true}
                                     className="bg-white"
