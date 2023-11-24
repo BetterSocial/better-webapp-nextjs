@@ -71,6 +71,18 @@ export default function Profile(props: PageProps) {
         copyToClipboardToast()
     }
 
+    useEffect(() => {
+        const handleScroll = () => {
+                window.scrollTo(0, 0);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
         <BaseContainer className="bg-black">
             <Helmet>
@@ -115,12 +127,12 @@ export default function Profile(props: PageProps) {
                     <Image className="rounded-full" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                     {data?.allow_anon_dm ? (
                         <>
-                            <div className="flex flex-grow items-ce bg-gray05 rounded-xl py-1 px-2">
+                            <div className="flex flex-grow items-ce bg-gray05 rounded-xl py-1 px-2 items-center">
                                 <textarea ref={textAreaRef} rows={1} onChange={(e) => {
                                     setMessage(e.target.value)
                                 }} className="bg-transparent min-h-[24px] w-full"
                                     style={{ resize: 'none' }}
-                                    placeholder="Send a message..." />
+                                    placeholder="Send me a message 😀" />
                                 <Toggle
                                     checked={true}
                                     className="bg-white"
