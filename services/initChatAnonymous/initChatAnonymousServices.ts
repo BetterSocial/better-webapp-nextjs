@@ -1,5 +1,5 @@
-import { AxiosResponse } from "axios";
 import apiAnonymous from "@shared/fetcherAnonymous";
+import { AxiosResponse } from "axios";
 
 type User = {
   user_id: string;
@@ -60,7 +60,7 @@ const initChatAnonymous = async (
   payload: InitChatAnonymousPayload
 ): Promise<InitChatAnonymousResponse> => {
   const { data } = await apiAnonymous.post<AxiosResponse<InitChatAnonymousResponse>>(
-    "/api/v1/chat/init-chat-anonymous",
+    "/api/v1/chat/init-chat-anonymous-v2",
     payload
   );
   return data.data;
