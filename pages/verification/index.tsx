@@ -69,7 +69,7 @@ export default function Verification(props: PageProps) {
                                     anon_user_info_color_name: data.anon_user_info_color_name,
                                     anon_user_info_emoji_code: data.anon_user_info_emoji_code,
                                     anon_user_info_emoji_name: data.anon_user_info_emoji_name,
-                                    member: [member],
+                                    member: member,
                                     message: message,
                                 }, {
                                     onSuccess: (data) => {
