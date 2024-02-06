@@ -1,19 +1,19 @@
-import { BaseContainer } from "@components/Page/BaseContainer";
-import { Helmet } from "react-helmet";
-import React, { useState } from "react";
+import Cookies from "js-cookie";
 import LayoutContainer from "@components/LayoutContainer";
 import api from "@shared/fetcher";
 import apiAnonymous from "@shared/fetcherAnonymous";
-import { useCheckExchangeTokenMutation } from "@services/auth/authHooks";
-import { useRouter } from "next/router";
-import { GetServerSidePropsContext } from "next";
-import Cookies from "js-cookie";
-import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
-import { useInitChatAnonymousMutation } from "@services/initChatAnonymous/initChatAnonymousHooks";
-import { toast } from 'react-toastify'
 import getConfig from "next/config";
-import { useGenerateAnonUserInfoMutation } from "@services/generateAnonUserInfo/generateAnonUserInfoHooks";
+import React, { useState } from "react";
+import { BaseContainer } from "@components/Page/BaseContainer";
+import { GetServerSidePropsContext } from "next";
+import { Helmet } from "react-helmet";
+import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
 import { LoaderWrapper } from "@components/LoaderWrapper";
+import { toast } from 'react-toastify'
+import { useCheckExchangeTokenMutation } from "@services/auth/authHooks";
+import { useGenerateAnonUserInfoMutation } from "@services/generateAnonUserInfo/generateAnonUserInfoHooks";
+import { useInitChatAnonymousMutation } from "@services/initChatAnonymous/initChatAnonymousHooks";
+import { useRouter } from "next/router";
 
 interface PageProps {
     exchangeToken?: string
@@ -69,7 +69,7 @@ export default function Verification(props: PageProps) {
                                     anon_user_info_color_name: data.anon_user_info_color_name,
                                     anon_user_info_emoji_code: data.anon_user_info_emoji_code,
                                     anon_user_info_emoji_name: data.anon_user_info_emoji_name,
-                                    members: [member],
+                                    member: [member],
                                     message: message,
                                 }, {
                                     onSuccess: (data) => {
