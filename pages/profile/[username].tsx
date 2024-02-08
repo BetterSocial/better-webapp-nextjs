@@ -97,7 +97,7 @@ export default function Profile(props: PageProps) {
                             <div className="flex flex-row gap-4 items-center w-full justify-between">
                                 <div className="flex flex-row gap-3 items-center" onClick={() => showDownloadToast()}>
                                     <div>
-                                        <Image className="rounded-full" src={data?.profile_pic_path} alt='profile pic' width={40} height={40} />
+                                        <Image className="rounded-full h-10 w-10" src={data?.profile_pic_path} alt='profile pic' width={40} height={40} />
                                     </div>
                                     <div className="flex flex-col">
                                         <text className="font-semibold text-base">{data?.username}</text>
