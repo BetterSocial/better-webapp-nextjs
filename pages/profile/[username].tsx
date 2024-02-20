@@ -48,7 +48,7 @@ export default function Profile(props: PageProps) {
 
     const { copyToClipboardToast } = useToastHook()
 
-    const showDownloadToast = () => toast('Download the BetterSocial app now to create a profile and send non-anonymous messages', {
+    const showDownloadToast = () => toast('Download the BetterSocial app now to create a profile and send incognito messages', {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: true,
@@ -155,7 +155,7 @@ export default function Profile(props: PageProps) {
                         <>
                             <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
                                 <div className="min-h-[24px] w-[230px] text-sm">
-                                    This user does not want to receive an anonymous messages.
+                                This user does not want to receive incognito messages.
                                 </div>
                             </div>
                         </>
