@@ -48,7 +48,7 @@ export default function Profile(props: PageProps) {
 
     const { copyToClipboardToast } = useToastHook()
 
-    const showDownloadToast = () => toast('Download the BetterSocial app now to create a profile and send incognito messages', {
+    const showDownloadToast = () => toast('Download the Helio app now to create a profile and send incognito messages', {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: true,

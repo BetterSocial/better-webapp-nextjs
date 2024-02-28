@@ -46,7 +46,7 @@ export default function Verification(props: PageProps) {
         const member = localStorage.getItem(MessageEnum.targetUser);
         const message = localStorage.getItem(MessageEnum.tempMessage);
         if (!!props.exchangeToken && props.isSendMessage && !props.isFailedVerify) {
-            toast('Receiving anonymous identifier from humanID', {
+            toast('Receiving incognito identifier from humanID', {
                 autoClose: 3000,
                 type: 'info',
                 progressStyle: {
@@ -145,7 +145,7 @@ export default function Verification(props: PageProps) {
                                 }} onClick={() => getLoginPage()} />
                                 <div className="flex flex-col m-3">
                                     <text className="text-center font-inter font-semibold">What is humanID?</text>
-                                    <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue" onClick={() => router.push(publicRuntimeConfig.HUMAN_INTERNET_URL)}>Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with BetterSocial</text>
+                                    <text className="text-center font-normal text-gray06 text-base">Created by the <span className="text-foundationBlue" onClick={() => router.push(publicRuntimeConfig.HUMAN_INTERNET_URL)}>Foundation for a Human Internet</span>, humanID verifies that you’re not a bot without storing your data or sharing it with Helio</text>
                                 </div>
                             </div>
                         </div>

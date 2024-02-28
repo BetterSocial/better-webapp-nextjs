@@ -5,11 +5,13 @@ import UserAgentUtils from 'utils/userAgent'
 import parser from 'ua-parser-js';
 import { BaseContainer } from "component/Page/BaseContainer";
 import { Helmet } from 'react-helmet';
+import getConfig from 'next/config';
 
 export function getServerSideProps(context) {
+  const { publicRuntimeConfig: config } = getConfig();
   const { postId, postPrivateId, postExpired, communityName } = context?.query
   const userAgent = parser(context?.req?.headers['user-agent'])
-  console.log('communityName', communityName)
+
   if(communityName) return {
     redirect: {
       destination: `/community/${communityName}+`,
@@ -53,7 +55,10 @@ export function getServerSideProps(context) {
   }
 
   return {
-    props: {}
+    props: {},
+    redirect: {
+      destination: config.WIX_URL,
+    },
   }
 
 }
@@ -61,7 +66,7 @@ export function getServerSideProps(context) {
 export default function BannerPage({ }) {
   return <BaseContainer>
     <Helmet>
-      <title>Better Social</title>
+      <title>Helio</title>
     </Helmet>
     <div className='flex flex-col justify-center items-center'>
       <BetterSocialIcon />

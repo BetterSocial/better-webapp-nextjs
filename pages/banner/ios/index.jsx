@@ -10,7 +10,7 @@ export default function IOSBanner(props) {
 
     return <>
         <Helmet>
-            <title>Better Social - Download on the App Store</title>
+            <title>Helio - Download on the App Store</title>
         </Helmet>
         <BannerPage bannerImage={bannerImage} />
     </>
