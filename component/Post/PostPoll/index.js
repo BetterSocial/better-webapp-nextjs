@@ -36,6 +36,6 @@ export default function PostPoll({ post }) {
             {/* <p className='text-primaryBlue flex-1 text-end'>See Results</p> */}
         </div>
 
-        <p className='bg-primaryBlue text-sm text-white text-center p-2 px-4 rounded-md mt-4'>Download Better Social Now to vote, comment and create your own posts!</p>
+        <p className='bg-primaryBlue text-sm text-white text-center p-2 px-4 rounded-md mt-4'>Download Helio Now to vote, comment and create your own posts!</p>
     </div>
 }
