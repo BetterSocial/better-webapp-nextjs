@@ -10,7 +10,7 @@ export default function AndroidBanner(props) {
 
     return <>
         <Helmet>
-            <title>Better Social - Get it on Google Play</title>
+            <title>Helio - Get it on Google Play</title>
         </Helmet>
         <BannerPage bannerImage={bannerImage} />
     </>

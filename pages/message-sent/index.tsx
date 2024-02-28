@@ -20,16 +20,16 @@ export default function MessageSent() {
                     <img className="h-full w-full absolute object-cover" alt="verification image" src="/image/DynamicSuccessIllustration.svg" />
                 </div>
                 <div className="pt-4 gap-y-4 flex flex-col h-min">
-                    <text className="font-inter font-medium text-2xl">Your anonymous message has been sent!</text>
+                    <text className="font-inter font-medium text-2xl">Your incognito message has been sent!</text>
                     <div className="rounded-lg rounded-t-xl flex flex-col">
                         <div className="flex flex-col text-base font-inter gap-4 mb-4">
                             <text className="font-inter font-semibold">Get the app to:</text>
                             <text className="font-inter font-normal">💬 See replies to your messages </text>
-                            <text className="font-inter font-normal">🕵️‍♀️ Get your own anonymous messages! </text>
+                            <text className="font-inter font-normal">🕵️‍♀️ Get your own incognito messages! </text>
                             <text className="font-inter font-normal">🔔 See what’s new in your school or community</text>
                         </div>
                         <button onClick={() => router.push(publicRuntimeConfig.DOWNLOAD_BETTERSOCIAL_APP_URL)} className=" w-full bg-cyan hover:bg-cyan10 text-white font-lato flex py-2 px-4 rounded-lg justify-center items-center gap-2 text-justify">
-                            Download BetterSocial Now
+                            Download Helio Now
                         </button>
                     </div>
                 </div>
