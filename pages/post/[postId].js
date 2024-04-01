@@ -31,10 +31,10 @@ export async function getServerSideProps(context) {
         if (redirect) return redirect
     }
 
-    if (UserAgentUtils.isMobile(userAgent)) {        
-        let redirect = await RedirectUtils.redirectMobileDevice(userAgent, post)
-        if (redirect && !isDynamicLink) return redirect
-    }
+    // if (UserAgentUtils.isMobile(userAgent)) {        
+    //     let redirect = await RedirectUtils.redirectMobileDevice(userAgent, post)
+    //     if (redirect && !isDynamicLink) return redirect
+    // }
 
     return {
         props: {
