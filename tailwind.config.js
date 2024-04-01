@@ -38,6 +38,11 @@ module.exports = {
       },
       flex: {
         '1-0-0': '1 0 0%',
+      },
+      screens: {
+        'sm': {
+          max: '430px'
+        }
       }
     },
   },
