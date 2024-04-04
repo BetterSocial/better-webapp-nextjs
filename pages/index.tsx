@@ -14,7 +14,7 @@ export function getServerSideProps(context) {
 
   if(communityName) return {
     redirect: {
-      destination: `/c/${communityName}+`,
+      destination: Constant.Link.bettersocial,
     }
   }
   
