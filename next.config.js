@@ -12,7 +12,7 @@ module.exports = {
     HUMAN_INTERNET_URL:
       process.env.HUMAN_INTERNET_URL || "https://human-internet.org/",
     DYNAMIC_LINK_DOMAIN:
-      process.env.DYNAMIC_LINK_DOMAIN || "https://devme.bettersocial.org",
+      process.env.DYNAMIC_LINK_DOMAIN || "https://dev.helio.social",
     WIX_URL: process.env.WIX_URL || 'https://home.helio.social/'
   },
   serverRuntimeConfig: {

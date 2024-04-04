@@ -2,25 +2,32 @@ import BetterSocialIcon from 'component/Brand/BetterSocialIcon';
 import Constant from 'utils/constant';
 import React from 'react'
 import UserAgentUtils from 'utils/userAgent'
+import getConfig from 'next/config';
 import parser from 'ua-parser-js';
 import { BaseContainer } from "component/Page/BaseContainer";
 import { Helmet } from 'react-helmet';
-import getConfig from 'next/config';
 
 export function getServerSideProps(context) {
   const { publicRuntimeConfig: config } = getConfig();
-  const { postId, postPrivateId, postExpired, communityName } = context?.query
+  const { postId, postPrivateId, postExpired, communityName, username } = context?.query || {}
   const userAgent = parser(context?.req?.headers['user-agent'])
 
   if(communityName) return {
     redirect: {
-      destination: `/community/${communityName}+`,
+      destination: `/c/${communityName}+`,
     }
   }
   
   if (postId) return {
     redirect: {
       destination: `/post/${postId}`,
+    }
+  }
+
+
+  if(username) return {
+    redirect: {
+      destination: `/${username}+`
     }
   }
 

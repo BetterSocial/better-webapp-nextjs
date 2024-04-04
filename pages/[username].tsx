@@ -1,7 +1,10 @@
 import Image from "next/image";
 import LayoutContainer from "@components/LayoutContainer";
+import RedirectUtils from "utils/redirect";
 import Toggle from 'react-toggle'
+import UserAgentUtils from "utils/userAgent";
 import getConfig from "next/config";
+import parser from 'ua-parser-js'
 import useToastHook from "@hooks/toast/useToastHook"
 import React, { useEffect, useRef, useState } from "react";
 import { BaseContainer } from "@components/Page/BaseContainer";
@@ -16,12 +19,14 @@ import { useRouter } from "next/router";
 
 interface PageProps {
     username?: string
+    isDynamicLink?: boolean
 }
 
 const { publicRuntimeConfig } = getConfig()
 
 export default function Profile(props: PageProps) {
-    const { data, isLoading } = useGetProfile(props.username);
+    const {isDynamicLink, username} = props
+    const { data, isLoading } = useGetProfile(username);
     const [message, setMessage] = useState('')
     const router = useRouter();
     useEffect(() => {
@@ -29,6 +34,11 @@ export default function Profile(props: PageProps) {
             localStorage.setItem(MessageEnum.targetUser, data.user_id);
         }
     }, [data])
+
+    useEffect(() => {
+        if (isDynamicLink) router.push(`/${username}`, undefined, { shallow: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isDynamicLink])
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -67,7 +77,7 @@ export default function Profile(props: PageProps) {
     })
 
     const onShareButtonClicked = () => {
-        navigator.clipboard.writeText(`${publicRuntimeConfig.DYNAMIC_LINK_DOMAIN}/${props.username}`)
+        navigator.clipboard.writeText(`${publicRuntimeConfig.DYNAMIC_LINK_DOMAIN}/${username}`)
         copyToClipboardToast()
     }
 
@@ -166,12 +176,23 @@ export default function Profile(props: PageProps) {
     )
 }
 
-export const getServerSideProps = (context: GetServerSidePropsContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
     const { username } = context.query; // Retrieve the URL parameter from context.query
+    let userAgent = parser(context?.req?.headers['user-agent'])
+
+    let isDynamicLink = username?.indexOf('+') > -1
+    let originalUsername = !isDynamicLink ? username : username?.slice(0, username?.length - 2)
+
+    if (UserAgentUtils.isMobile(userAgent)) {        
+        let redirect = await RedirectUtils.redirectUsernameForMobileDevice(userAgent, username)
+        if (redirect && !isDynamicLink) return redirect
+    }
 
     return {
         props: {
-            username,
-        },
-    };
+            username: originalUsername,
+            isDynamicLink
+        }
+    }
+
 };
