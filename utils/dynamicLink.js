@@ -140,7 +140,7 @@ const generateCommunityLink = async (communityName) => {
 
 const generateUsernameLink = async (username) => {
     try {
-        const betterWebAppUrl = `${BETTER_WEB_APP_URL}/?username=${username}`
+        const betterWebAppUrl = `${BETTER_WEB_APP_URL}/?username=${username}+`
         return await generateLongDynamicLink(betterWebAppUrl)
     } catch(e) {
         console.log(e);
