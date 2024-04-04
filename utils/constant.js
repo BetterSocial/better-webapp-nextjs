@@ -35,7 +35,7 @@ const OS = {
 const Link = {
     playstore: 'https://play.google.com/store/apps/details?id=org.bettersocial&utm_campaign=sharedpost&utm_medium=Android',
     appstore: 'https://apps.apple.com/us/app/better-social/id1615684520?utm_campaign=sharedpost&utm_medium=iOS',
-    bettersocial: 'https://bettersocial.org',
+    bettersocial: 'helio.social',
 }
 
 const Constant = {
