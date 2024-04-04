@@ -1,18 +1,18 @@
-import { BaseContainer } from "@components/Page/BaseContainer";
-import { Helmet } from "react-helmet";
-import React, { useEffect, useRef, useState } from "react";
-import LayoutContainer from "@components/LayoutContainer";
 import Image from "next/image";
-import { Header } from "@components/Header";
+import LayoutContainer from "@components/LayoutContainer";
 import Toggle from 'react-toggle'
-import { useRouter } from "next/router";
-import {  MessageEnum } from "@shared/enum";
+import getConfig from "next/config";
+import useToastHook from "@hooks/toast/useToastHook"
+import React, { useEffect, useRef, useState } from "react";
+import { BaseContainer } from "@components/Page/BaseContainer";
 import { GetServerSidePropsContext } from "next";
+import { Header } from "@components/Header";
+import { Helmet } from "react-helmet";
+import { LoaderWrapper } from "@components/LoaderWrapper";
+import { MessageEnum } from "@shared/enum";
 import { toast } from "react-toastify";
 import { useGetProfile } from "@services/profile/profileHooks";
-import { LoaderWrapper } from "@components/LoaderWrapper";
-import useToastHook from "@hooks/toast/useToastHook"
-import getConfig from "next/config";
+import { useRouter } from "next/router";
 
 interface PageProps {
     username?: string
@@ -67,7 +67,7 @@ export default function Profile(props: PageProps) {
     })
 
     const onShareButtonClicked = () => {
-        navigator.clipboard.writeText(`${publicRuntimeConfig.DYNAMIC_LINK_DOMAIN}/u/${props.username}`)
+        navigator.clipboard.writeText(`${publicRuntimeConfig.DYNAMIC_LINK_DOMAIN}/${props.username}`)
         copyToClipboardToast()
     }
 

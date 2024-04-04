@@ -77,7 +77,7 @@ export default function Profile(props: PageProps) {
     })
 
     const onShareButtonClicked = () => {
-        navigator.clipboard.writeText(`${publicRuntimeConfig.DYNAMIC_LINK_DOMAIN}/u/${username}`)
+        navigator.clipboard.writeText(`${publicRuntimeConfig.DYNAMIC_LINK_DOMAIN}/${username}`)
         copyToClipboardToast()
     }
 
