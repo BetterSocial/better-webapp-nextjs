@@ -28,6 +28,10 @@ export default function Profile(props: PageProps) {
     const {isDynamicLink, username} = props
     const { data, isLoading } = useGetProfile(username);
     const [message, setMessage] = useState('')
+
+    const windowRef = useRef(null)
+    const inputMessageContainerRef = useRef(null)
+
     const router = useRouter();
     useEffect(() => {
         if (data) {
@@ -48,11 +52,13 @@ export default function Profile(props: PageProps) {
 
     const adjustTextareaHeight = () => {
         if (textAreaRef.current) {
-            const lineHeight = parseFloat(getComputedStyle(textAreaRef.current).lineHeight);
-            textAreaRef.current.style.height = `${lineHeight}px`;
-            const lines = Math.floor(textAreaRef.current.scrollHeight / lineHeight);
-            const numLines = lines <= 3 ? lines : 3;
-            textAreaRef.current.style.height = `${numLines * lineHeight}px`;
+            
+            const {calculatedLineHeight, lineHeight, numLines} = getTextAreaHeight()
+            textAreaRef.current.style.height = `${calculatedLineHeight}px`;
+
+            if(message?.length > 0) {
+                inputMessageContainerRef.current.style.top = getInputMessageContainerTopPosition() - ((numLines -1) * lineHeight) + 'px'
+            }
         }
     };
 
@@ -81,19 +87,73 @@ export default function Profile(props: PageProps) {
         copyToClipboardToast()
     }
 
+    const getTextAreaHeight = () => {
+        const lineHeight = parseFloat(getComputedStyle(textAreaRef.current).lineHeight);
+        let text = textAreaRef.current.value
+        let linesRegex = text.split(/\r|\r\n|\n/);
+        let count = linesRegex.length;
+        const lines = count
+
+        const numLines = lines <= 3 ? lines : 3;
+        const calculatedLineHeight = numLines * lineHeight
+
+        return {
+            calculatedLineHeight,
+            numLines,
+            lineHeight
+        }
+    }
+
+    const getContainerHeight = () => {
+        return window.visualViewport.height === 0 ? window.innerHeight : window.visualViewport.height
+    }
+
+    const getInputMessageContainerTopPosition = () => {
+        return getContainerHeight() + window.scrollY - 47
+    }
+
+    const calculateMessageInputPosition = () => {
+        const messageInputHeightString = window.visualViewport.height === 0 ? '100dvh' : `${window.visualViewport.height}px`
+        const fixedElementContainer = document.getElementById('fixed-element-container')
+        const inputMessageContainer = document.getElementById('input-message-container')
+
+        inputMessageContainer.style.top = getInputMessageContainerTopPosition() + 'px'
+        
+        fixedElementContainer.style.height = messageInputHeightString
+    }
+
     useEffect(() => {
+        windowRef.current = window
         const handleScroll = () => {
-                window.scrollTo(0, 0);
+            calculateMessageInputPosition()
         };
 
+        const scrollToTop = () => {
+            window.scrollTo(0,0)
+            calculateMessageInputPosition()
+        }
+        
+        const handleVisualViewportResize = () => {
+            calculateMessageInputPosition()
+            adjustTextareaHeight()
+            window.scrollTo(0,0)
+        }
+        
+        calculateMessageInputPosition()
         window.addEventListener('scroll', handleScroll);
+        window.addEventListener('DOMContentLoaded', scrollToTop)
+        window.visualViewport.addEventListener('resize', handleVisualViewportResize)
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('DOMContentLoaded', scrollToTop)
+            window.visualViewport.removeEventListener('resize', handleVisualViewportResize)
         };
     }, []);
 
+
     return (
+        <>
         <BaseContainer className="bg-black">
             <Helmet>
                 <title>{`${data?.username || ''}'s profile`}</title>
@@ -132,8 +192,14 @@ export default function Profile(props: PageProps) {
                         </div>
                     </LoaderWrapper>
                 </div>
-                {/* Input Message */}
-                {!isLoading && <div className={data?.allow_anon_dm ? "w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed bottom-0 flex flex-row gap-[6px] z-[9999]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg z-[9999]"}>
+            </LayoutContainer>
+        </BaseContainer>
+        {/* Input Message */}
+        <div id="fixed-element-container" className="w-full absolute top-0 pb-4" style={{
+            transition: 'all 0.25s ease'
+        }}>
+            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? "w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed flex flex-row gap-[6px] z-[9999]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg z-[9999]"}>
+                {!isLoading && <>
                     <Image className="rounded-full" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                     {data?.allow_anon_dm ? (
                         <>
@@ -170,9 +236,10 @@ export default function Profile(props: PageProps) {
                             </div>
                         </>
                     )}
-                </div>}
-            </LayoutContainer>
-        </BaseContainer>
+                </>}
+            </div>
+        </div>
+    </>
     )
 }
 
