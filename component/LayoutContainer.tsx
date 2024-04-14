@@ -6,7 +6,7 @@ type LayoutContainerProps = {
 }
 const LayoutContainer = ({ children, ...props }: LayoutContainerProps) => {
   return (
-    <div className='flex flex-col items-center h-screen w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M overflow-hidden p-4' style={props.backgroundImage && {
+    <div className='flex flex-col items-center h-dvh w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M overflow-hidden pl-4 pr-4' style={props.backgroundImage && {
       backgroundImage: `url('${props.backgroundImage}')`,
       backgroundSize: 'cover',
       width: '100%',
