@@ -25,7 +25,21 @@ module.exports = {
     {
       source: '/:username*',
       has: [
-        { type: 'host', value: 'helio.social*'}],
+        { type: 'host', value: 'http://www.helio.social*'}],
+      destination: 'https://www.helio.social/:username*',
+      permanent: true
+    },
+    {
+      source: '/:username*',
+      has: [
+        { type: 'host', value: 'http://www.helio.social*'}],
+      destination: 'https://www.helio.social/:username*',
+      permanent: true
+    },
+    {
+      source: '/:username*',
+      has: [
+        { type: 'host', value: 'http://helio.social*'}],
       destination: 'https://www.helio.social/:username*',
       permanent: true
     }
