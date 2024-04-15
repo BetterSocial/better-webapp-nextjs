@@ -22,6 +22,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     const isHttps = (headers["x-forwarded-proto"] as string)?.split(",")[0] === "https";
     const isLocalhost = (headers["host"] as string)?.includes("localhost");
 
+    console.log(headers)
     console.log('isHttps', isHttps, 'isLocalhost', isLocalhost)
 
     if(!isHttps && isLocalhost) {
