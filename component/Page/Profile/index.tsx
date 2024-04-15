@@ -23,6 +23,7 @@ export default function ProfilePage(props: PageProps) {
 
     const windowRef = useRef(null)
     const inputMessageContainerRef = useRef(null)
+    const localStorageHandlerRef = useRef(null)
 
     const router = useRouter();
     useEffect(() => {
@@ -187,6 +188,7 @@ export default function ProfilePage(props: PageProps) {
             </LayoutContainer>
         </BaseContainer>
         {/* Input Message */}
+        <iframe ref={localStorageHandlerRef} height={0} width={0} src={publicRuntimeConfig.LOCAL_STORAGE_HANDLER} />
         <div id="fixed-element-container" className="w-full md:max-w-M lg:max-w-M xl:max-w-M absolute left-1/2 -translate-x-1/2 top-0 pb-4 z-50" style={{
             transition: 'all 0.25s ease'
         }}>
@@ -214,6 +216,10 @@ export default function ProfilePage(props: PageProps) {
                             </div>
                             <button className="rounded-full flex-shrink-0 bg-cyan h-8 w-8 flex items-center justify-center self-center" onClick={() => {
                                 localStorage.setItem(MessageEnum.tempMessage, message);
+                                localStorageHandlerRef.current.contentWindow.postMessage({
+                                    target_user_id: data.user_id,
+                                    message: message
+                                })
                                 router.push('/verification')
                             }}>
                                 <Image src='/image/sendMessageicon.svg' alt="icon send" width={32} height={32} />

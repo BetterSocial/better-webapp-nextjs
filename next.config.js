@@ -13,7 +13,8 @@ module.exports = {
       process.env.HUMAN_INTERNET_URL || "https://human-internet.org/",
     DYNAMIC_LINK_DOMAIN:
       process.env.DYNAMIC_LINK_DOMAIN || "https://dev.helio.social",
-    WIX_URL: process.env.WIX_URL || 'https://home.helio.social/'
+    WIX_URL: process.env.WIX_URL || 'https://home.helio.social/',
+    LOCAL_STORAGE_HANDLER: `${process.env.HUMAN_ID_WEB_APP_REDIRECT_URL}/localstorage-handler` || 'https://www.helio.social/localstorage-handler' 
   },
   serverRuntimeConfig: {
     HUMAN_ID_GET_WEB_LOGIN_URL: process.env.HUMAN_ID_GET_WEB_LOGIN_URL,
