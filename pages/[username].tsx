@@ -57,7 +57,7 @@ export default function Profile(props: PageProps) {
             textAreaRef.current.style.height = `${calculatedLineHeight}px`;
 
             if(message?.length > 0) {
-                inputMessageContainerRef.current.style.top = getInputMessageContainerTopPosition() - ((numLines -1) * lineHeight) + 'px'
+                inputMessageContainerRef.current.style.top = getInputMessageContainerTopPosition() + 'px'
             }
         }
     };
@@ -94,7 +94,7 @@ export default function Profile(props: PageProps) {
         let count = linesRegex.length;
         const lines = count
 
-        const numLines = lines <= 3 ? lines : 3;
+        const numLines = lines <= 2 ? lines : 2;
         const calculatedLineHeight = numLines * lineHeight
 
         return {
@@ -109,7 +109,7 @@ export default function Profile(props: PageProps) {
     }
 
     const getInputMessageContainerTopPosition = () => {
-        return getContainerHeight() + window.scrollY - 47
+        return getContainerHeight() + window.scrollY - 47 - 24
     }
 
     const calculateMessageInputPosition = () => {
@@ -195,18 +195,18 @@ export default function Profile(props: PageProps) {
             </LayoutContainer>
         </BaseContainer>
         {/* Input Message */}
-        <div id="fixed-element-container" className="w-full absolute top-0 pb-4" style={{
+        <div id="fixed-element-container" className="w-full md:max-w-M lg:max-w-M xl:max-w-M absolute left-1/2 -translate-x-1/2 top-0 pb-4 z-50" style={{
             transition: 'all 0.25s ease'
         }}>
-            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? "w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed flex flex-row gap-[6px] z-[9999]" : "max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 flex flex-row gap-[6px] rounded-lg z-[9999]"}>
+            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? `w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed flex flex-row gap-[6px] z-[9999]` : `max-w-[375px] p-2 mb-4 ${isLoading ? 'bg-transparent' : 'bg-gray05'} fixed bottom-0 left-12 right-12 flex flex-row gap-[6px] rounded-lg z-[9999]`}>
                 {!isLoading && <>
-                    <Image className="rounded-full" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                     {data?.allow_anon_dm ? (
                         <>
+                            <Image className="rounded-full" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                             <div className="flex flex-grow items-ce bg-gray05 rounded-xl py-1 px-2 items-center">
-                                <textarea ref={textAreaRef} rows={1} onChange={(e) => {
+                                <textarea ref={textAreaRef} rows={2} onChange={(e) => {
                                     setMessage(e.target.value)
-                                }} className="bg-transparent min-h-[24px] w-full"
+                                }} className="bg-transparent min-h-[48px] w-full resize align-top"
                                     style={{ resize: 'none' }}
                                     placeholder="Send me a message 😀" />
                                 <Toggle
@@ -220,7 +220,7 @@ export default function Profile(props: PageProps) {
                                     }}
                                 />
                             </div>
-                            <button className="rounded-full flex-shrink-0 bg-cyan h-8 w-8 flex items-center justify-center" onClick={() => {
+                            <button className="rounded-full flex-shrink-0 bg-cyan h-8 w-8 flex items-center justify-center self-center" onClick={() => {
                                 localStorage.setItem(MessageEnum.tempMessage, message);
                                 router.push('/verification')
                             }}>
@@ -229,8 +229,8 @@ export default function Profile(props: PageProps) {
                         </>
                     ) : (
                         <>
-                            <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2">
-                                <div className="min-h-[24px] w-[230px] text-sm">
+                            <div className="flex flex-grow bg-gray05 rounded-xl py-1 px-2 justify-center">
+                                <div className="min-h-[24px] w-[230px] text-sm text-center">
                                 This user does not want to receive incognito messages.
                                 </div>
                             </div>
@@ -250,10 +250,10 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     let isDynamicLink = username?.indexOf('+') > -1
     let originalUsername = !isDynamicLink ? username : username?.slice(0, username?.length - 2)
 
-    if (UserAgentUtils.isMobile(userAgent)) {        
-        let redirect = await RedirectUtils.redirectUsernameForMobileDevice(userAgent, username)
-        if (redirect && !isDynamicLink) return redirect
-    }
+    // if (UserAgentUtils.isMobile(userAgent)) {        
+    //     let redirect = await RedirectUtils.redirectUsernameForMobileDevice(userAgent, username)
+    //     if (redirect && !isDynamicLink) return redirect
+    // }
 
     return {
         props: {
