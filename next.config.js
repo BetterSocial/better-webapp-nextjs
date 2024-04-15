@@ -21,6 +21,14 @@ module.exports = {
     HUMAN_ID_CLIENT_ID: process.env.HUMAN_ID_CLIENT_ID,
     HUMAN_ID_CLIENT_SECRET: process.env.HUMAN_ID_CLIENT_SECRET,
   },
+  redirects: async () => [
+    {
+      source: '/:path',
+      has: [{ type: 'host', value: 'helio.social'}],
+      destination: 'https://www.helio.social/:path*',
+      permanent: true
+    }
+  ]
   // webpackDevMiddleware: config => {
   //   config.watchOptions = {
   //     poll: 1000,
