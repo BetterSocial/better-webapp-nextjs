@@ -4,6 +4,7 @@ import RedirectUtils from "utils/redirect";
 import UserAgentUtils from "utils/userAgent";
 import parser from 'ua-parser-js'
 import { GetServerSidePropsContext } from "next";
+import { redirect } from "next/dist/server/api-utils";
 
 export interface PageProps {
     username?: string
@@ -16,6 +17,19 @@ export default function Profile(props: PageProps) {
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
     const { username } = context.query; // Retrieve the URL parameter from context.query
+    const headers = context.req.headers;
+
+    const isHttps = (headers["x-forwarded-proto"] as string)?.split(",")[0] === "https";
+    const isLocalhost = (headers["host"] as string)?.includes("localhost");
+
+    if(!isHttps && !isLocalhost) {
+        return {
+            redirect: {
+                destination: `https://${headers.host}/${username}`
+            }
+        }
+    }
+    
     let userAgent = parser(context?.req?.headers['user-agent'])
 
     let isDynamicLink = username?.indexOf('+') > -1
