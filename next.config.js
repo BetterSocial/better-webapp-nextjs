@@ -23,9 +23,10 @@ module.exports = {
   },
   redirects: async () => [
     {
-      source: '/:path',
-      has: [{ type: 'host', value: 'http://helio.social'}, { type: 'host', value: 'http://www.helio.social'}, { type: 'host', value: 'www.helio.social'}, { type: 'host', value: 'helio.social'}],
-      destination: 'https://www.helio.social/:path*',
+      source: '/:username*',
+      has: [
+        { type: 'host', value: 'helio.social*'}],
+      destination: 'https://www.helio.social/:username*',
       permanent: true
     }
   ]
