@@ -19,7 +19,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     const { username } = context.query; // Retrieve the URL parameter from context.query
     const headers = context.req.headers;
 
-    const isHttps = (headers["x-forwarded-proto"] as string)?.split(",")[0] === "https";
+    const isHttps = headers["x-forwarded-port"] as string === '443';
     const isLocalhost = (headers["host"] as string)?.includes("localhost");
 
     console.log(headers)
