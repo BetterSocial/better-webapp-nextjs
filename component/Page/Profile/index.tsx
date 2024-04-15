@@ -220,7 +220,8 @@ export default function ProfilePage(props: PageProps) {
                                     target_user_id: data.user_id,
                                     message: message
                                 })
-                                router.push('/verification')
+                                if(process.env.NODE_ENV === 'production') return router.push(`${publicRuntimeConfig.HELIO_SECURE_URL}/verification?target_user_id=${data?.user_id}&message=${message}`)
+                                else return router.push(`/verification?target_user_id=${data?.user_id}&message=${message}`)
                             }}>
                                 <Image src='/image/sendMessageicon.svg' alt="icon send" width={32} height={32} />
                             </button>

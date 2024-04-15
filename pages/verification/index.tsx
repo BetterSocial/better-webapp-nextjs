@@ -19,6 +19,8 @@ interface PageProps {
     exchangeToken?: string
     isSendMessage?: boolean
     isFailedVerify?: boolean
+    targetUserId?: string
+    message?: string
 }
 
 const { publicRuntimeConfig } = getConfig();
@@ -43,6 +45,9 @@ export default function Verification(props: PageProps) {
     }
 
     React.useEffect(() => {
+        if(props?.message) localStorage.setItem(MessageEnum.tempMessage, props?.message)
+        if(props?.targetUserId) localStorage.setItem(MessageEnum.targetUser, props?.targetUserId)
+            
         const member = localStorage.getItem(MessageEnum.targetUser);
         const message = localStorage.getItem(MessageEnum.tempMessage);
         console.log('member', member, 'message', message)
@@ -165,6 +170,8 @@ export const getServerSideProps = (context: GetServerSidePropsContext) => {
             exchangeToken: query['sent_message?et'] || '',
             isSendMessage: !!query['sent_message?et'] || false,
             isFailedVerify: query['login_failed'] === '' || false,
+            targetUserId: query['target_user_id'] || null,
+            message: query['message'] || null
         },
     };
 };
