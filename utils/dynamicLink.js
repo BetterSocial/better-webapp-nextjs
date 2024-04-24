@@ -23,7 +23,8 @@ const generateLongDynamicLink = async (redirectDesktopLink, redirectAndroidLink 
             },
             iosInfo: {
                 iosBundleId: FIREBASE_DYNAMIC_LINK_IOS_APP_PACKAGE,
-                iosFallbackLink: redirectIosLink
+                iosFallbackLink: redirectIosLink,
+                iosAppStoreId: BETTER_APP_STORE_ID
             },
             navigationInfo: {
                 enableForcedRedirect: true,
