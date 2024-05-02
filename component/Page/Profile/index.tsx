@@ -192,7 +192,7 @@ export default function ProfilePage(props: PageProps) {
         <div id="fixed-element-container" className="w-full md:max-w-M lg:max-w-M xl:max-w-M absolute left-1/2 -translate-x-1/2 top-0 pb-4 z-50" style={{
             transition: 'all 0.25s ease'
         }}>
-            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? `w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed flex flex-row gap-[6px] z-[9999]` : `max-w-[375px] p-2 mb-4 ${isLoading ? 'bg-transparent' : 'bg-gray05'} fixed bottom-0 left-12 right-12 flex flex-row gap-[6px] rounded-lg z-[9999]`}>
+            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? `w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 px-4 fixed flex flex-row gap-[6px] z-[9999]` : `max-w-[375px] p-2 mb-4 ${isLoading ? 'bg-transparent' : 'bg-gray05'} fixed bottom-0 left-12 right-12 flex flex-row gap-[6px] rounded-lg z-[9999]`}>
                 {!isLoading && <>
                     {data?.allow_anon_dm ? (
                         <>
