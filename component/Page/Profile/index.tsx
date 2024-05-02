@@ -152,8 +152,8 @@ export default function ProfilePage(props: PageProps) {
                 <title>{`${data?.username || ''}'s profile`}</title>
             </Helmet>
             <LayoutContainer backgroundImage="/image/background-profile.svg">
-                <Header />
-                <div className="flex flex-1-0-0 w-full justify-center items-center z-50">
+                <Header fixedPosition={false}/>
+                <div className="flex flex-1-0-0 w-full justify-center z-50">
                     {/* Card Header */}
                     <LoaderWrapper isLoading={isLoading}>
                         <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
