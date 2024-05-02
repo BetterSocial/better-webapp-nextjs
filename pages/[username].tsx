@@ -35,10 +35,10 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     let isDynamicLink = username?.indexOf('+') > -1
     let originalUsername = !isDynamicLink ? username : username?.slice(0, username?.length - 2)
 
-    // if (UserAgentUtils.isMobile(userAgent)) {        
-    //     let redirect = await RedirectUtils.redirectUsernameForMobileDevice(userAgent, username)
-    //     if (redirect && !isDynamicLink) return redirect
-    // }
+    if (UserAgentUtils.isMobile(userAgent)) {        
+        let redirect = await RedirectUtils.redirectUsernameForMobileDevice(userAgent, username)
+        if (redirect && !isDynamicLink) return redirect
+    }
 
     return {
         props: {
