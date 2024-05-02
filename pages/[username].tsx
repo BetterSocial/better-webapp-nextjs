@@ -22,9 +22,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     const isHttps = headers["x-forwarded-port"] as string === '443';
     const isLocalhost = (headers["host"] as string)?.includes("localhost");
 
-    console.log(headers)
-    console.log('isHttps', isHttps, 'isLocalhost', isLocalhost)
-
     if(!isHttps && isLocalhost) {
         return {
             redirect: {

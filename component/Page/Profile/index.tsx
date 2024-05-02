@@ -87,7 +87,8 @@ export default function ProfilePage(props: PageProps) {
         let count = linesRegex.length;
         const lines = count
 
-        const numLines = lines <= 2 ? lines : 2;
+        // const numLines = lines <= 4 ? lines : 4;
+        const numLines = 4
         const calculatedLineHeight = numLines * lineHeight
 
         return {
@@ -102,7 +103,7 @@ export default function ProfilePage(props: PageProps) {
     }
 
     const getInputMessageContainerTopPosition = () => {
-        return getContainerHeight() + window.scrollY - 47 - 24
+        return getContainerHeight() + window.scrollY - 96 - 24
     }
 
     const calculateMessageInputPosition = () => {
@@ -152,8 +153,8 @@ export default function ProfilePage(props: PageProps) {
                 <title>{`${data?.username || ''}'s profile`}</title>
             </Helmet>
             <LayoutContainer backgroundImage="/image/background-profile.svg">
-                <Header />
-                <div className="flex flex-1-0-0 w-full justify-center items-center z-50">
+                <Header fixedPosition={false}/>
+                <div className="flex flex-1-0-0 w-full justify-center z-50">
                     {/* Card Header */}
                     <LoaderWrapper isLoading={isLoading}>
                         <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
@@ -192,20 +193,20 @@ export default function ProfilePage(props: PageProps) {
         <div id="fixed-element-container" className="w-full md:max-w-M lg:max-w-M xl:max-w-M absolute left-1/2 -translate-x-1/2 top-0 pb-4 z-50" style={{
             transition: 'all 0.25s ease'
         }}>
-            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? `w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 fixed flex flex-row gap-[6px] z-[9999]` : `max-w-[375px] p-2 mb-4 ${isLoading ? 'bg-transparent' : 'bg-gray05'} fixed bottom-0 left-12 right-12 flex flex-row gap-[6px] rounded-lg z-[9999]`}>
+            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? `w-full bg-white md:max-w-M lg:max-w-M xl:max-w-M p-2 px-4 fixed flex flex-row gap-[6px] z-[9999]` : `max-w-[375px] p-2 mb-4 ${isLoading ? 'bg-transparent' : 'bg-gray05'} fixed bottom-0 left-12 right-12 flex flex-row gap-[6px] rounded-lg z-[9999]`}>
                 {!isLoading && <>
                     {data?.allow_anon_dm ? (
                         <>
-                            <Image className="rounded-full" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
+                            <Image className="rounded-full self-start" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                             <div className="flex flex-grow items-ce bg-gray05 rounded-xl py-1 px-2 items-center">
-                                <textarea ref={textAreaRef} rows={2} onChange={(e) => {
+                                <textarea ref={textAreaRef} autoFocus rows={4} onChange={(e) => {
                                     setMessage(e.target.value)
                                 }} className="bg-transparent min-h-[48px] w-full resize align-top"
                                     style={{ resize: 'none' }}
                                     placeholder="Send me a message 😀" />
                                 <Toggle
                                     checked={true}
-                                    className="bg-white"
+                                    className="bg-white self-start mt-1"
                                     defaultChecked={true}
                                     onClick={() => showDownloadToast()}
                                     icons={{
@@ -214,7 +215,7 @@ export default function ProfilePage(props: PageProps) {
                                     }}
                                 />
                             </div>
-                            <button className="rounded-full flex-shrink-0 bg-cyan h-8 w-8 flex items-center justify-center self-center" onClick={() => {
+                            <button className="rounded-full flex-shrink-0 bg-cyan h-8 w-8 flex items-center justify-center self-start" onClick={() => {
                                 localStorage.setItem(MessageEnum.tempMessage, message);
                                 localStorageHandlerRef.current.contentWindow.postMessage({
                                     target_user_id: data.user_id,
