@@ -198,7 +198,7 @@ export default function ProfilePage(props: PageProps) {
                         <>
                             <Image className="rounded-full" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
                             <div className="flex flex-grow items-ce bg-gray05 rounded-xl py-1 px-2 items-center">
-                                <textarea ref={textAreaRef} rows={2} onChange={(e) => {
+                                <textarea ref={textAreaRef} autoFocus rows={2} onChange={(e) => {
                                     setMessage(e.target.value)
                                 }} className="bg-transparent min-h-[48px] w-full resize align-top"
                                     style={{ resize: 'none' }}
