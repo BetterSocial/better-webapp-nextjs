@@ -48,8 +48,6 @@ const redirectExpiredPost = async (userAgent) => {
 
     if (UserAgentUtils.isMobile(userAgent)) {
         let postLink = await DynamicLinkUtils.generateExpiredPostLink()
-        console.log('masuk post link')
-        console.log(postLink)
         if (postLink) return {
             redirect: {
                 destination: postLink,

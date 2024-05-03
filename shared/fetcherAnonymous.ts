@@ -1,6 +1,5 @@
-import axios from "axios";
 import Cookies from "js-cookie";
-
+import axios from "axios";
 import getConfig from "next/config";
 import { ITokenEnum } from "@shared/enum";
 
@@ -53,7 +52,6 @@ api.interceptors.response.use(
           return Promise.reject(error);
         },
         (refreshError) => {
-          console.log("[refreshError]: ", refreshError);
           return Promise.reject(error);
         }
       );
