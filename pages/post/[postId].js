@@ -12,15 +12,7 @@ import { Helmet } from "react-helmet";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-export async function getServerSideProps(context) {
-    const { postId } = context.query
-    let userAgent = parser(context?.req?.headers['user-agent'])
-
-    let isDynamicLink = postId?.length > 36
-    let originalPostId = !isDynamicLink ? postId : postId?.substring(0, 36)
-
-    let post = await GetstreamSingleton.getInstance().getPostById(originalPostId)
-
+async function getServerReturnProps(userAgent, post) {
     if (!PostUtil.isPostPublic(post)) {
         let redirect = await RedirectUtils.redirectPrivatePost(userAgent, post)
         if (redirect) return redirect
@@ -41,7 +33,27 @@ export async function getServerSideProps(context) {
             post,
             isDynamicLink
         }
-    }
+    }    
+}
+
+export async function getServerSideProps(context) {
+    const { postId } = context.query
+    let userAgent = parser(context?.req?.headers['user-agent'])
+
+    let isDynamicLink = postId?.length > 36
+    let originalPostId = !isDynamicLink ? postId : postId?.substring(0, 36)
+
+    console.log('date', new Date().valueOf())
+    let post = await GetstreamSingleton.getInstance().getPostById(originalPostId)
+    
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            getServerReturnProps(userAgent, post).then((returnValue) => {
+                console.log('date2', new Date().valueOf())
+                resolve(returnValue)
+            })
+        }, 2000)
+    })
 }
 
 /**
