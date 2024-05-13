@@ -34,6 +34,8 @@ const generateLongDynamicLink = async (redirectDesktopLink, redirectAndroidLink 
         }
     })
 
+    console.log('link', shortLink, previewLink);
+
     return shortLink
 }
 
