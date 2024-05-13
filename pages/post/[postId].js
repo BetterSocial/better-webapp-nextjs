@@ -43,15 +43,15 @@ export async function getServerSideProps(context) {
     let isDynamicLink = postId?.length > 36
     let originalPostId = !isDynamicLink ? postId : postId?.substring(0, 36)
 
-    console.log('date', new Date().valueOf())
     let post = await GetstreamSingleton.getInstance().getPostById(originalPostId)
     const returnResponse = await getServerReturnProps(userAgent, post, isDynamicLink)
     
     return new Promise((resolve) => {
-        if(!isDynamicLink) resolve(returnResponse)
-        setTimeout(() => {
-            resolve(returnResponse)
-        }, 2000)
+        // if(!isDynamicLink) resolve(returnResponse)
+        // setTimeout(() => {
+        //     resolve(returnResponse)
+        // }, 2000)
+        resolve(returnResponse)
     })
 }
 
