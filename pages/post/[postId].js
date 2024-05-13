@@ -48,7 +48,7 @@ export async function getServerSideProps(context) {
     const returnResponse = await getServerReturnProps(userAgent, post, isDynamicLink)
     
     return new Promise((resolve) => {
-        if(isDynamicLink) resolve(returnResponse)
+        if(!isDynamicLink) resolve(returnResponse)
         setTimeout(() => {
             resolve(returnResponse)
         }, 2000)
