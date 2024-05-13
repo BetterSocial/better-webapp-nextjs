@@ -12,7 +12,7 @@ import { Helmet } from "react-helmet";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-async function getServerReturnProps(userAgent, post) {
+async function getServerReturnProps(userAgent, post, isDynamicLink) {
     if (!PostUtil.isPostPublic(post)) {
         let redirect = await RedirectUtils.redirectPrivatePost(userAgent, post)
         if (redirect) return redirect
@@ -45,13 +45,12 @@ export async function getServerSideProps(context) {
 
     console.log('date', new Date().valueOf())
     let post = await GetstreamSingleton.getInstance().getPostById(originalPostId)
+    const returnResponse = await getServerReturnProps(userAgent, post, isDynamicLink)
     
     return new Promise((resolve) => {
+        if(isDynamicLink) resolve(returnResponse)
         setTimeout(() => {
-            getServerReturnProps(userAgent, post).then((returnValue) => {
-                console.log('date2', new Date().valueOf())
-                resolve(returnValue)
-            })
+            resolve(returnResponse)
         }, 2000)
     })
 }
