@@ -50,7 +50,6 @@ export default function Verification(props: PageProps) {
             
         const member = localStorage.getItem(MessageEnum.targetUser);
         const message = localStorage.getItem(MessageEnum.tempMessage);
-        console.log('member', member, 'message', message)
         if (!!props.exchangeToken && props.isSendMessage && !props.isFailedVerify) {
             toast('Receiving incognito identifier from humanID', {
                 autoClose: 3000,

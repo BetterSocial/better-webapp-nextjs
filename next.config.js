@@ -44,7 +44,7 @@ module.exports = {
       destination: 'https://www.helio.social/:username*',
       permanent: true
     }
-  ]
+  ],
   // webpackDevMiddleware: config => {
   //   config.watchOptions = {
   //     poll: 1000,
@@ -52,4 +52,17 @@ module.exports = {
   //   }
   //   return config
   // },
+  headers: () => {
+    return [
+      {
+        source: '/.well-known/apple-app-site-association',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          },
+        ],
+      },
+    ];
+  }
 };
