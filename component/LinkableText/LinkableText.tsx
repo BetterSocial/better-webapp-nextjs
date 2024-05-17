@@ -2,11 +2,11 @@ import Link from "next/link";
 
 const LinkableText = ({text}: {text: string}) => {
     const sanitizeNewLine = text?.split('\n')
-    const regexUrl = /^((?:https?:\/\/)?[^./]+(?:\.[^./]+)+(?:\/.*)?)$/
+    const regexUrl = /(https?\:\/\/)?([^\.\s]+)?[^\.\s]+\.[^\s]+/gi
 
     const textComponent = sanitizeNewLine?.map((textline, index) => {
         const textLineSplit = textline?.split(' ')
-        return <p key={textline}>
+        return <p className="font-normal text-sm" key={textline}>
             {textLineSplit?.map((word, wordIndex) => {
                 if(wordIndex < textLineSplit?.length - 1) word += ' '
                 const hrefUrl = (word?.includes('http') || word?.includes('https')) ? word : `https://${word}`
