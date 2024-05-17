@@ -1,5 +1,6 @@
 import Image from "next/image";
 import LayoutContainer from "@components/LayoutContainer";
+import LinkableText from "@components/LinkableText/LinkableText";
 import Toggle from 'react-toggle'
 import getConfig from "next/config";
 import useToastHook from "@hooks/toast/useToastHook"
@@ -154,7 +155,9 @@ export default function ProfilePage(props: PageProps) {
             </Helmet>
             <LayoutContainer backgroundImage="/image/background-profile.svg">
                 <Header fixedPosition={false}/>
-                <div className="flex flex-1-0-0 w-full justify-center z-50">
+                <div className="flex flex-1-0-0 w-full justify-center" style={{
+                    zIndex: 1000000
+                }}>
                     {/* Card Header */}
                     <LoaderWrapper isLoading={isLoading}>
                         <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
@@ -181,7 +184,7 @@ export default function ProfilePage(props: PageProps) {
                             <div className="border-t border-gray02" />
                             {/* Card Content */}
                             <div>
-                                <text className="font-normal text-sm">{data?.bio ?? ''}</text>
+                                <LinkableText text={data?.bio}/>
                             </div>
                         </div>
                     </LoaderWrapper>
