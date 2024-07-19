@@ -10,6 +10,7 @@ const LayoutContainer = ({ children, ...props }: LayoutContainerProps) => {
       backgroundImage: `url('${props.backgroundImage}')`,
       backgroundSize: 'cover',
       width: '100%',
+      zIndex: 0
     }}>
       {children}
     </div>
