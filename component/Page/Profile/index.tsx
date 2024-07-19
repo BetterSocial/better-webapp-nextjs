@@ -192,7 +192,7 @@ export default function ProfilePage(props: PageProps) {
             </LayoutContainer>
         </BaseContainer>
         {/* Input Message */}
-        {/* <iframe ref={localStorageHandlerRef} height={0} width={0} src={publicRuntimeConfig.LOCAL_STORAGE_HANDLER} /> */}
+        <iframe ref={localStorageHandlerRef} height={0} width={0} src={publicRuntimeConfig.LOCAL_STORAGE_HANDLER} />
         <div id="fixed-element-container" className="w-full md:max-w-M lg:max-w-M xl:max-w-M absolute left-1/2 -translate-x-1/2 top-0 pb-4 z-50" style={{
             transition: 'all 0.25s ease'
         }}>
