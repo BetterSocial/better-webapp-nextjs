@@ -5,10 +5,12 @@ import apiAnonymous from "@shared/fetcherAnonymous";
 import getConfig from "next/config";
 import React, { useState } from "react";
 import { BaseContainer } from "@components/Page/BaseContainer";
+import { BetterSocialEventTracking } from "analytics/analyticsEventTracking";
 import { GetServerSidePropsContext } from "next";
 import { Helmet } from "react-helmet";
 import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
 import { LoaderWrapper } from "@components/LoaderWrapper";
+import { sendAnalytics } from "@services/analytics/analyticsServices";
 import { toast } from 'react-toastify'
 import { useCheckExchangeTokenMutation } from "@services/auth/authHooks";
 import { useGenerateAnonUserInfoMutation } from "@services/generateAnonUserInfo/generateAnonUserInfoHooks";
@@ -32,14 +34,59 @@ export default function Verification(props: PageProps) {
     const initChatAnon = useInitChatAnonymousMutation();
     const [isLoading, setIsLoading] = useState(props.exchangeToken ? true : false)
     const getLoginPage = () => {
+        sendAnalytics(BetterSocialEventTracking.VERIFICATION_SCREEN_HUMAN_ID_BUTTON_CLICKED)
         fetch('/api/getWebLogin').then(async (res) => {
             toast('Sending you to humanID for verification', {
                 autoClose: false,
                 type: 'info',
             })
             const data = await res.json();
+            console.log('data', data);
             if (data.data?.webLoginUrl) {
                 router.push(data.data?.webLoginUrl)
+            }
+        })
+    }
+
+    const sendAnonymousMessage = (anonymousToken: string) => {
+        const member = localStorage.getItem(MessageEnum.targetUser);
+        const message = localStorage.getItem(MessageEnum.tempMessage);
+        apiAnonymous.defaults.headers.common['Authorization'] = `Bearer ${anonymousToken}`;
+        generateAnonUser.mutate({ userId: member }, {
+            onSuccess: (data) => {
+                initChatAnon.mutate({
+                    anon_user_info_color_code: data.anon_user_info_color_code,
+                    anon_user_info_color_name: data.anon_user_info_color_name,
+                    anon_user_info_emoji_code: data.anon_user_info_emoji_code,
+                    anon_user_info_emoji_name: data.anon_user_info_emoji_name,
+                    member: member,
+                    message: message,
+                }, {
+                    onSuccess: (data) => {
+                        if (data) {
+                            setIsLoading(false);
+                            router.push('/message-sent');
+                        }
+                        localStorage.removeItem(MessageEnum.tempMessage);
+                        localStorage.removeItem(MessageEnum.targetUser);
+                    },
+                    onError: (err) => {
+                        setIsLoading(false);
+                        console.error(err)
+                        toast('We failed to send your message', {
+                            autoClose: 3000,
+                            type: 'error',
+                        })
+                    }
+                })
+            },
+            onError: (err) => {
+                setIsLoading(false);
+                console.error(err)
+                toast('We failed to send your message', {
+                    autoClose: 3000,
+                    type: 'error',
+                })
             }
         })
     }
@@ -47,6 +94,14 @@ export default function Verification(props: PageProps) {
     React.useEffect(() => {
         if(props?.message) localStorage.setItem(MessageEnum.tempMessage, props?.message)
         if(props?.targetUserId) localStorage.setItem(MessageEnum.targetUser, props?.targetUserId)
+        
+        sendAnalytics(BetterSocialEventTracking.VERIFICATION_SCREEN_OPEN)
+
+        const anonTokenFromCookie = Cookies.get(ITokenEnum.anonymousToken)
+        if(anonTokenFromCookie) {
+            sendAnonymousMessage(anonTokenFromCookie)
+        }
+
             
         const member = localStorage.getItem(MessageEnum.targetUser);
         const message = localStorage.getItem(MessageEnum.tempMessage);
@@ -66,44 +121,7 @@ export default function Verification(props: PageProps) {
                         Cookies.set(ITokenEnum.anonymousToken, data?.anonymousToken);
                         Cookies.set(UserEnum.humanId, data?.data.human_id);
                         Cookies.set(UserEnum.userId, data?.data.user_id);
-                        apiAnonymous.defaults.headers.common['Authorization'] = `Bearer ${data.anonymousToken}`;
-                        generateAnonUser.mutate({ userId: localStorage.getItem(MessageEnum.targetUser) }, {
-                            onSuccess: (data) => {
-                                initChatAnon.mutate({
-                                    anon_user_info_color_code: data.anon_user_info_color_code,
-                                    anon_user_info_color_name: data.anon_user_info_color_name,
-                                    anon_user_info_emoji_code: data.anon_user_info_emoji_code,
-                                    anon_user_info_emoji_name: data.anon_user_info_emoji_name,
-                                    member: member,
-                                    message: message,
-                                }, {
-                                    onSuccess: (data) => {
-                                        if (data) {
-                                            setIsLoading(false);
-                                            router.push('/message-sent');
-                                        }
-                                        localStorage.removeItem(MessageEnum.tempMessage);
-                                        localStorage.removeItem(MessageEnum.targetUser);
-                                    },
-                                    onError: (err) => {
-                                        setIsLoading(false);
-                                        console.error(err)
-                                        toast('We failed to send your message', {
-                                            autoClose: 3000,
-                                            type: 'error',
-                                        })
-                                    }
-                                })
-                            },
-                            onError: (err) => {
-                                setIsLoading(false);
-                                console.error(err)
-                                toast('We failed to send your message', {
-                                    autoClose: 3000,
-                                    type: 'error',
-                                })
-                            }
-                        })
+                        sendAnonymousMessage(data?.anonymousToken)
                     }
                 },
                 onError: (err) => {

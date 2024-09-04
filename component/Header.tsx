@@ -1,12 +1,16 @@
 import Image from 'next/image'
 import React from 'react'
 import getConfig from 'next/config'
-import { useRouter } from 'next/router'
+import { BetterSocialEventTracking } from 'analytics/analyticsEventTracking'
+import { sendAnalytics } from '@services/analytics/analyticsServices'
 
 const { publicRuntimeConfig } = getConfig()
 
 const Header = ({fixedPosition = true}) => {
-    const toDownloadLink = () => window.open(publicRuntimeConfig.DOWNLOAD_BETTERSOCIAL_APP_URL, '_blank')
+    const toDownloadLink = () => {
+        sendAnalytics(BetterSocialEventTracking.PROFILE_SCREEN_DOWNLOAD_APP_BUTTON_CLICKED)
+        window.open(publicRuntimeConfig.DOWNLOAD_BETTERSOCIAL_APP_URL, '_blank')
+    }
     
     return (
         <div className={`flex w-full md:max-w-M lg:max-w-M xl:max-w-M justify-between items-center min-h-[45px] top-0 p-4 ${fixedPosition ? 'fixed' : ''}`}>

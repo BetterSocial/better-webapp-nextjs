@@ -6,11 +6,13 @@ import getConfig from "next/config";
 import useToastHook from "@hooks/toast/useToastHook"
 import React, { useEffect, useRef, useState } from "react";
 import { BaseContainer } from "@components/Page/BaseContainer";
+import { BetterSocialEventTracking } from "analytics/analyticsEventTracking";
 import { Header } from "@components/Header";
 import { Helmet } from "react-helmet";
 import { LoaderWrapper } from "@components/LoaderWrapper";
 import { MessageEnum } from "@shared/enum";
 import { PageProps } from "pages/[username]";
+import { sendAnalytics } from "@services/analytics/analyticsServices";
 import { toast } from "react-toastify";
 import { useGetProfile } from "@services/profile/profileHooks";
 import { useRouter } from "next/router";
@@ -35,6 +37,7 @@ export default function ProfilePage(props: PageProps) {
 
     useEffect(() => {
         if (isDynamicLink) router.push(`/${username}`, undefined, { shallow: true })
+        sendAnalytics(BetterSocialEventTracking.PROFILE_SCREEN_OPEN)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDynamicLink])
 
@@ -58,27 +61,31 @@ export default function ProfilePage(props: PageProps) {
 
     const { copyToClipboardToast } = useToastHook()
 
-    const showDownloadToast = () => toast('Download the Helio app now to create a profile and send incognito messages', {
-        position: "bottom-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        theme: "dark",
-        closeButton: false,
-        style: {
-            borderRadius: '8px',
-            width: '270px',
-            margin: 'auto',
-            marginBottom: '60px',
-            textAlign: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.25)'
-        },
-    })
+    const showDownloadToast = (eventName?: BetterSocialEventTracking) => {
+        eventName && sendAnalytics(eventName)
+        toast('Download the Helio app now to create a profile and send incognito messages', {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            theme: "dark",
+            closeButton: false,
+            style: {
+                borderRadius: '8px',
+                width: '270px',
+                margin: 'auto',
+                marginBottom: '60px',
+                textAlign: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.25)'
+            },
+        })
+    }
 
     const onShareButtonClicked = () => {
         navigator.clipboard.writeText(`${publicRuntimeConfig.DYNAMIC_LINK_DOMAIN}/${username}`)
         copyToClipboardToast()
+        sendAnalytics(BetterSocialEventTracking.PROFILE_SCREEN_SHARE_BUTTON_CLICKED)
     }
 
     const getTextAreaHeight = () => {
@@ -162,7 +169,8 @@ export default function ProfilePage(props: PageProps) {
                     <LoaderWrapper isLoading={isLoading}>
                         <div className="flex w-full bg-white p-4 rounded-2xl flex-col gap-4 h-max">
                             <div className="flex flex-row gap-4 items-center w-full justify-between">
-                                <div className="flex flex-row gap-3 items-center" onClick={() => showDownloadToast()}>
+                                <div className="flex flex-row gap-3 items-center" 
+                                    onClick={() => showDownloadToast(BetterSocialEventTracking.PROFILE_SCREEN_SEE_PROFILE_BUTTON_CLICKED)}>
                                     <div>
                                         <Image className="rounded-full h-10 w-10" src={data?.profile_pic_path} alt='profile pic' width={40} height={40} />
                                     </div>
@@ -172,7 +180,8 @@ export default function ProfilePage(props: PageProps) {
                                     </div>
                                 </div>
                                 <div className="flex flex-row gap-2 items-center">
-                                    <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center" onClick={() => showDownloadToast()}>
+                                    <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center" 
+                                        onClick={() => showDownloadToast()}>
                                         <Image src='/image/Icon_Follow.svg' alt='follow icon' width={15.81} height={20} />
                                     </button>
                                     <button className="border border-gray02 h-10 w-10 rounded-lg flex justify-center items-center" onClick={() => onShareButtonClicked()}>

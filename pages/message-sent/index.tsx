@@ -1,15 +1,21 @@
-import { BaseContainer } from "@components/Page/BaseContainer";
-import { Helmet } from "react-helmet";
-import React from "react";
 import LayoutContainer from "@components/LayoutContainer";
-import Image from "next/image";
+import React from "react";
 import getConfig from "next/config";
+import { BaseContainer } from "@components/Page/BaseContainer";
+import { BetterSocialEventTracking } from "analytics/analyticsEventTracking";
+import { Helmet } from "react-helmet";
+import { sendAnalytics } from "@services/analytics/analyticsServices";
 import { useRouter } from "next/router";
 
 const { publicRuntimeConfig } = getConfig()
 
 export default function MessageSent() {
     const router = useRouter();
+
+    React.useEffect(() => {
+        sendAnalytics(BetterSocialEventTracking.SUCCESS_SCREEN_OPEN)
+    }, [])
+
     return <BaseContainer className="bg-black">
         <Helmet>
             <title>Your message has been sent!</title>
