@@ -15,12 +15,14 @@ module.exports = {
       process.env.DYNAMIC_LINK_DOMAIN || "https://dev.helio.social",
     WIX_URL: process.env.WIX_URL || 'https://home.helio.social/',
     LOCAL_STORAGE_HANDLER: `${process.env.HUMAN_ID_WEB_APP_REDIRECT_URL}/localstorage-handler` || 'https://www.helio.social/localstorage-handler',
-    HELIO_SECURE_URL: `${process.env.HUMAN_ID_WEB_APP_REDIRECT_URL}`
+    HELIO_SECURE_URL: `${process.env.HUMAN_ID_WEB_APP_REDIRECT_URL}`,
+    SEGMENT_WRITE_KEY: process.env.SEGMENT_WRITE_KEY,
   },
   serverRuntimeConfig: {
     HUMAN_ID_GET_WEB_LOGIN_URL: process.env.HUMAN_ID_GET_WEB_LOGIN_URL,
     HUMAN_ID_CLIENT_ID: process.env.HUMAN_ID_CLIENT_ID,
     HUMAN_ID_CLIENT_SECRET: process.env.HUMAN_ID_CLIENT_SECRET,
+    SEGMENT_WRITE_KEY: process.env.SEGMENT_WRITE_KEY,
   },
   redirects: async () => [
     {

@@ -5,10 +5,12 @@ import apiAnonymous from "@shared/fetcherAnonymous";
 import getConfig from "next/config";
 import React, { useState } from "react";
 import { BaseContainer } from "@components/Page/BaseContainer";
+import { BetterSocialEventTracking } from "analytics/analyticsEventTracking";
 import { GetServerSidePropsContext } from "next";
 import { Helmet } from "react-helmet";
 import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
 import { LoaderWrapper } from "@components/LoaderWrapper";
+import { sendAnalytics } from "@services/analytics/analyticsServices";
 import { toast } from 'react-toastify'
 import { useCheckExchangeTokenMutation } from "@services/auth/authHooks";
 import { useGenerateAnonUserInfoMutation } from "@services/generateAnonUserInfo/generateAnonUserInfoHooks";
@@ -32,12 +34,14 @@ export default function Verification(props: PageProps) {
     const initChatAnon = useInitChatAnonymousMutation();
     const [isLoading, setIsLoading] = useState(props.exchangeToken ? true : false)
     const getLoginPage = () => {
+        sendAnalytics(BetterSocialEventTracking.VERIFICATION_SCREEN_HUMAN_ID_BUTTON_CLICKED)
         fetch('/api/getWebLogin').then(async (res) => {
             toast('Sending you to humanID for verification', {
                 autoClose: false,
                 type: 'info',
             })
             const data = await res.json();
+            console.log('data', data);
             if (data.data?.webLoginUrl) {
                 router.push(data.data?.webLoginUrl)
             }
@@ -47,6 +51,8 @@ export default function Verification(props: PageProps) {
     React.useEffect(() => {
         if(props?.message) localStorage.setItem(MessageEnum.tempMessage, props?.message)
         if(props?.targetUserId) localStorage.setItem(MessageEnum.targetUser, props?.targetUserId)
+
+        sendAnalytics(BetterSocialEventTracking.VERIFICATION_SCREEN_OPEN)
             
         const member = localStorage.getItem(MessageEnum.targetUser);
         const message = localStorage.getItem(MessageEnum.tempMessage);
