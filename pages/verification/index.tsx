@@ -25,6 +25,11 @@ interface PageProps {
     message?: string
 }
 
+interface SendAnonymousMessageOptionalParams {
+    replaceRoute?: boolean
+    withLoading?: boolean
+}
+
 const { publicRuntimeConfig } = getConfig();
 
 export default function Verification(props: PageProps) {
@@ -48,10 +53,13 @@ export default function Verification(props: PageProps) {
         })
     }
 
-    const sendAnonymousMessage = (anonymousToken: string) => {
+    const sendAnonymousMessage = (anonymousToken: string, optionalParams: SendAnonymousMessageOptionalParams = {}) => {
+        const {replaceRoute = false, withLoading = false} = optionalParams
+
         const member = localStorage.getItem(MessageEnum.targetUser);
         const message = localStorage.getItem(MessageEnum.tempMessage);
         apiAnonymous.defaults.headers.common['Authorization'] = `Bearer ${anonymousToken}`;
+        if(withLoading) setIsLoading(true);
         generateAnonUser.mutate({ userId: member }, {
             onSuccess: (data) => {
                 initChatAnon.mutate({
@@ -64,11 +72,12 @@ export default function Verification(props: PageProps) {
                 }, {
                     onSuccess: (data) => {
                         if (data) {
-                            setIsLoading(false);
-                            router.push('/message-sent');
+                            if(replaceRoute) router.replace('/message-sent');
+                            else router.push('/message-sent');
                         }
                         localStorage.removeItem(MessageEnum.tempMessage);
                         localStorage.removeItem(MessageEnum.targetUser);
+                        setIsLoading(false);
                     },
                     onError: (err) => {
                         setIsLoading(false);
@@ -99,12 +108,12 @@ export default function Verification(props: PageProps) {
 
         const anonTokenFromCookie = Cookies.get(ITokenEnum.anonymousToken)
         if(anonTokenFromCookie) {
-            sendAnonymousMessage(anonTokenFromCookie)
+            sendAnonymousMessage(anonTokenFromCookie, {
+                replaceRoute: true,
+                withLoading: true
+            })
         }
 
-            
-        const member = localStorage.getItem(MessageEnum.targetUser);
-        const message = localStorage.getItem(MessageEnum.tempMessage);
         if (!!props.exchangeToken && props.isSendMessage && !props.isFailedVerify) {
             toast('Receiving incognito identifier from humanID', {
                 autoClose: 3000,
@@ -157,14 +166,16 @@ export default function Verification(props: PageProps) {
                         <div className="pt-4 gap-y-4 flex flex-col h-min">
                             <text className="font-inter font-medium text-2xl text-justify">To send this message, please verify that you’re not a bot.</text>
                             <div className="border border-gray06 rounded-lg rounded-t-xl flex flex-col">
-                                <button className="shadow-3xl bg-humanId_blue" style={{
-                                    margin: '-1px',
-                                    backgroundImage: `url('/image/humanID_bg_button.svg')`,
-                                    backgroundSize: 'contain',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'center',
-                                    height: '45px',
-                                    borderRadius: '8px'
+                                <button className="shadow-3xl bg-humanId_blue" 
+                                    disabled={isLoading}
+                                    style={{
+                                        margin: '-1px',
+                                        backgroundImage: `url('/image/humanID_bg_button.svg')`,
+                                        backgroundSize: 'contain',
+                                        backgroundRepeat: 'no-repeat',
+                                        backgroundPosition: 'center',
+                                        height: '45px',
+                                        borderRadius: '8px'
                                 }} onClick={() => getLoginPage()} />
                                 <div className="flex flex-col m-3">
                                     <text className="text-center font-inter font-semibold">What is humanID?</text>

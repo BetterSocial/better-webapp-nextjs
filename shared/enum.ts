@@ -11,5 +11,6 @@ export enum UserEnum {
 
 export enum MessageEnum {
   targetUser = "target_user",
+  targetUserName= "target_user_name",
   tempMessage = "temp_message",
 }

@@ -31,6 +31,7 @@ export default function ProfilePage(props: PageProps) {
     const router = useRouter();
     useEffect(() => {
         if (data) {
+            localStorage.setItem(MessageEnum.targetUserName, username);
             localStorage.setItem(MessageEnum.targetUser, data.user_id);
         }
     }, [data])
