@@ -4,6 +4,7 @@ import getConfig from "next/config";
 import { BaseContainer } from "@components/Page/BaseContainer";
 import { BetterSocialEventTracking } from "analytics/analyticsEventTracking";
 import { Helmet } from "react-helmet";
+import { MessageEnum } from "@shared/enum";
 import { sendAnalytics } from "@services/analytics/analyticsServices";
 import { useRouter } from "next/router";
 
@@ -15,6 +16,11 @@ export default function MessageSent() {
     React.useEffect(() => {
         sendAnalytics(BetterSocialEventTracking.SUCCESS_SCREEN_OPEN)
     }, [])
+
+    const onGoToProfileButtonClicked = () => {
+        const usernameToBeRedirected = localStorage.getItem(MessageEnum.targetUserName)
+        router.push(`/${usernameToBeRedirected}`)
+    }
 
     return <BaseContainer className="bg-black">
         <Helmet>
@@ -34,7 +40,10 @@ export default function MessageSent() {
                             <text className="font-inter font-normal">🕵️‍♀️ Get your own incognito messages! </text>
                             <text className="font-inter font-normal">🔔 See what’s new in your school or community</text>
                         </div>
-                        <button onClick={() => router.push(publicRuntimeConfig.DOWNLOAD_BETTERSOCIAL_APP_URL)} className=" w-full bg-cyan hover:bg-cyan10 text-white font-lato flex py-2 px-4 rounded-lg justify-center items-center gap-2 text-justify">
+                        <button onClick={onGoToProfileButtonClicked} className=" w-full bg-white hover:bg-cyan10 text-cyan hover:text-white border-cyan border-2 font-lato flex py-2 px-4 rounded-lg justify-center items-center gap-2 text-justify mb-2">
+                            {`Back to ${localStorage.getItem(MessageEnum.targetUserName)}'s profile`}
+                        </button>
+                        <button onClick={() => router.push(publicRuntimeConfig.DOWNLOAD_BETTERSOCIAL_APP_URL)} className=" w-full bg-cyan hover:bg-cyan10 text-white font-lato flex py-2 px-4 rounded-lg justify-center items-center gap-2 text-justify mb-4">
                             Download Helio Now
                         </button>
                     </div>
