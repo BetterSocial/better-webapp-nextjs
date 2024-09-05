@@ -80,7 +80,7 @@ a {
   height: 20px;
   padding: 0;
   border-radius: 30px;
-  background-color: #4D4D4D;
+  background-color: #16202A !important;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   transition: all 0.2s ease;
