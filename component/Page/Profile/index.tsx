@@ -214,7 +214,7 @@ export default function ProfilePage(props: PageProps) {
                             <div className="flex flex-grow items-ce bg-grey210 rounded-xl py-1 px-2 items-center">
                                 <textarea ref={textAreaRef} autoFocus rows={4} onChange={(e) => {
                                     setMessage(e.target.value)
-                                }} className="bg-transparent min-h-[48px] w-full resize align-top"
+                                }} className="bg-transparent min-h-[48px] w-full resize align-top text-white"
                                     style={{ resize: 'none' }}
                                     placeholder="Send me a message 😀" />
                                 <Toggle
