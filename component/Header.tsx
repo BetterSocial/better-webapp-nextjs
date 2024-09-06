@@ -15,7 +15,7 @@ const Header = ({fixedPosition = true}) => {
     return (
         <div className={`flex w-full md:max-w-M lg:max-w-M xl:max-w-M justify-between items-center min-h-[45px] top-0 p-4 ${fixedPosition ? 'fixed' : ''}`}>
             <Image onClick={() => toDownloadLink()} alt="logo helio" src="/image/LogoBrand.svg" width={60} height={28} />
-            <button onClick={() => toDownloadLink()} className="text-white border px-4 py-2 rounded-lg font-semibold text-xs h-[34px]">Download App</button>
+            <button onClick={() => toDownloadLink()} className="bg-primaryIncognito text-white px-4 py-2 rounded-lg font-semibold text-xs h-[34px]">Download App</button>
         </div>
     )
 }
