@@ -8,7 +8,7 @@ module.exports = {
     BASE_URL: process.env.BASE_URL || "https://devme.bettersocial.org",
     DOWNLOAD_BETTERSOCIAL_APP_URL:
       process.env.DOWNLOAD_BETTERSOCIAL_APP_URL ||
-      "https://linkdev.bettersocial.org/download",
+      "https://link.helio.social/download",
     HUMAN_INTERNET_URL:
       process.env.HUMAN_INTERNET_URL || "https://human-internet.org/",
     DYNAMIC_LINK_DOMAIN:
