@@ -7,7 +7,7 @@ const { serverRuntimeConfig } = getConfig();
 
 export default async function sendAnalytics(req: NextApiRequest, res: NextApiResponse) {
     const {event, data = {}} = req?.body;
-    const anonymousId = req.cookies['helio_analytics_id'] || moment().unix().toString()
+    const anonymousId = req.cookies['user_id'] || req.cookies['helio_analytics_id'] || moment().unix().toString()
     const signedUserId = req.cookies['user_id']
 
     try {
