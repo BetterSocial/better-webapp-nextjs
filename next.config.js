@@ -22,6 +22,7 @@ module.exports = {
     HUMAN_ID_GET_WEB_LOGIN_URL: process.env.HUMAN_ID_GET_WEB_LOGIN_URL,
     HUMAN_ID_CLIENT_ID: process.env.HUMAN_ID_CLIENT_ID,
     HUMAN_ID_CLIENT_SECRET: process.env.HUMAN_ID_CLIENT_SECRET,
+    REDIRECT_MAIN_URL: process.env.REDIRECT_MAIN_URL || '',
     SEGMENT_WRITE_KEY: process.env.SEGMENT_WRITE_KEY,
   },
   redirects: async () => [
