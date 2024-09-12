@@ -18,6 +18,7 @@ export default async function sendAnalytics(req: NextApiRequest, res: NextApiRes
         client.track({
             event,
             anonymousId,
+            userId: signedUserId,
             properties: {
                 ...data,
                 signedUserId,
