@@ -11,6 +11,7 @@ import { Helmet } from "react-helmet";
 import { ITokenEnum, MessageEnum, UserEnum } from "@shared/enum";
 import { LoaderWrapper } from "@components/LoaderWrapper";
 import { sendAnalytics } from "@services/analytics/analyticsServices";
+import { sendMessage } from "@services/chat/chatService";
 import { toast } from 'react-toastify'
 import { useCheckExchangeTokenMutation } from "@services/auth/authHooks";
 import { useGenerateAnonUserInfoMutation } from "@services/generateAnonUserInfo/generateAnonUserInfoHooks";
@@ -61,33 +62,43 @@ export default function Verification(props: PageProps) {
         apiAnonymous.defaults.headers.common['Authorization'] = `Bearer ${anonymousToken}`;
         if(withLoading) setIsLoading(true);
         generateAnonUser.mutate({ userId: member }, {
-            onSuccess: (data) => {
-                initChatAnon.mutate({
+            onSuccess: async (data) => {
+                const response = await sendMessage({
                     anon_user_info_color_code: data.anon_user_info_color_code,
                     anon_user_info_color_name: data.anon_user_info_color_name,
                     anon_user_info_emoji_code: data.anon_user_info_emoji_code,
                     anon_user_info_emoji_name: data.anon_user_info_emoji_name,
                     member: member,
                     message: message,
-                }, {
-                    onSuccess: (data) => {
-                        if (data) {
-                            if(replaceRoute) router.replace('/message-sent');
-                            else router.push('/message-sent');
-                        }
-                        localStorage.removeItem(MessageEnum.tempMessage);
-                        localStorage.removeItem(MessageEnum.targetUser);
-                        setIsLoading(false);
-                    },
-                    onError: (err) => {
-                        setIsLoading(false);
-                        console.error(err)
-                        toast('We failed to send your message', {
-                            autoClose: 3000,
-                            type: 'error',
-                        })
-                    }
                 })
+
+                console.log('response', response);
+                // initChatAnon.mutate({
+                //     anon_user_info_color_code: data.anon_user_info_color_code,
+                //     anon_user_info_color_name: data.anon_user_info_color_name,
+                //     anon_user_info_emoji_code: data.anon_user_info_emoji_code,
+                //     anon_user_info_emoji_name: data.anon_user_info_emoji_name,
+                //     member: member,
+                //     message: message,
+                // }, {
+                //     onSuccess: (data) => {
+                //         if (data) {
+                //             if(replaceRoute) router.replace('/message-sent');
+                //             else router.push('/message-sent');
+                //         }
+                //         localStorage.removeItem(MessageEnum.tempMessage);
+                //         localStorage.removeItem(MessageEnum.targetUser);
+                //         setIsLoading(false);
+                //     },
+                //     onError: (err) => {
+                //         setIsLoading(false);
+                //         console.error(err)
+                //         toast('We failed to send your message', {
+                //             autoClose: 3000,
+                //             type: 'error',
+                //         })
+                //     }
+                // })
             },
             onError: (err) => {
                 setIsLoading(false);
@@ -107,6 +118,7 @@ export default function Verification(props: PageProps) {
         sendAnalytics(BetterSocialEventTracking.VERIFICATION_SCREEN_OPEN)
 
         const anonTokenFromCookie = Cookies.get(ITokenEnum.anonymousToken)
+        console.log('anontoken from cookie', anonTokenFromCookie);
         if(anonTokenFromCookie) {
             sendAnonymousMessage(anonTokenFromCookie, {
                 replaceRoute: true,
