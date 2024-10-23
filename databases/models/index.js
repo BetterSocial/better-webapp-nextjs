@@ -2,6 +2,9 @@
 
 const PollingOption = require('./PollingOption')
 const DomainPage = require('./DomainPage')
+const Channels = require('./Channels')
+const ChannelMembers = require('./ChannelMembers')
+const ChannelMessages = require('./ChannelMessages')
 
 const fs = require("fs");
 const path = require("path");
@@ -20,6 +23,9 @@ if (config.use_env_variable) {
 
 db.PollingOption = PollingOption(sequelize, Sequelize.DataTypes)
 db.DomainPage = DomainPage(sequelize, Sequelize.DataTypes)
+db.Channels = Channels(sequelize, Sequelize.DataTypes)
+db.ChannelMembers = ChannelMembers(sequelize, Sequelize.DataTypes)
+db.ChannelMessages = ChannelMessages(sequelize, Sequelize.DataTypes)
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

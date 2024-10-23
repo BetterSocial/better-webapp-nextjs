@@ -36,5 +36,6 @@ module.exports = {
       timestamps: true,
       freezeTableName: true
     },
+    logging: false
   },
 };
