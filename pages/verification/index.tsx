@@ -63,42 +63,38 @@ export default function Verification(props: PageProps) {
         if(withLoading) setIsLoading(true);
         generateAnonUser.mutate({ userId: member }, {
             onSuccess: async (data) => {
-                const response = await sendMessage({
-                    anon_user_info_color_code: data.anon_user_info_color_code,
-                    anon_user_info_color_name: data.anon_user_info_color_name,
-                    anon_user_info_emoji_code: data.anon_user_info_emoji_code,
-                    anon_user_info_emoji_name: data.anon_user_info_emoji_name,
-                    member: member,
-                    message: message,
-                })
-
-                console.log('response', response);
-                // initChatAnon.mutate({
-                //     anon_user_info_color_code: data.anon_user_info_color_code,
-                //     anon_user_info_color_name: data.anon_user_info_color_name,
-                //     anon_user_info_emoji_code: data.anon_user_info_emoji_code,
-                //     anon_user_info_emoji_name: data.anon_user_info_emoji_name,
-                //     member: member,
-                //     message: message,
-                // }, {
-                //     onSuccess: (data) => {
-                //         if (data) {
-                //             if(replaceRoute) router.replace('/message-sent');
-                //             else router.push('/message-sent');
-                //         }
-                //         localStorage.removeItem(MessageEnum.tempMessage);
-                //         localStorage.removeItem(MessageEnum.targetUser);
-                //         setIsLoading(false);
-                //     },
-                //     onError: (err) => {
-                //         setIsLoading(false);
-                //         console.error(err)
-                //         toast('We failed to send your message', {
-                //             autoClose: 3000,
-                //             type: 'error',
-                //         })
-                //     }
-                // })
+                try {
+                    const response = await sendMessage({
+                        anon_user_info_color_code: data.anon_user_info_color_code,
+                        anon_user_info_color_name: data.anon_user_info_color_name,
+                        anon_user_info_emoji_code: data.anon_user_info_emoji_code,
+                        anon_user_info_emoji_name: data.anon_user_info_emoji_name,
+                        member: member,
+                        message: message,
+                    })
+    
+                    if(response?.success) {
+                        if(replaceRoute) router.replace('/message-sent');
+                        else router.push('/message-sent');
+                        localStorage.removeItem(MessageEnum.tempMessage);
+                        localStorage.removeItem(MessageEnum.targetUser);
+                        setIsLoading(false);
+                    } else {
+                        setIsLoading(false);
+                        console.error(response?.message)
+                        toast('We failed to send your message', {
+                            autoClose: 3000,
+                            type: 'error',
+                        })
+                    }
+                } catch(e) {
+                    setIsLoading(false);
+                    console.error(e)
+                    toast('We failed to send your message', {
+                        autoClose: 3000,
+                        type: 'error',
+                    })
+                }
             },
             onError: (err) => {
                 setIsLoading(false);

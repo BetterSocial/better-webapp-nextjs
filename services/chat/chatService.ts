@@ -9,7 +9,17 @@ export type ChatServiceSendMessageParams = {
     message: string
 }
 
-const sendMessage = async (data: ChatServiceSendMessageParams) => {
+export type BetterSocialResponse<T> = {
+  success: boolean;
+  message: string;
+  data: T
+}
+
+export type SendMessageResponse = {
+  channel_id: string;
+}
+
+const sendMessage = async (data: ChatServiceSendMessageParams): Promise<BetterSocialResponse<SendMessageResponse>> => {
   const response = await fetch('/api/chat/send', {
     method: 'POST',
     headers: {

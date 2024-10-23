@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
+        message_id: {
+            type: DataTypes.UUID,
+            allowNull: false
+        },
         channel_id:{
             type: DataTypes.UUID,
             allowNull: false,
@@ -47,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "ChannelMessages",
-      tableName: "channel_members",
+      tableName: "channel_messages",
       timestamps: true,
     }
   );
