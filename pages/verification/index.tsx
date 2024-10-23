@@ -47,7 +47,6 @@ export default function Verification(props: PageProps) {
                 type: 'info',
             })
             const data = await res.json();
-            console.log('data', data);
             if (data.data?.webLoginUrl) {
                 router.push(data.data?.webLoginUrl)
             }
@@ -114,7 +113,6 @@ export default function Verification(props: PageProps) {
         sendAnalytics(BetterSocialEventTracking.VERIFICATION_SCREEN_OPEN)
 
         const anonTokenFromCookie = Cookies.get(ITokenEnum.anonymousToken)
-        console.log('anontoken from cookie', anonTokenFromCookie);
         if(anonTokenFromCookie) {
             sendAnonymousMessage(anonTokenFromCookie, {
                 replaceRoute: true,
