@@ -53,8 +53,6 @@ const adminGetChannelMessage = async (limit: number, offset: number): Promise<Ad
             raw: true
         })
     
-        console.log('queryResult', queryResult?.[0]);
-    
         return queryResult?.[0]?.map((item) => ({
             ...item,
             created_at: new Date(item.created_at).toISOString(),
