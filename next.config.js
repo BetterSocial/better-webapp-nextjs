@@ -24,7 +24,9 @@ module.exports = {
     HUMAN_ID_CLIENT_SECRET: process.env.HUMAN_ID_CLIENT_SECRET,
     REDIRECT_MAIN_URL: process.env.REDIRECT_MAIN_URL || '',
     SEGMENT_WRITE_KEY: process.env.SEGMENT_WRITE_KEY,
-    JWT_SECRET: process.env.JWT_SECRET
+    JWT_SECRET: process.env.JWT_SECRET,
+    BETTER_BACKDOOR_ADMIN_USER: process.env.BETTER_BACKDOOR_ADMIN_USER,
+    BETTER_BACKDOOR_PASSWORD: process.env.BETTER_BACKDOOR_PASSWORD
   },
   redirects: async () => [
     {

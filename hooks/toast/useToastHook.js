@@ -20,9 +20,19 @@ const useToastHook = () => {
         return toast('The URL has been copied to your clipboard', DEFAULT_TOAST_CONFIG)
     }
 
+    const copyAdminMessageToClipboardToast = () => {
+        return toast('The message has been copied to your clipboard', DEFAULT_TOAST_CONFIG)
+    }
+
+    const noNewMessagesToast = () => {
+        return toast('No new messages', DEFAULT_TOAST_CONFIG)
+    }
+
     return {
         betterFullFunctionalityToast,
-        copyToClipboardToast
+        copyToClipboardToast,
+        copyAdminMessageToClipboardToast,
+        noNewMessagesToast,
     }
 }
 
