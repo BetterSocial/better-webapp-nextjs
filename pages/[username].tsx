@@ -2,13 +2,16 @@ import ProfilePage from "@components/Page/Profile";
 import React from "react";
 import RedirectUtils from "utils/redirect";
 import UserAgentUtils from "utils/userAgent";
+import UserFunction from "databases/functions/Users";
 import parser from 'ua-parser-js'
 import { GetServerSidePropsContext } from "next";
+import { ProfileResponse } from "@services/profile/profileServices";
 import { redirect } from "next/dist/server/api-utils";
 
 export interface PageProps {
     username?: string
     isDynamicLink?: boolean
+    user: ProfileResponse
 }
 
 export default function Profile(props: PageProps) {
@@ -40,10 +43,13 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
         if (redirect && !isDynamicLink) return redirect
     }
 
+    const userProfile = await UserFunction.getProfileByUsername(username as string);
+
     return {
         props: {
             username: originalUsername,
-            isDynamicLink
+            isDynamicLink,
+            user: userProfile
         }
     }
 

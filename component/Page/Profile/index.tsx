@@ -14,19 +14,19 @@ import { MessageEnum } from "@shared/enum";
 import { PageProps } from "pages/[username]";
 import { sendAnalytics } from "@services/analytics/analyticsServices";
 import { toast } from "react-toastify";
-import { useGetProfile } from "@services/profile/profileHooks";
 import { useRouter } from "next/router";
 
 const { publicRuntimeConfig } = getConfig()
 
 export default function ProfilePage(props: PageProps) {
-    const {isDynamicLink, username} = props
-    const { data, isLoading } = useGetProfile(username);
+    const {isDynamicLink, username, user} = props
     const [message, setMessage] = useState('')
 
     const windowRef = useRef(null)
     const inputMessageContainerRef = useRef(null)
     const localStorageHandlerRef = useRef(null)
+
+    const data = user;
 
     const router = useRouter();
     useEffect(() => {
@@ -167,7 +167,7 @@ export default function ProfilePage(props: PageProps) {
                     zIndex: 1000000
                 }}>
                     {/* Card Header */}
-                    <LoaderWrapper isLoading={isLoading}>
+                    <LoaderWrapper isLoading={false}>
                         <div className="flex w-full bg-grey210 p-4 rounded-2xl flex-col gap-4 h-max">
                             <div className="flex flex-row gap-4 items-center w-full justify-between">
                                 <div className="flex flex-row gap-3 items-center" 
@@ -206,8 +206,7 @@ export default function ProfilePage(props: PageProps) {
         <div id="fixed-element-container" className="w-full md:max-w-M lg:max-w-M xl:max-w-M absolute left-1/2 -translate-x-1/2 top-0 pb-4 z-50" style={{
             transition: 'all 0.25s ease'
         }}>
-            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? `w-full bg-almostBlack md:max-w-M lg:max-w-M xl:max-w-M p-2 px-4 fixed flex flex-row gap-[6px] z-[9999]` : `max-w-[375px] p-2 mb-4 ${isLoading ? 'bg-transparent' : 'bg-gray05'} fixed bottom-0 left-12 right-12 flex flex-row gap-[6px] rounded-lg z-[9999]`}>
-                {!isLoading && <>
+            <div id='input-message-container' ref={inputMessageContainerRef} className={data?.allow_anon_dm ? `w-full bg-almostBlack md:max-w-M lg:max-w-M xl:max-w-M p-2 px-4 fixed flex flex-row gap-[6px] z-[9999]` : `max-w-[375px] p-2 mb-4 bg-gray05 fixed bottom-0 left-12 right-12 flex flex-row gap-[6px] rounded-lg z-[9999]`}>
                     {data?.allow_anon_dm ? (
                         <>
                             <Image className="rounded-full self-start" src='/image/anonIcon.svg' alt="anon icon" width={24} height={24} />
@@ -249,7 +248,6 @@ export default function ProfilePage(props: PageProps) {
                             </div>
                         </>
                     )}
-                </>}
             </div>
         </div>
     </>

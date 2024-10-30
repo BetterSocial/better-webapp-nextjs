@@ -54,6 +54,32 @@ module.exports = (sequelize, DataTypes) => {
       country_code: { type: DataTypes.STRING, allowNull: false },
       username: { type: DataTypes.STRING, allowNull: false, unique: true },
       real_name: { type: DataTypes.STRING, allowNull: true },
+      last_active_at: { type: DataTypes.DATE, allowNull: false },
+      profile_pic_path: { type: DataTypes.STRING, allowNull: true },
+      profile_pic_asset_id: { type: DataTypes.STRING, allowNull: true },
+      profile_pic_public_id: { type: DataTypes.STRING, allowNull: true },
+      status: { type: DataTypes.BOOLEAN, allowNull: false },
+      bio: { type: DataTypes.TEXT, allowNull: true },
+      is_anonymous: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
+      encrypted: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      allow_anon_dm: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+      },
+      only_received_dm_from_user_following: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
+      is_backdoor_user: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         type: DataTypes.DATE,
         field: "created_at",
@@ -64,12 +90,7 @@ module.exports = (sequelize, DataTypes) => {
         field: "updated_at",
         allowNull: false,
       },
-      last_active_at: { type: DataTypes.DATE, allowNull: false },
-      profile_pic_path: { type: DataTypes.STRING, allowNull: true },
-      profile_pic_asset_id: { type: DataTypes.STRING, allowNull: true },
-      profile_pic_public_id: { type: DataTypes.STRING, allowNull: true },
-      status: { type: DataTypes.BOOLEAN, allowNull: false },
-      bio: { type: DataTypes.TEXT, allowNull: true },
+      
     },
     {
       sequelize,
