@@ -1,5 +1,6 @@
+import BetterSocialConstantListUtils from "utils/anonUserInfo";
 import isAuthValid from "utils/jwt";
-import {ChannelMembers, ChannelMessages, Channels, sequelize} from 'databases/models';
+import {ChannelMembers, ChannelMessages, Channels, ChatAnonUserInfo, sequelize} from 'databases/models';
 import { Model } from "sequelize";
 import { NextApiRequest, NextApiResponse } from "next";
 import {v4 as uuid} from 'uuid';
@@ -43,6 +44,24 @@ async function createNewChannel(selfUser: UserInfo, targetUserId: string): Promi
         raw: true
     })
 
+    const emoji = BetterSocialConstantListUtils.getRandomEmoji()
+    const color = BetterSocialConstantListUtils.getRandomColor()
+
+    selfUser.anon_user_info_color_code = color.color
+    selfUser.anon_user_info_color_name = color.color
+    selfUser.anon_user_info_emoji_code = emoji.emoji
+    selfUser.anon_user_info_emoji_name = emoji.name
+
+    await ChatAnonUserInfo.create({
+        channel_id: channel?.dataValues?.channel_id,
+        my_anon_user_id: selfUser?.user_id,
+        target_user_id: targetUserId,
+        anon_user_info_color_code: selfUser.anon_user_info_color_code,
+        anon_user_info_color_name: selfUser.anon_user_info_color_name,
+        anon_user_info_emoji_code: selfUser.anon_user_info_emoji_code,
+        anon_user_info_emoji_name: selfUser.anon_user_info_emoji_name
+    })
+
     const insertSelf = insertMember(channelId, selfUser)
     const insertTarget = insertMember(channelId, {
         user_id: targetUserId
@@ -65,7 +84,8 @@ async function getOrCreateChannel(selfUser: UserInfo, targetUserId: string): Pro
         SELECT channel_id
         FROM channel_members
         WHERE user_id IN (:self, :target)
-        GROUP BY channel_id`,
+        GROUP BY channel_id
+        HAVING COUNT(user_id) = 2`,
         {
             replacements: {
                 self: selfUser?.user_id,
@@ -76,6 +96,7 @@ async function getOrCreateChannel(selfUser: UserInfo, targetUserId: string): Pro
     )
 
     const existingChannel = existingChannelResult?.[0]?.[0]
+    console.log('existing channel', existingChannel)
     if(existingChannel) return existingChannel
 
     return await createNewChannel(selfUser, targetUserId)

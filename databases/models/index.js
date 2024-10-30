@@ -1,15 +1,16 @@
 "use strict";
 
-const PollingOption = require('./PollingOption')
-const DomainPage = require('./DomainPage')
-const Channels = require('./Channels')
 const ChannelMembers = require('./ChannelMembers')
 const ChannelMessages = require('./ChannelMessages')
-const User = require('./User')
-const UserFollowUser = require('./UserFollowUser')
-const UserBlockedUser = require('./UserBlockedUser')
-const Topics = require('./Topics')
+const Channels = require('./Channels')
+const ChatAnonUserInfo = require('./ChatAnonUserInfo')
+const DomainPage = require('./DomainPage')
 const Locations = require('./Locations')
+const PollingOption = require('./PollingOption')
+const Topics = require('./Topics')
+const User = require('./User')
+const UserBlockedUser = require('./UserBlockedUser')
+const UserFollowUser = require('./UserFollowUser')
 const UserLocation = require('./UserLocation')
 
 const fs = require("fs");
@@ -27,16 +28,17 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.url, config);
 }
 
-db.PollingOption = PollingOption(sequelize, Sequelize.DataTypes)
-db.DomainPage = DomainPage(sequelize, Sequelize.DataTypes)
-db.Channels = Channels(sequelize, Sequelize.DataTypes)
 db.ChannelMembers = ChannelMembers(sequelize, Sequelize.DataTypes)
 db.ChannelMessages = ChannelMessages(sequelize, Sequelize.DataTypes)
-db.User = User(sequelize, Sequelize.DataTypes)
-db.UserFollowUser = UserFollowUser(sequelize, Sequelize.DataTypes)
-db.UserBlockedUser = UserBlockedUser(sequelize, Sequelize.DataTypes)
-db.Topics = Topics(sequelize, Sequelize.DataTypes)
+db.Channels = Channels(sequelize, Sequelize.DataTypes)
+db.ChatAnonUserInfo = ChatAnonUserInfo(sequelize, Sequelize.DataTypes)
+db.DomainPage = DomainPage(sequelize, Sequelize.DataTypes)
 db.Locations = Locations(sequelize, Sequelize.DataTypes)
+db.PollingOption = PollingOption(sequelize, Sequelize.DataTypes)
+db.Topics = Topics(sequelize, Sequelize.DataTypes)
+db.User = User(sequelize, Sequelize.DataTypes)
+db.UserBlockedUser = UserBlockedUser(sequelize, Sequelize.DataTypes)
+db.UserFollowUser = UserFollowUser(sequelize, Sequelize.DataTypes)
 db.UserLocation = UserLocation(sequelize, Sequelize.DataTypes)
 
 Object.keys(db).forEach((modelName) => {

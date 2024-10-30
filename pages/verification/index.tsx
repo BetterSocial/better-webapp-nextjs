@@ -37,7 +37,6 @@ export default function Verification(props: PageProps) {
     const router = useRouter();
     const exchangeToken = useCheckExchangeTokenMutation();
     const generateAnonUser = useGenerateAnonUserInfoMutation();
-    const initChatAnon = useInitChatAnonymousMutation();
     const [isLoading, setIsLoading] = useState(props.exchangeToken ? true : false)
     const getLoginPage = () => {
         sendAnalytics(BetterSocialEventTracking.VERIFICATION_SCREEN_HUMAN_ID_BUTTON_CLICKED)
